@@ -1,10 +1,13 @@
 module Main where
 
-import           Control.Monad.State.Strict
+import           Constant
 import           Lexer
+import           Repl
+import           System.IO
 import           Token
 
 main :: IO ()
 main = do
-  i <- mkInput <$> readFile "input"
-  putStrLn . show $ runState lexer i
+  hSetBuffering stdout NoBuffering
+  putStrLn "Welcome to Monkey REPL in Haskell!\n"
+  repl

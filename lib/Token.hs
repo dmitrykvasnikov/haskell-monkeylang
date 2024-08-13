@@ -1,9 +1,5 @@
 module Token where
 
-type TokenType = String
-
-type Literal = String
-
 data Token = ASSIGN
            | PLUS
            | MINUS
@@ -33,3 +29,7 @@ data Token = ASSIGN
            | ILLEGAL
            | EOF
   deriving (Show)
+
+instance {-# OVERLAPPING #-} Show [Token] where
+  show [] = "No tokens generated"
+  show (t : ts) = (show t) ++ (foldl (\out tok -> out ++ ", " ++ show tok) "" ts)
