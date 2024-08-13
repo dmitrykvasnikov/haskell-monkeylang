@@ -1,8 +1,10 @@
 module Main where
 
-import qualified MyLib (someFunc)
+import           Control.Monad.State.Strict
+import           Lexer
+import           Token
 
 main :: IO ()
 main = do
-  putStrLn "Hello, Haskell!"
-  MyLib.someFunc
+  i <- mkInput <$> readFile "input"
+  putStrLn . show $ runState lexer i
