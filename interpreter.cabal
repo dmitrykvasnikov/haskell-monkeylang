@@ -63,6 +63,9 @@ library
                    ,  Lexer
                    ,  Repl
                    ,  Constant
+                   ,  AST
+                   ,  Parser
+                   ,  Test
 
     -- Modules included in this library but not exported.
     -- other-modules:
@@ -74,6 +77,8 @@ library
     build-depends:    base ^>=4.20.0.0
                  ,    text
                  ,    mtl
+                 ,    split
+                 ,    containers
 
     -- Directories containing source files.
     hs-source-dirs:   lib
@@ -98,7 +103,8 @@ executable interpreter
     -- Other library packages from which modules are imported.
     build-depends:
         base ^>=4.20.0.0,
-        interpreter
+        interpreter,
+        mtl
 
     -- Directories containing source files.
     hs-source-dirs:   app

@@ -20,8 +20,8 @@ singleCharToken =
     (',', COMMA),
     ('+', PLUS),
     ('-', MINUS),
-    ('*', ASTERISK),
-    ('/', SLASH),
+    ('*', MULT),
+    ('/', DIV),
     ('!', BANG),
     ('<', Token.LT),
     ('>', Token.GT),
@@ -32,4 +32,5 @@ singleCharToken =
     ('}', RBRACE)
   ]
 
+singleCharTokenPattern :: String
 singleCharTokenPattern = "=,+-*/!<>;(){}"

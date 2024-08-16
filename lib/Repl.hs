@@ -13,6 +13,6 @@ repl = do
   if i == "exit"
     then putStrLn "Bye!"
     else do
-      let toks = evalState lexer (mkInput i)
+      let toks = evalState lexer (mkLInputFs i)
       putStrLn . show $ toks
       repl

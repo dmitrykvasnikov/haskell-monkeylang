@@ -3,8 +3,8 @@ module Token where
 data Token = ASSIGN
            | PLUS
            | MINUS
-           | ASTERISK
-           | SLASH
+           | MULT
+           | DIV
            | GT
            | LT
            | BANG
@@ -26,10 +26,16 @@ data Token = ASSIGN
            | THEN
            | ELSE
            | RETURN
-           | ILLEGAL
+           | ERROR String
            | EOF
   deriving (Show)
 
+instance Eq Token where
+  (==) (IDENT _) (IDENT _) = True
+  (==) (ERROR _) (ERROR _) = True
+  (==) (INT _) (INT _)     = True
+  (==) tok1 tok2           = (show tok1) == (show tok2)
+
 instance {-# OVERLAPPING #-} Show [Token] where
-  show [] = "No tokens generated"
-  show (t : ts) = (show t) ++ (foldl (\out tok -> out ++ ", " ++ show tok) "" ts)
+  show [] = "No tokens in input stream"
+  show (t : ts) = "[" ++ (show t) ++ (foldl (\out tok -> out ++ ", " ++ show tok) "" ts) ++ "]"

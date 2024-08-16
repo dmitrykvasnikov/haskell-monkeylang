@@ -2,17 +2,15 @@ module Lexer where
 
 import qualified Constant                   as CONST
 import           Control.Monad.State.Strict
-import           Data.Bool                  (otherwise)
 import           Data.Char                  (chr, isLetter, isNumber)
 import           Data.Maybe                 (fromJust)
 import           Data.Text                  (Text)
 import qualified Data.Text                  as T
-import           GHC.Base                   (undefined)
+import qualified Data.Text.IO               as T
 import           Token
-import           Token                      (Token (ASSIGN))
 
 data Input = Input { input   :: Text
-                   , pos     :: Int
+                   , pos     :: (Int, Int)
                    , readPos :: Int
                    , cur     :: Char
                    }
@@ -22,7 +20,7 @@ data Branch = NUM | ID | FAULT | SCT | NUL
 
 -- helper function to add _ and numbres to variable names
 isLetter' :: Char -> Bool
-isLetter' c = isLetter c || elem c "0123456789_"
+isLetter' c = isLetter c || elem c "0123456789_'"
 
 -- helper function to define branch to parse: ident, digit or illegal
 branch :: Char -> Branch
@@ -33,19 +31,26 @@ branch c
   | c == '\NUL' = NUL
   | otherwise = FAULT
 
-mkInput :: String -> Input
-mkInput str = case null str of
-  True  -> Input {input = inp, pos = 0, readPos = 1, cur = chr 0}
-  False -> Input {input = inp, pos = 0, readPos = 1, cur = T.index inp 0}
+mkLInputFs :: String -> Input
+mkLInputFs str = case null str of
+  True  -> Input {input = inp, pos = (1, 0), readPos = 1, cur = chr 0}
+  False -> Input {input = inp, pos = (1, 0), readPos = 1, cur = T.index inp 0}
   where
     inp = T.pack str
 
+mkLInputFf :: FilePath -> IO Input
+mkLInputFf filepath = do
+  content <- T.readFile filepath
+  case T.null content of
+    True -> return $ Input {input = content, pos = (1, 0), readPos = 1, cur = chr 0}
+    False -> return $ Input {input = content, pos = (1, 0), readPos = 1, cur = T.index content 0}
+
 peek :: State Input ()
 peek = do
-  (Input i p rp _) <- get
+  (Input i (l, p) rp _) <- get
   case (rp >= T.length i) of
-    True  -> put $ Input i (p + 1) (rp + 1) (chr 0)
-    False -> put $ Input i (p + 1) (rp + 1) (T.index i $ p + 1)
+    True  -> put $ Input i (l, p + 1) (rp + 1) (chr 0)
+    False -> put $ Input i (l, p + 1) (rp + 1) (T.index i $ p + 1)
 
 -- readChar reads next char in input
 readChar :: State Input Char
@@ -60,30 +65,24 @@ ws = do
     True  -> peek >> ws
     False -> return ()
 
-readIdentifier :: State Input String
-readIdentifier = do
+readWithCond :: (Char -> Bool) -> State Input String
+readWithCond cond = do
   Input _ _ _ c <- get
-  case isLetter' c of
+  case cond c of
     False -> return []
     True -> do
       peek
-      rest <- readIdentifier
+      rest <- readWithCond cond
       return $ c : rest
 
-readNumber :: State Input String
-readNumber = do
-  Input _ _ _ c <- get
-  case isNumber c of
-    False -> return []
-    True -> do
-      peek
-      rest <- readNumber
-      return $ c : rest
+readIdentifier, readNumber :: State Input String
+readIdentifier = readWithCond isLetter'
+readNumber = readWithCond isNumber
 
 nextToken :: State Input Token
 nextToken = do
   ws
-  Input _ _ _ c <- get
+  Input _ (l, p) _ c <- get
   case c of
     '=' -> do
       c' <- readChar
@@ -91,20 +90,6 @@ nextToken = do
     '!' -> do
       c' <- readChar
       if c' == '=' then peek >> peek >> return NOT_EQ else peek >> return BANG
-    --     '=' -> peek >> return ASSIGN
-    --     ',' -> peek >> return COMMA
-    --     '+' -> peek >> return PLUS
-    --     '-' -> peek >> return MINUS
-    --     '*' -> peek >> return ASTERISK
-    --     '/' -> peek >> return SLASH
-    --     '!' -> peek >> return BANG
-    --     '<' -> peek >> return Token.LT
-    --     '>' -> peek >> return Token.GT
-    --     ';' -> peek >> return SEMICOLON
-    --     '(' -> peek >> return LPAREN
-    --     ')' -> peek >> return RPAREN
-    --     '{' -> peek >> return LBRACE
-    --     '}' -> peek >> return RBRACE
     _ -> case branch c of
       SCT -> peek >> (return $ fromJust . lookup c $ CONST.singleCharToken)
       NUL -> return EOF
@@ -117,14 +102,14 @@ nextToken = do
       NUM -> do
         n <- read <$> readNumber
         return $ INT n
-      FAULT -> return ILLEGAL
+      FAULT -> return $ ERROR $ "Error at line " <> show l <> ", position " <> show (p + 1)
 
 lexer :: State Input [Token]
 lexer = do
   tok <- nextToken
   case tok of
     EOF -> return [EOF]
-    ILLEGAL -> return [ILLEGAL]
+    ERROR err -> return [ERROR err]
     _ -> do
       rest <- lexer
       return $ tok : rest

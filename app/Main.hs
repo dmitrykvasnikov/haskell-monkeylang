@@ -1,9 +1,13 @@
 module Main where
 
+import           AST
 import           Constant
+import           Control.Monad.State.Strict
 import           Lexer
+import           Parser
 import           Repl
 import           System.IO
+import           Test
 import           Token
 
 main :: IO ()
