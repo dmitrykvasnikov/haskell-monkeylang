@@ -59,7 +59,10 @@ library
     import:           warnings
 
     -- Modules exported by the library.
-    exposed-modules:  Types
+    exposed-modules:  Types.Token
+                   ,  Types.Ast
+                   ,  Types.Error
+                   ,  Lexer
 
     -- Modules included in this library but not exported.
     -- other-modules:
@@ -70,7 +73,7 @@ library
     -- Other library packages from which modules are imported.
     build-depends:    base ^>=4.20.0.0
                  ,    text
-                 ,    mtl
+                 ,    transformers
                  ,    split
                  ,    containers
 

@@ -1,6 +1,9 @@
 module Main where
 
+import           Control.Monad.Trans.State.Strict
+import           Lexer
 import           System.IO
+import           Types.Token
 
 main :: IO ()
 main = do
