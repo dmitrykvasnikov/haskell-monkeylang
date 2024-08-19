@@ -1,11 +1,14 @@
 module Lexer where
 
+import           Control.Applicative
+import           Control.Monad
 import           Control.Monad.Trans.Class
 import           Control.Monad.Trans.State.Strict
+import           Data.Char                        (isAlphaNum, isDigit,
+                                                   isLetter)
 import           Data.Text                        (Text)
 import qualified Data.Text                        as T
 import           Types.Error
-import           Types.Error                      (Error (LexerError))
 import           Types.Token
 
 data Input a = Input { input           :: Text
@@ -15,36 +18,128 @@ data Input a = Input { input           :: Text
                      }
   deriving (Show)
 
-type Lexer = StateT (Input Token) (Either Error) Token
+type Lexer a = StateT (Input Token) (Either Error) a
 
-r :: StateT s m a -> s -> m (s, a)
-r = undefined
-
-nextToken :: Lexer
+nextToken :: Lexer Token
 nextToken = do
+  skipWhiteSpaces
   Input _ cp _ c _ pt <- get
-  let newTok = case c of
-        '\NUL' -> EOF
-        '='    -> ASSIGN
-        '\n'   -> SEMICOLON
-        ';'    -> SEMICOLON
-        ','    -> COMMA
-        '('    -> LPAREN
-        ')'    -> RPAREN
-        '{'    -> LBRACE
-        '}'    -> RBRACE
-        '+'    -> PLUS
-        '-'    -> MINUS
-        '*'    -> MULT
-        '/'    -> DIV
-        _      -> ILLEGAL
+  newTok <- asum [readDouble, readSingle, readIdentifier, readNumber, readString, illegal]
   case newTok of
     ILLEGAL -> lift $ Left $ LexerError $ "wrong character at position " <> show (cp + 1) <> ": '" <> [c] <> "'"
-    -- \$ Left $ LexerError $ "unknown char at position " <> show pt <> ": '" <> [c] <> "'"
     _ ->
       readChar
         >> modify (\i -> i {curTok = pt, peekTok = newTok})
         >> return newTok
+
+getTokens :: Lexer [Token]
+getTokens = do
+  token <- gets curTok
+  case token of
+    EOF     -> return []
+    NOTOKEN -> nextToken >> getTokens
+    tok     -> nextToken >> getTokens >>= \rest -> return $ tok : rest
+
+-- lexers for different kinds of lexem
+-- helper for asum
+illegal :: Lexer Token
+illegal = return ILLEGAL
+
+-- consume chars with co :: (Char -> Bool) -> Lexer String
+peekWhile :: (Char -> Bool) -> Lexer String
+peekWhile cond = do
+  Input i _ pp _ _ _ <- get
+  case (pp < T.length i) of
+    True -> do
+      let c = T.index i pp
+      case (cond c) of
+        False -> return []
+        True -> do
+          readChar
+          rest <- peekWhile cond
+          return $ c : rest
+    False -> return []
+
+skipWhiteSpaces :: Lexer ()
+skipWhiteSpaces = do
+  c <- gets ch
+  case elem c " \t\r" of
+    True  -> readChar >> skipWhiteSpaces
+    False -> return ()
+
+-- single operator
+readSingle :: Lexer Token
+readSingle = do
+  c <- gets ch
+  case elem c "\NUL\n\\=;,(){}+-*/<>" of
+    False -> lift $ Left $ LexerError "error"
+    True -> case c of
+      '\NUL' -> return EOF
+      '='    -> return ASSIGN
+      '\n'   -> return SEMICOLON
+      ';'    -> return SEMICOLON
+      ','    -> return COMMA
+      '('    -> return LPAREN
+      ')'    -> return RPAREN
+      '{'    -> return LBRACE
+      '}'    -> return RBRACE
+      '+'    -> return PLUS
+      '-'    -> return MINUS
+      '*'    -> return MULT
+      '/'    -> return DIV
+      '>'    -> return GRT
+      '<'    -> return LST
+      _      -> lift $ Left $ LexerError "error"
+
+-- double operator
+readDouble :: Lexer Token
+readDouble = do
+  Input i _ pp c _ _ <- get
+  case (pp < T.length i) of
+    True -> case (c, T.index i pp) of
+      ('=', '=') -> readChar >> return EQL
+      ('!', '=') -> readChar >> return NOTEQL
+      ('<', '>') -> readChar >> return NOTEQL
+      ('<', '=') -> readChar >> return LSTEQL
+      ('=', '<') -> readChar >> return LSTEQL
+      ('=', '>') -> readChar >> return GRTEQL
+      ('>', '=') -> readChar >> return GRTEQL
+      _          -> lift $ Left $ LexerError "error"
+    False -> lift $ Left $ LexerError "error"
+
+-- read number literal
+readNumber :: Lexer Token
+readNumber = do
+  c <- gets ch
+  case isDigit c of
+    True -> do
+      rest <- peekWhile isDigit
+      return $ INT (read @Int (c : rest))
+    False -> lift $ Left $ LexerError "error"
+
+-- read string literal
+readString :: Lexer Token
+readString = do
+  c <- gets ch
+  case c of
+    '\"' -> do
+      string <- peekWhile (/= '"')
+      readChar -- we have to skip quote
+      return $ STRING string
+    _ -> lift $ Left $ LexerError "error"
+
+-- read keyword / identifier
+readIdentifier :: Lexer Token
+readIdentifier = do
+  c <- gets ch
+  case isLetter c of
+    True -> do
+      rest <- peekWhile isAlphaNum
+      let var = c : rest
+      case lookup var keywords of
+        Just token -> return token
+        Nothing    -> return $ ID var
+    False -> lift $ Left $ LexerError "error"
 
 -- return keyword or identifier
 lookUpIdent :: String -> Token

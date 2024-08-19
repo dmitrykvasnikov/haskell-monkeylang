@@ -30,10 +30,12 @@ data Token -- Keywords
            | MINUS
            | MULT
            | DIV
-           | EQ
-           | NOTEQ
+           | EQL
+           | NOTEQL
            | GRT
            | LST
+           | GRTEQL
+           | LSTEQL
            | ASSIGN
            -- System for internal usage
            | ILLEGAL

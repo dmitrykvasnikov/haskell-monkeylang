@@ -63,6 +63,7 @@ library
                    ,  Types.Ast
                    ,  Types.Error
                    ,  Lexer
+                   ,  Repl
 
     -- Modules included in this library but not exported.
     -- other-modules:
@@ -101,6 +102,7 @@ executable interpreter
     build-depends:
         base ^>=4.20.0.0,
         interpreter,
+        transformers,
         mtl
 
     -- Directories containing source files.
