@@ -63,6 +63,7 @@ library
                    ,  Types.Ast
                    ,  Types.Error
                    ,  Lexer
+                   ,  Parser
                    ,  Repl
 
     -- Modules included in this library but not exported.

@@ -23,14 +23,11 @@ type Lexer a = StateT (Input Token) (Either Error) a
 nextToken :: Lexer Token
 nextToken = do
   skipWhiteSpaces
-  Input _ cp _ c _ pt <- get
-  newTok <- asum [readDouble, readSingle, readIdentifier, readNumber, readString, illegal]
-  case newTok of
-    ILLEGAL -> lift $ Left $ LexerError $ "wrong character at position " <> show (cp + 1) <> ": '" <> [c] <> "'"
-    _ ->
-      readChar
-        >> modify (\i -> i {curTok = pt, peekTok = newTok})
-        >> return newTok
+  pt <- gets peekTok
+  newTok <- asum [mkLexerError, readSingle, readIdentifier, readNumber, readString]
+  readChar
+  modify (\i -> i {curTok = pt, peekTok = newTok})
+  return newTok
 
 getTokens :: Lexer [Token]
 getTokens = do
@@ -41,9 +38,6 @@ getTokens = do
     tok     -> nextToken >> getTokens >>= \rest -> return $ tok : rest
 
 -- lexers for different kinds of lexem
--- helper for asum
-illegal :: Lexer Token
-illegal = return ILLEGAL
 
 -- consume chars with co :: (Char -> Bool) -> Lexer String
 peekWhile :: (Char -> Bool) -> Lexer String
@@ -71,8 +65,8 @@ skipWhiteSpaces = do
 readSingle :: Lexer Token
 readSingle = do
   c <- gets ch
-  case elem c "\NUL\n\\=;,(){}+-*/<>" of
-    False -> lift $ Left $ LexerError "error"
+  case elem c "\NUL\n\\=;,(){}+-*/<>!" of
+    False -> mkLexerError
     True -> case c of
       '\NUL' -> return EOF
       '='    -> return ASSIGN
@@ -85,11 +79,12 @@ readSingle = do
       '}'    -> return RBRACE
       '+'    -> return PLUS
       '-'    -> return MINUS
+      '!'    -> return NOT
       '*'    -> return MULT
       '/'    -> return DIV
       '>'    -> return GRT
       '<'    -> return LST
-      _      -> lift $ Left $ LexerError "error"
+      _      -> mkLexerError
 
 -- double operator
 readDouble :: Lexer Token
@@ -104,8 +99,8 @@ readDouble = do
       ('=', '<') -> readChar >> return LSTEQL
       ('=', '>') -> readChar >> return GRTEQL
       ('>', '=') -> readChar >> return GRTEQL
-      _          -> lift $ Left $ LexerError "error"
-    False -> lift $ Left $ LexerError "error"
+      _          -> mkLexerError
+    False -> mkLexerError
 
 -- read number literal
 readNumber :: Lexer Token
@@ -115,7 +110,7 @@ readNumber = do
     True -> do
       rest <- peekWhile isDigit
       return $ INT (read @Int (c : rest))
-    False -> lift $ Left $ LexerError "error"
+    False -> mkLexerError
 
 -- read string literal
 readString :: Lexer Token
@@ -126,7 +121,7 @@ readString = do
       string <- peekWhile (/= '"')
       readChar -- we have to skip quote
       return $ STRING string
-    _ -> lift $ Left $ LexerError "error"
+    _ -> mkLexerError
 
 -- read keyword / identifier
 readIdentifier :: Lexer Token
@@ -139,7 +134,13 @@ readIdentifier = do
       case lookup var keywords of
         Just token -> return token
         Nothing    -> return $ ID var
-    False -> lift $ Left $ LexerError "error"
+    False -> mkLexerError
+
+-- typical lexer error
+mkLexerError :: Lexer Token
+mkLexerError = do
+  Input _ cp _ c _ _ <- get
+  lift $ Left $ LexerError $ "wrong character at position " <> show (cp + 1) <> ": '" <> [c] <> "'"
 
 -- return keyword or identifier
 lookUpIdent :: String -> Token
@@ -157,4 +158,4 @@ readChar = do
 -- create input from String
 mkInput :: String -> Input Token
 mkInput ""  = Input (T.pack "") 0 1 '\NUL' EOF EOF
-mkInput str = Input (T.pack str) 0 1 (head str) NOTOKEN NOTOKEN
+mkInput str = Input (T.pack $ str <> ";") 0 1 (head str) NOTOKEN NOTOKEN

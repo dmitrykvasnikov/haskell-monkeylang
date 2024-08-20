@@ -24,7 +24,6 @@ data Token -- Keywords
            | STRING String
            -- Unary operators
            | NOT
-           | NEG
            -- Binary operators
            | PLUS
            | MINUS
@@ -40,7 +39,40 @@ data Token -- Keywords
            -- System for internal usage
            | ILLEGAL
            | NOTOKEN
-  deriving (Show)
+
+instance Show Token where
+  show LET          = "LET"
+  show RETURN       = "RETURN"
+  show FUNCTION     = "FUNCTION"
+  show IF           = "IF"
+  show THEN         = "THEN"
+  show TRUE         = "TRUE"
+  show FALSE        = "FALSE"
+  show ELSE         = "ELSE"
+  show SEMICOLON    = ";"
+  show COMMA        = ","
+  show EOF          = "EOF"
+  show LPAREN       = "("
+  show RPAREN       = ")"
+  show LBRACE       = "{"
+  show RBRACE       = "}"
+  show (ID var)     = "ID " <> var
+  show (INT num)    = "INT " <> show num
+  show (STRING str) = "STRING " <> show str
+  show NOT          = "!"
+  show PLUS         = "+"
+  show MINUS        = "-"
+  show MULT         = "*"
+  show DIV          = "/"
+  show EQL          = "=="
+  show NOTEQL       = "/="
+  show GRT          = ">"
+  show LST          = "<"
+  show GRTEQL       = ">="
+  show LSTEQL       = "<="
+  show ASSIGN       = "="
+  show ILLEGAL      = "ILLEGAL"
+  show NOTOKEN      = "NOTOKEN"
 
 instance Eq Token where
   (==) (ID _) (ID _)         = True

@@ -2,6 +2,7 @@ module Repl where
 
 import           Control.Monad.Trans.State.Strict (evalStateT)
 import           Lexer
+import           Parser
 import           System.IO
 
 prompt :: String
@@ -14,7 +15,7 @@ eval = do
   case str of
     "exit" -> putStrLn "GoodBye!"
     _ -> do
-      let tokens = evalStateT getTokens (mkInput str)
+      let tokens = evalStateT parseProgram (mkInput str)
       mapM_
         (putStrLn)
         ( ( \t -> case t of

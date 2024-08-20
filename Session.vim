@@ -14,17 +14,18 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +10 app/Main.hs
-badd +34 lib/Types/Token.hs
-badd +6 lib/Lexer.hs
-badd +4 lib/Types/Error.hs
-badd +2 lib/Repl.hs
+badd +9 app/Main.hs
+badd +53 lib/Types/Token.hs
+badd +77 lib/Lexer.hs
+badd +17 lib/Types/Ast.hs
+badd +149 lib/Parser.hs
+badd +18 lib/Repl.hs
 argglobal
 %argdel
 $argadd app/Main.hs
-edit lib/Repl.hs
+edit lib/Parser.hs
 argglobal
-balt lib/Lexer.hs
+balt lib/Types/Token.hs
 setlocal fdm=marker
 setlocal fde=0
 setlocal fmr=/**,**/
@@ -33,12 +34,12 @@ setlocal fdl=0
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-let s:l = 19 - ((18 * winheight(0) + 21) / 42)
+let s:l = 120 - ((20 * winheight(0) + 21) / 42)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 19
-normal! 018|
+keepjumps 120
+normal! 011|
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0
   silent exe 'bwipe ' . s:wipebuf
