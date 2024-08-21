@@ -2,9 +2,9 @@ module Parser where
 
 import           Control.Monad.Trans.Class
 import           Control.Monad.Trans.State.Strict
-import           Debug.Trace
 import           Lexer
 import qualified Types.Ast                        as A
+import           Types.Ast                        (Statement (RETURN))
 import           Types.Error
 import qualified Types.Token                      as T
 
@@ -27,18 +27,31 @@ precedences =
     (T.GRT, LSGT),
     (T.LST, LSGT),
     (T.GRTEQL, LSGT),
-    (T.LSTEQL, LSGT)
+    (T.LSTEQL, LSGT),
+    (T.LPAREN, CALL)
   ]
 
 -- parse program into list of statements
-parseProgram :: Parser [A.Statement]
-parseProgram = do
+parseProgram :: Parser A.Statement
+parseProgram = parseStatementsTill T.EOF >>= \sts -> return $ A.BLOCK sts
+
+-- parse list of statemnts till get provided token
+parseStatementsTill :: T.Token -> Parser [A.Statement]
+parseStatementsTill token = do
   ct <- gets curTok
-  case ct of
-    T.EOF -> return []
-    T.SEMICOLON -> nextToken >> parseProgram
-    T.NOTOKEN -> nextToken >> parseProgram
-    _ -> parseStatement >>= \st -> nextToken >> parseProgram >>= \sts -> return $ st : sts
+  if ct == token
+    then return []
+    else case ct of
+      T.NOTOKEN -> nextToken >> parseStatementsTill token
+      T.SEMICOLON -> nextToken >> parseStatementsTill token
+      T.EOF -> errorPeekToken token >>= \errMsg -> lift $ Left $ StatementError errMsg
+      -- _ -> parseStatement >>= \st -> nextToken >> parseStatementsTill token >>= \sts -> return $ st : sts
+      _ -> do
+        st <- parseStatement
+        pt <- gets peekTok
+        case elem pt [T.SEMICOLON, T.EOF, token] of
+          False -> errorPeekToken T.SEMICOLON >>= \errMsg -> lift $ Left $ StatementError errMsg
+          True -> nextToken >> parseStatementsTill token >>= \sts -> return $ st : sts
 
 parseStatement :: Parser A.Statement
 parseStatement = do
@@ -50,20 +63,18 @@ parseStatement = do
 
 parseReturnStatement, parseLetStatement, parseExpressionStatement :: Parser A.Statement
 parseLetStatement = do
-  ident <- getPeekToken (T.ID "variable name") StatementError
+  getPeekToken (T.ID "variable name") StatementError
+  ident <- gets curTok
   getPeekToken (T.ASSIGN) StatementError
   nextToken
   expr <- parseExpression LOWEST
-  getPeekToken (T.SEMICOLON) StatementError
   return $ A.LET ident expr
 parseReturnStatement = do
   nextToken
   expr <- parseExpression LOWEST
-  getPeekToken (T.SEMICOLON) StatementError
   return $ A.RETURN expr
 parseExpressionStatement = do
   expr <- parseExpression (LOWEST)
-  getPeekToken (T.SEMICOLON) StatementError
   return $ A.EXPRESSION expr
 
 parseExpression :: Precedence -> Parser A.Expr
@@ -98,11 +109,76 @@ parseInfixExpression left =
   gets curTok >>= \op -> curPrecedence >>= \pr -> nextToken >> parseExpression pr >>= \right -> return $ A.BINOP op left right
 
 parseGroupedExpression :: Parser A.Expr
-parseGroupedExpression = do
+parseGroupedExpression = nextToken >> parseExpression LOWEST >>= \expr -> getPeekToken T.RPAREN ExpressionError >> return expr
+
+parseIfExpression :: Parser A.Expr
+parseIfExpression = do
+  getPeekToken T.LPAREN ExpressionError
   nextToken
-  expr <- parseExpression LOWEST
+  cond <- parseExpression LOWEST
   getPeekToken T.RPAREN ExpressionError
-  return expr
+  getPeekToken T.THEN ExpressionError
+  getPeekToken T.LBRACE ExpressionError
+  nextToken
+  cons <- parseStatementsTill T.RBRACE
+  cont <- isPeekToken T.ELSE
+  case cont of
+    True -> do
+      nextToken
+      getPeekToken T.LBRACE ExpressionError
+      nextToken
+      alt <- parseStatementsTill T.RBRACE
+      return $ A.IF cond (A.BLOCK cons) (A.BLOCK alt)
+    False -> return $ A.IF cond (A.BLOCK cons) (A.BLOCK [])
+
+parseFunctionExpression :: Parser A.Expr
+parseFunctionExpression = do
+  getPeekToken T.LPAREN ExpressionError
+  nextToken
+  args <- parseFunctionArguments
+  getPeekToken T.LBRACE ExpressionError
+  nextToken
+  body <- parseStatementsTill T.RBRACE
+  return $ A.FN args (A.BLOCK body)
+
+parseFunctionArguments :: Parser [A.Expr]
+parseFunctionArguments = do
+  c <- gets curTok
+  case c of
+    T.RPAREN -> return []
+    T.ID _ -> do
+      isComma <- isPeekToken T.COMMA
+      case isComma of
+        True -> nextToken >> nextToken >> parseFunctionArguments >>= \args -> return $ (A.VAR $ drop 3 $ show c) : args
+        False -> nextToken >> parseFunctionArguments >>= \args -> return $ (A.VAR $ drop 3 $ show c) : args
+    _ -> errorCurToken (T.ID "function argument") >>= \errMsg -> lift $ Left $ ExpressionError errMsg
+
+parseCallExpression :: A.Expr -> Parser A.Expr
+parseCallExpression ident = do
+  case ident of
+    (A.VAR var) -> do
+      args <- parseCallArguments
+      return $ A.CALL var args
+    _ -> lift $ Left $ ExpressionError $ " expected identifier in function call, but got " <> show ident
+
+parseCallArguments :: Parser [A.Expr]
+parseCallArguments = do
+  b <- isPeekToken T.RPAREN
+  case b of
+    True -> nextToken >> return []
+    False -> do
+      nextToken
+      args <- go
+      getPeekToken T.RPAREN ExpressionError
+      return args
+  where
+    go :: Parser [A.Expr]
+    go = do
+      arg <- parseExpression LOWEST
+      b <- isPeekToken T.COMMA
+      case b of
+        True  -> nextToken >> nextToken >> go >>= \args -> return $ arg : args
+        False -> return [arg]
 
 -- parsers for literals
 parseIntegralLiteral, parseStringLiteral, parseIdentifier, parseBoolLiteral :: Parser A.Expr
@@ -112,28 +188,22 @@ parseIdentifier = gets curTok >>= \(T.ID var) -> return $ A.VAR var
 parseBoolLiteral = gets curTok >>= \tok -> return $ A.BOOL (tok == T.TRUE)
 
 -- check for current/peek token, expectPeek also moves to next token
-isCurToken, isPeekToken, expectPeek :: T.Token -> Parser Bool
+isCurToken, isPeekToken :: T.Token -> Parser Bool
 isCurToken token = gets curTok >>= \ct -> return $ token == ct
 isPeekToken token = gets peekTok >>= \pt -> return $ token == pt
-expectPeek token = do
-  b <- isPeekToken token
-  case b of
-    True  -> nextToken >> return True
-    False -> return False
 
 -- replace for expectPeek with error message
-getPeekToken :: T.Token -> (String -> Error) -> Parser T.Token
+getPeekToken :: T.Token -> (String -> Error) -> Parser ()
 getPeekToken token err = do
   pt <- gets peekTok
   case token == pt of
-    True  -> nextToken >> return pt
+    True  -> nextToken >> return ()
     False -> errorPeekToken token >>= \errMsg -> lift $ Left $ err errMsg
 
 -- error when you don't see expected tooken in peek position
-errorPeekToken :: T.Token -> Parser String
-errorPeekToken token = do
-  pt <- gets peekTok
-  return $ "expected next token to be '" <> show token <> "', but got '" <> show pt <> "'"
+errorPeekToken, errorCurToken :: T.Token -> Parser String
+errorPeekToken token = gets peekTok >>= \pt -> return $ "expected next token to be '" <> show token <> "', but got '" <> show pt <> "'"
+errorCurToken token = gets curTok >>= \ct -> return $ "expected next token to be '" <> show token <> "', but got '" <> show ct <> "'"
 
 -- get prefix / infix functions for expression parsing
 getPrefixFn :: T.Token -> Parser (Parser A.Expr)
@@ -146,6 +216,8 @@ getPrefixFn token = case token of
   T.TRUE -> return parseBoolLiteral
   T.FALSE -> return parseBoolLiteral
   T.LPAREN -> return parseGroupedExpression
+  T.IF -> return parseIfExpression
+  T.FUNCTION -> return parseFunctionExpression
   _ -> lift $ Left $ ExpressionError $ "do not have prefix operation for '" <> show token <> "'"
 
 getInfixFn :: T.Token -> Parser (Maybe (A.Expr -> Parser A.Expr))
@@ -160,6 +232,7 @@ getInfixFn token = case token of
   T.LST    -> return $ Just parseInfixExpression
   T.GRTEQL -> return $ Just parseInfixExpression
   T.LSTEQL -> return $ Just parseInfixExpression
+  T.LPAREN -> return $ Just parseCallExpression
   _        -> return Nothing
 
 -- get precendce of current and peek tokens

@@ -20,14 +20,14 @@ data Input a = Input { input           :: Text
 
 type Lexer a = StateT (Input Token) (Either Error) a
 
-nextToken :: Lexer Token
+nextToken :: Lexer ()
 nextToken = do
   skipWhiteSpaces
   pt <- gets peekTok
-  newTok <- asum [mkLexerError, readSingle, readIdentifier, readNumber, readString]
+  newTok <- asum [mkLexerError, readDouble, readSingle, readIdentifier, readNumber, readString]
   readChar
   modify (\i -> i {curTok = pt, peekTok = newTok})
-  return newTok
+  return ()
 
 getTokens :: Lexer [Token]
 getTokens = do
@@ -158,4 +158,4 @@ readChar = do
 -- create input from String
 mkInput :: String -> Input Token
 mkInput ""  = Input (T.pack "") 0 1 '\NUL' EOF EOF
-mkInput str = Input (T.pack $ str <> ";") 0 1 (head str) NOTOKEN NOTOKEN
+mkInput str = Input (T.pack str) 0 1 (head str) NOTOKEN NOTOKEN

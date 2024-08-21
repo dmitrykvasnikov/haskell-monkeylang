@@ -145,6 +145,7 @@
 9	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	array:install-plan
 ASSIGN	lib/Types/Token.hs	/^           | ASSIGN$/;"	c
 BINOP	lib/Types/Ast.hs	/^          | BINOP T.Token Expr Expr$/;"	c
+BLOCK	lib/Types/Ast.hs	/^               | BLOCK [Statement]$/;"	c
 BOOL	lib/Types/Ast.hs	/^          | BOOL Bool$/;"	c
 CALL	lib/Parser.hs	/^data Precedence = LOWEST | EQUALS | LSGT | SUM | MULT | PREFIX | CALL deriving$/;"	c
 COMMA	lib/Types/Token.hs	/^           | COMMA$/;"	c
@@ -164,11 +165,13 @@ ErrorMessage	lib/Types/Error.hs	/^type ErrorMessage = String$/;"	t
 Expr	lib/Types/Ast.hs	/^data Expr = VAR String$/;"	t
 ExpressionError	lib/Types/Error.hs	/^           | ExpressionError ErrorMessage$/;"	c
 FALSE	lib/Types/Token.hs	/^           | FALSE$/;"	c
+FN	lib/Types/Ast.hs	/^          | FN [Expr] Statement$/;"	c
 FUNCTION	lib/Types/Token.hs	/^           | FUNCTION$/;"	c
 GRT	lib/Types/Token.hs	/^           | GRT$/;"	c
 GRTEQL	lib/Types/Token.hs	/^           | GRTEQL$/;"	c
 Haskell implementation of "Writing interpreter in Go" by Thorsten Bell	README.md	/^# Haskell implementation of "Writing interpreter in Go" by Thorsten Bell$/;"	c
 ID	lib/Types/Token.hs	/^           | ID String$/;"	c
+IF	lib/Types/Ast.hs	/^          | IF Expr Statement Statement$/;"	c
 IF	lib/Types/Token.hs	/^           | IF$/;"	c
 ILLEGAL	lib/Types/Token.hs	/^           | ILLEGAL$/;"	c
 INT	lib/Types/Token.hs	/^           | INT Int$/;"	c
@@ -340,7 +343,9 @@ dist-dir	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-
 dist-dir	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.11
 dynlibdir	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/Paths_interpreter.hs	/^dynlibdir  = "\/home\/dmitry\/.cabal\/lib\/x86_64-linux-ghc-9.10.1-7767"$/;"	f
 dynlibdir	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/x/interpreter/build/interpreter/autogen/Paths_interpreter.hs	/^dynlibdir  = "\/home\/dmitry\/.cabal\/lib\/x86_64-linux-ghc-9.10.1-7767"$/;"	f
+errorCurToken	lib/Parser.hs	/^errorCurToken token = do$/;"	f
 errorPeekToken	lib/Parser.hs	/^errorPeekToken token = do$/;"	f
+errorPeekToken	lib/Parser.hs	/^errorPeekToken, errorCurToken :: T.Token -> Parser String$/;"	f
 eval	lib/Repl.hs	/^eval = do$/;"	f
 exe-depends	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	a	object:install-plan.10
 exe-depends	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	a	object:install-plan.11
@@ -423,7 +428,7 @@ lookUpIdent	lib/Lexer.hs	/^lookUpIdent ident = case lookup ident keywords of$/;"
 main	app/Main.hs	/^main = repl$/;"	f
 maintainer	dist-newstyle/packagedb/ghc-9.10.1/interpreter-0.1.0.0-inplace.conf	/^maintainer:           dmitry.kvasnikov@gmail.com$/;"	k
 mkInput	lib/Lexer.hs	/^mkInput ""  = Input (T.pack "") 0 1 '\\NUL' EOF EOF$/;"	f
-mkInput	lib/Lexer.hs	/^mkInput str = Input (T.pack $ str <> ";") 0 1 (head str) NOTOKEN NOTOKEN$/;"	f
+mkInput	lib/Lexer.hs	/^mkInput str = Input (T.pack str) 0 1 (head str) NOTOKEN NOTOKEN$/;"	f
 mkLexerError	lib/Lexer.hs	/^mkLexerError = do$/;"	f
 modules	dist-newstyle/packagedb/ghc-9.10.1/interpreter-0.1.0.0-inplace.conf	/^exposed-modules:      Lexer Parser Repl Types.Ast Types.Error Types.Token$/;"	k
 name	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/PackageInfo_interpreter.hs	/^name = "interpreter"$/;"	f
@@ -434,17 +439,21 @@ os	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-versio
 parseBoolLiteral	lib/Parser.hs	/^parseBoolLiteral = gets curTok >>= \\tok -> return $ A.BOOL (tok == T.TRUE)$/;"	f
 parseExpression	lib/Parser.hs	/^parseExpression pr = do$/;"	f
 parseExpressionStatement	lib/Parser.hs	/^parseExpressionStatement = do$/;"	f
+parseFunctionArguments	lib/Parser.hs	/^parseFunctionArguments = do$/;"	f
+parseFunctionExpression	lib/Parser.hs	/^parseFunctionExpression = do$/;"	f
 parseGroupedExpression	lib/Parser.hs	/^parseGroupedExpression = do$/;"	f
 parseIdentifier	lib/Parser.hs	/^parseIdentifier = gets curTok >>= \\(T.ID var) -> return $ A.VAR var$/;"	f
+parseIfExpression	lib/Parser.hs	/^parseIfExpression = do$/;"	f
 parseInfixExpression	lib/Parser.hs	/^parseInfixExpression left =$/;"	f
 parseIntegralLiteral	lib/Parser.hs	/^parseIntegralLiteral = gets curTok >>= \\(T.INT num) -> return $ A.NUM num$/;"	f
 parseIntegralLiteral	lib/Parser.hs	/^parseIntegralLiteral, parseStringLiteral, parseIdentifier, parseBoolLiteral :: Parser A.Expr$/;"	f
 parseLetStatement	lib/Parser.hs	/^parseLetStatement = do$/;"	f
 parsePrefixExpression	lib/Parser.hs	/^parsePrefixExpression =$/;"	f
-parseProgram	lib/Parser.hs	/^parseProgram = do$/;"	f
+parseProgram	lib/Parser.hs	/^parseProgram = parseStatementsTill T.EOF >>= \\sts -> return $ A.BLOCK sts$/;"	f
 parseReturnStatement	lib/Parser.hs	/^parseReturnStatement = do$/;"	f
 parseReturnStatement	lib/Parser.hs	/^parseReturnStatement, parseLetStatement, parseExpressionStatement :: Parser A.Statement$/;"	f
 parseStatement	lib/Parser.hs	/^parseStatement = do$/;"	f
+parseStatementsTill	lib/Parser.hs	/^parseStatementsTill token = do$/;"	f
 parseStringLiteral	lib/Parser.hs	/^parseStringLiteral = gets curTok >>= \\(T.STRING str) -> return $ A.STRING str$/;"	f
 path	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.10.pkg-src
 path	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.11.pkg-src
@@ -508,7 +517,7 @@ readSingle	lib/Lexer.hs	/^readSingle = do$/;"	f
 readString	lib/Lexer.hs	/^readString = do$/;"	f
 repl	lib/Repl.hs	/^repl = do$/;"	f
 repo	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	object:install-plan.15.pkg-src
-s:l	Session.vim	/^let s:l = 120 - ((20 * winheight(0) + 21) \/ 42)$/;"	v
+s:l	Session.vim	/^let s:l = 1 - ((0 * winheight(0) + 21) \/ 42)$/;"	v
 s:shortmess_save	Session.vim	/^let s:shortmess_save = &shortmess$/;"	v
 s:so_save	Session.vim	/^let s:so_save = &g:so | let s:siso_save = &g:siso | setg so=0 siso=0 | setl so=-1 siso=-1$/;"	v
 s:sx	Session.vim	/^let s:sx = expand("<sfile>:p:r")."x.vim"$/;"	v

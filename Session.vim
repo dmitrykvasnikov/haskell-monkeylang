@@ -14,16 +14,16 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +9 app/Main.hs
-badd +53 lib/Types/Token.hs
-badd +77 lib/Lexer.hs
-badd +17 lib/Types/Ast.hs
-badd +149 lib/Parser.hs
-badd +18 lib/Repl.hs
+badd +93 lib/Types/Token.hs
+badd +36 lib/Lexer.hs
+badd +42 lib/Types/Ast.hs
+badd +166 lib/Parser.hs
+badd +19 lib/Repl.hs
+badd +1 sample
 argglobal
 %argdel
 $argadd app/Main.hs
-edit lib/Parser.hs
+edit lib/Types/Ast.hs
 argglobal
 balt lib/Types/Token.hs
 setlocal fdm=marker
@@ -34,12 +34,12 @@ setlocal fdl=0
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-let s:l = 120 - ((20 * winheight(0) + 21) / 42)
+let s:l = 30 - ((28 * winheight(0) + 20) / 41)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 120
-normal! 011|
+keepjumps 30
+normal! 0
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0
   silent exe 'bwipe ' . s:wipebuf
@@ -52,7 +52,6 @@ if filereadable(s:sx)
   exe "source " . fnameescape(s:sx)
 endif
 let &g:so = s:so_save | let &g:siso = s:siso_save
-nohlsearch
 let g:this_session = v:this_session
 let g:this_obsession = v:this_session
 doautoall SessionLoadPost
