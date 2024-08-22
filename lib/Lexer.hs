@@ -109,7 +109,7 @@ readNumber = do
   case isDigit c of
     True -> do
       rest <- peekWhile isDigit
-      return $ INT (read @Int (c : rest))
+      return $ INT $ c : rest
     False -> mkLexerError
 
 -- read string literal

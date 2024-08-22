@@ -20,7 +20,7 @@ data Token -- Keywords
            | RBRACE
            -- Identifiers
            | ID String
-           | INT Int
+           | INT String
            | STRING String
            -- Unary operators
            | NOT
@@ -65,7 +65,7 @@ instance Show Token where
   show MULT         = "*"
   show DIV          = "/"
   show EQL          = "=="
-  show NOTEQL       = "/="
+  show NOTEQL       = "!="
   show GRT          = ">"
   show LST          = "<"
   show GRTEQL       = ">="

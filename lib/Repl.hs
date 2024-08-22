@@ -1,9 +1,11 @@
 module Repl where
 
-import           Control.Monad.Trans.State.Strict (evalStateT)
+import           Control.Monad.Trans.State.Strict (evalStateT, execState)
+import           Evaluator                        as E
 import           Lexer
 import           Parser
 import           System.IO
+import           Types.Ast
 
 prompt :: String
 prompt = ">>> "
@@ -22,12 +24,15 @@ eval = do
 printProgram :: String -> IO ()
 printProgram src = do
   let sts = evalStateT parseProgram (mkInput src)
-  putStrLn
-    . ( \sts' -> case sts' of
-          Right r -> show r
-          Left e  -> show e
-      )
-    $ sts
+  case sts of
+    Left e  -> putStrLn $ show e
+    Right r -> putStrLn . show . returnObject . execState (ev r) $ env
+
+--   putStrLn
+--     . ( \sts' -> case sts' of
+--           Right (BLOCK sts'') -> show . map show $ evalProgram sts''
+--           Left e              -> show e
+--       )
 
 repl :: IO ()
 repl = do

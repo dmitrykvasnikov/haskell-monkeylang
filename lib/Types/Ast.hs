@@ -3,7 +3,6 @@ module Types.Ast where
 import           Data.List   (intercalate)
 import qualified Types.Token as T
 
--- Elemenst of AST for parser
 data Statement = EXPRESSION Expr
                | LET T.Token Expr
                | RETURN Expr
@@ -19,16 +18,14 @@ instance Show Statement where
   show _                      = "There is no show instance for statement"
 
 data Expr = VAR String
-          | NUM Int
-          | BOOL Bool
+          | NUM String
+          | BOOL String
           | STRING String
           | UNOP T.Token Expr
           | BINOP T.Token Expr Expr
           | IF Expr Statement Statement
           | FN [Expr] Statement
           | CALL String [Expr]
-
--- \| IFEx Expr Expr Expr
 
 instance Show Expr where
   show (VAR name) = name

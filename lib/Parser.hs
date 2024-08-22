@@ -146,11 +146,11 @@ parseFunctionArguments = do
   c <- gets curTok
   case c of
     T.RPAREN -> return []
-    T.ID _ -> do
+    T.ID var -> do
       isComma <- isPeekToken T.COMMA
       case isComma of
-        True -> nextToken >> nextToken >> parseFunctionArguments >>= \args -> return $ (A.VAR $ drop 3 $ show c) : args
-        False -> nextToken >> parseFunctionArguments >>= \args -> return $ (A.VAR $ drop 3 $ show c) : args
+        True -> nextToken >> nextToken >> parseFunctionArguments >>= \args -> return $ (A.VAR var) : args
+        False -> nextToken >> parseFunctionArguments >>= \args -> return $ (A.VAR var) : args
     _ -> errorCurToken (T.ID "function argument") >>= \errMsg -> lift $ Left $ ExpressionError errMsg
 
 parseCallExpression :: A.Expr -> Parser A.Expr
@@ -185,7 +185,7 @@ parseIntegralLiteral, parseStringLiteral, parseIdentifier, parseBoolLiteral :: P
 parseIntegralLiteral = gets curTok >>= \(T.INT num) -> return $ A.NUM num
 parseStringLiteral = gets curTok >>= \(T.STRING str) -> return $ A.STRING str
 parseIdentifier = gets curTok >>= \(T.ID var) -> return $ A.VAR var
-parseBoolLiteral = gets curTok >>= \tok -> return $ A.BOOL (tok == T.TRUE)
+parseBoolLiteral = gets curTok >>= \tok -> return $ A.BOOL $ show (tok == T.TRUE)
 
 -- check for current/peek token, expectPeek also moves to next token
 isCurToken, isPeekToken :: T.Token -> Parser Bool
