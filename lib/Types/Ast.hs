@@ -8,6 +8,7 @@ data Statement = EXPRESSION Expr
                | RETURN Expr
                | BLOCK [Statement]
                | NUL
+  deriving (Eq)
 
 instance Show Statement where
   show (EXPRESSION expr)      = show expr
@@ -25,7 +26,8 @@ data Expr = VAR String
           | BINOP T.Token Expr Expr
           | IF Expr Statement Statement
           | FN [Expr] Statement
-          | CALL String [Expr]
+          | CALL Expr [Expr]
+  deriving (Eq)
 
 instance Show Expr where
   show (VAR name) = name
@@ -36,4 +38,4 @@ instance Show Expr where
   show (BOOL b) = show b
   show (IF cond cons alt) = "if " <> show cond <> " then " <> show cons <> "\n  else " <> show alt
   show (FN ids body) = "function(" <> intercalate ", " (map show ids) <> ")\n" <> show body
-  show (CALL fn args) = fn <> "(" <> intercalate ", " (map show args) <> ")"
+  show (CALL fn args) = show fn <> "(" <> intercalate ", " (map show args) <> ")"

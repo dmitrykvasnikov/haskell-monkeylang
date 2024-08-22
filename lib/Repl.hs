@@ -25,8 +25,10 @@ printProgram :: String -> IO ()
 printProgram src = do
   let sts = evalStateT parseProgram (mkInput src)
   case sts of
-    Left e  -> putStrLn $ show e
-    Right r -> putStrLn . show . returnObject . execState (ev r) $ env
+    Left e -> putStrLn $ show e
+    Right r -> case evalProgram r of
+      Left e' -> putStrLn $ show e'
+      Right o -> putStrLn $ show o
 
 --   putStrLn
 --     . ( \sts' -> case sts' of

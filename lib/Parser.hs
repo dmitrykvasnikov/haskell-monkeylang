@@ -19,6 +19,7 @@ data Precedence = LOWEST | EQUALS | LSGT | SUM | MULT | PREFIX | CALL deriving
 precedences :: [(T.Token, Precedence)]
 precedences =
   [ (T.PLUS, SUM),
+    (T.CONCAT, SUM),
     (T.MINUS, SUM),
     (T.MULT, MULT),
     (T.DIV, MULT),
@@ -154,12 +155,13 @@ parseFunctionArguments = do
     _ -> errorCurToken (T.ID "function argument") >>= \errMsg -> lift $ Left $ ExpressionError errMsg
 
 parseCallExpression :: A.Expr -> Parser A.Expr
-parseCallExpression ident = do
-  case ident of
-    (A.VAR var) -> do
-      args <- parseCallArguments
-      return $ A.CALL var args
-    _ -> lift $ Left $ ExpressionError $ " expected identifier in function call, but got " <> show ident
+parseCallExpression func = parseCallArguments >>= \args -> return $ A.CALL func args
+
+--   case func of
+--     (A.VAR var) -> do
+--       args <- parseCallArguments
+--       return $ A.CALL func args
+--     _ -> lift $ Left $ ExpressionError $ " expected funcifier in function call, but got " <> show func
 
 parseCallArguments :: Parser [A.Expr]
 parseCallArguments = do
@@ -222,6 +224,7 @@ getPrefixFn token = case token of
 
 getInfixFn :: T.Token -> Parser (Maybe (A.Expr -> Parser A.Expr))
 getInfixFn token = case token of
+  T.CONCAT -> return $ Just parseInfixExpression
   T.PLUS   -> return $ Just parseInfixExpression
   T.MINUS  -> return $ Just parseInfixExpression
   T.MULT   -> return $ Just parseInfixExpression

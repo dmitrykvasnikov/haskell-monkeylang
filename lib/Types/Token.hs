@@ -25,6 +25,7 @@ data Token -- Keywords
            -- Unary operators
            | NOT
            -- Binary operators
+           | CONCAT
            | PLUS
            | MINUS
            | MULT
@@ -60,6 +61,7 @@ instance Show Token where
   show (INT num)    = "INT " <> show num
   show (STRING str) = "STRING " <> show str
   show NOT          = "!"
+  show CONCAT       = "++"
   show PLUS         = "+"
   show MINUS        = "-"
   show MULT         = "*"

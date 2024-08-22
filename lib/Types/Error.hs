@@ -8,13 +8,15 @@ type ErrorMessage = String
 data Error = LexerError ErrorMessage
            | ExpressionError ErrorMessage
            | StatementError ErrorMessage
+           | EvalError ErrorMessage
            -- to use for Alternative empty
            | InternalError
 
 instance Show Error where
   show (LexerError msg)      = "Lexer error: " <> msg
-  show (ExpressionError msg) = "Expression Parser error: " <> msg
-  show (StatementError msg)  = "Statement Parser error: " <> msg
+  show (ExpressionError msg) = "Expression parser error: " <> msg
+  show (StatementError msg)  = "Statement parser error: " <> msg
+  show (EvalError msg)       = "Evaluation error: " <> msg
   show InternalError         = "Internal error"
 
 instance Alternative (Either Error) where

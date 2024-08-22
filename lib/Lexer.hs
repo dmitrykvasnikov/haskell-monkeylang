@@ -92,6 +92,7 @@ readDouble = do
   Input i _ pp c _ _ <- get
   case (pp < T.length i) of
     True -> case (c, T.index i pp) of
+      ('+', '+') -> readChar >> return CONCAT
       ('=', '=') -> readChar >> return EQL
       ('!', '=') -> readChar >> return NOTEQL
       ('<', '>') -> readChar >> return NOTEQL
