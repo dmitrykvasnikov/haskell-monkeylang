@@ -65,7 +65,7 @@ skipWhiteSpaces = do
 readSingle :: Lexer Token
 readSingle = do
   c <- gets ch
-  case elem c "\NUL\n\\=;,(){}+-*/<>!" of
+  case elem c "\NUL\n\\=;,(){}[]+-*/<>!" of
     False -> mkLexerError
     True -> case c of
       '\NUL' -> return EOF
@@ -77,6 +77,8 @@ readSingle = do
       ')'    -> return RPAREN
       '{'    -> return LBRACE
       '}'    -> return RBRACE
+      '['    -> return LBRACKET
+      ']'    -> return RBRACKET
       '+'    -> return PLUS
       '-'    -> return MINUS
       '!'    -> return NOT

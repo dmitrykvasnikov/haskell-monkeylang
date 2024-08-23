@@ -22,6 +22,8 @@ data Expr = VAR String
           | NUM String
           | BOOL String
           | STRING String
+          | ARRAY [Expr]
+          | INDEX Expr Expr
           | UNOP T.Token Expr
           | BINOP T.Token Expr Expr
           | IF Expr Statement Statement
@@ -39,3 +41,5 @@ instance Show Expr where
   show (IF cond cons alt) = "if " <> show cond <> " then " <> show cons <> "\n  else " <> show alt
   show (FN ids body) = "function(" <> intercalate ", " (map show ids) <> ")\n" <> show body
   show (CALL fn args) = show fn <> "(" <> intercalate ", " (map show args) <> ")"
+  show (ARRAY arr) = "[" <> intercalate ", " (map show arr) <> "]"
+  show (INDEX ind arr) = show arr <> "[" <> show ind <> "]"
