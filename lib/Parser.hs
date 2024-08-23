@@ -2,15 +2,17 @@ module Parser where
 
 import           Control.Monad.Trans.Class
 import           Control.Monad.Trans.State.Strict
+import qualified GHC.Num                          as T
 import           Lexer
 import qualified Types.Ast                        as A
+import qualified Types.Ast                        as E
 import           Types.Ast                        (Statement (RETURN))
 import           Types.Error
 import qualified Types.Token                      as T
 
 type Parser a = Lexer a
 
-data Precedence = LOWEST | EQUALS | LSGT | SUM | MULT | PREFIX | CALL deriving
+data Precedence = LOWEST | EQUALS | LSGT | SUM | MULT | PREFIX | CALL | INDEX deriving
   ( Eq
   , Ord
   , Show
@@ -29,7 +31,8 @@ precedences =
     (T.LST, LSGT),
     (T.GRTEQL, LSGT),
     (T.LSTEQL, LSGT),
-    (T.LPAREN, CALL)
+    (T.LPAREN, CALL),
+    (T.LBRACKET, INDEX)
   ]
 
 -- parse program into list of statements
@@ -155,23 +158,17 @@ parseFunctionArguments = do
     _ -> errorCurToken (T.ID "function argument") >>= \errMsg -> lift $ Left $ ExpressionError errMsg
 
 parseCallExpression :: A.Expr -> Parser A.Expr
-parseCallExpression func = parseCallArguments >>= \args -> return $ A.CALL func args
+parseCallExpression func = parseListExpression T.RPAREN >>= \args -> return $ A.CALL func args
 
---   case func of
---     (A.VAR var) -> do
---       args <- parseCallArguments
---       return $ A.CALL func args
---     _ -> lift $ Left $ ExpressionError $ " expected funcifier in function call, but got " <> show func
-
-parseCallArguments :: Parser [A.Expr]
-parseCallArguments = do
-  b <- isPeekToken T.RPAREN
+parseListExpression :: T.Token -> Parser [A.Expr]
+parseListExpression end = do
+  b <- isPeekToken end
   case b of
     True -> nextToken >> return []
     False -> do
       nextToken
       args <- go
-      getPeekToken T.RPAREN ExpressionError
+      getPeekToken end ExpressionError
       return args
   where
     go :: Parser [A.Expr]
@@ -181,6 +178,12 @@ parseCallArguments = do
       case b of
         True  -> nextToken >> nextToken >> go >>= \args -> return $ arg : args
         False -> return [arg]
+
+parseArrayLiteral :: Parser E.Expr
+parseArrayLiteral = parseListExpression T.RBRACKET >>= return . A.ARRAY
+
+parseIndexExpression :: A.Expr -> Parser A.Expr
+parseIndexExpression arr = nextToken >> parseExpression LOWEST >>= \ind -> getPeekToken T.RBRACKET ExpressionError >> return (A.INDEX ind arr)
 
 -- parsers for literals
 parseIntegralLiteral, parseStringLiteral, parseIdentifier, parseBoolLiteral :: Parser A.Expr
@@ -218,25 +221,27 @@ getPrefixFn token = case token of
   T.TRUE -> return parseBoolLiteral
   T.FALSE -> return parseBoolLiteral
   T.LPAREN -> return parseGroupedExpression
+  T.LBRACKET -> return parseArrayLiteral
   T.IF -> return parseIfExpression
   T.FUNCTION -> return parseFunctionExpression
   _ -> lift $ Left $ ExpressionError $ "do not have prefix operation for '" <> show token <> "'"
 
 getInfixFn :: T.Token -> Parser (Maybe (A.Expr -> Parser A.Expr))
 getInfixFn token = case token of
-  T.CONCAT -> return $ Just parseInfixExpression
-  T.PLUS   -> return $ Just parseInfixExpression
-  T.MINUS  -> return $ Just parseInfixExpression
-  T.MULT   -> return $ Just parseInfixExpression
-  T.DIV    -> return $ Just parseInfixExpression
-  T.EQL    -> return $ Just parseInfixExpression
-  T.NOTEQL -> return $ Just parseInfixExpression
-  T.GRT    -> return $ Just parseInfixExpression
-  T.LST    -> return $ Just parseInfixExpression
-  T.GRTEQL -> return $ Just parseInfixExpression
-  T.LSTEQL -> return $ Just parseInfixExpression
-  T.LPAREN -> return $ Just parseCallExpression
-  _        -> return Nothing
+  T.CONCAT   -> return $ Just parseInfixExpression
+  T.PLUS     -> return $ Just parseInfixExpression
+  T.MINUS    -> return $ Just parseInfixExpression
+  T.MULT     -> return $ Just parseInfixExpression
+  T.DIV      -> return $ Just parseInfixExpression
+  T.EQL      -> return $ Just parseInfixExpression
+  T.NOTEQL   -> return $ Just parseInfixExpression
+  T.GRT      -> return $ Just parseInfixExpression
+  T.LST      -> return $ Just parseInfixExpression
+  T.GRTEQL   -> return $ Just parseInfixExpression
+  T.LSTEQL   -> return $ Just parseInfixExpression
+  T.LPAREN   -> return $ Just parseCallExpression
+  T.LBRACKET -> return $ Just parseIndexExpression
+  _          -> return Nothing
 
 -- get precendce of current and peek tokens
 peekPrecedence, curPrecedence :: Parser Precedence

@@ -12,14 +12,10 @@ import           Types.Error
 import           Types.Object
 import           Types.Token                      as T
 
-data Env = Env { isFinal :: Bool
-               , heap    :: Map String Object
-               }
-
 type OType = ObjectType
 
 initialEnv :: Env
-initialEnv = Env {isFinal = False, heap = M.empty}
+initialEnv = Env {isFinal = False, heap = constants}
 
 type Eval a = StateT Env (Either Error) a
 
@@ -51,7 +47,9 @@ evalExpression t (A.UNOP (T.MINUS) expr) = evalNegateExpression expr >>= typeChe
 evalExpression t (A.UNOP (T.NOT) expr) = evalNotExpression expr >>= typeCheck t
 evalExpression t (A.BINOP op expr1 expr2) = evalInfixExpression op expr1 expr2 >>= typeCheck t
 evalExpression t (A.IF cond cons alt) = evalExpression BOOLEAN_OBJ cond >>= evalIfExpression cons alt >>= typeCheck t
-evalExpression _ (A.FN args body) = gets heap >>= \env -> return $ Function args body env
+evalExpression _ (A.FN args body) = gets heap >>= \env -> return $ Function FUNCTION_OBJ args body env
+evalExpression _ (A.ARRAY elements) = traverse (evalExpression ANY_OBJ) elements >>= return . Array ARRAY_OBJ
+evalExpression t (A.INDEX ind arr) = evalExpression INTEGER_OBJ ind >>= \ind' -> evalExpression ARRAY_OBJ arr >>= evalIndexExpression ind' >>= typeCheck t
 evalExpression t (A.CALL fn args) = evalCallExpresion fn args >>= typeCheck t
 evalExpression _ _ = return nullCONST
 -- evalReturnExpression t expr = evalExpression t expr >>= \obj -> modify (\e -> e {isFinal = True}) >> return obj
@@ -88,14 +86,22 @@ evalInfixExpression op expr1 expr2
 evalIfExpression :: Statement -> Statement -> Object -> Eval Object
 evalIfExpression cons alt cond = evalStatement ANY_OBJ (if cond == trueCONST then cons else alt)
 
+evalIndexExpression :: Object -> Object -> Eval Object
+evalIndexExpression ind arr = do
+  let ind' = read @Int $ value ind
+  let arr' = array arr
+  case (ind' < 0) || (ind' > (length arr') - 1) of
+    True  -> lift $ Left $ EvalError $ "index " <> show ind' <> " out of bound"
+    False -> return $ arr' !! ind'
+
 evalCallExpresion :: A.Expr -> [A.Expr] -> Eval Object
 evalCallExpresion fn args = do
   closure <- gets heap
   function <- getFunctionForCall fn
   case function of
-    Just (Function vars body env) -> do
+    Just (Function _ vars body env) -> do
       case (length vars) == (length args) of
-        False -> lift $ Left $ EvalError $ "amount of passed and declared variables is different in call of function \"" <> show fn <> "\""
+        False -> lift $ Left $ EvalError $ "amount of passed and declared arguments is different in call of function \"" <> show fn <> "\""
         True -> do
           args' <- traverse (evalExpression ANY_OBJ) args
           let closure' = M.union (M.fromList $ zipWith (,) (map (\(A.VAR var) -> var) vars) args') $ M.union closure env
@@ -107,8 +113,8 @@ evalCallExpresion fn args = do
       (A.VAR var) -> case M.lookup var builtins of
         (Just builtin) -> do
           case (length args) == (length $ inp builtin) of
-            False -> lift $ Left $ EvalError $ "amount of passed and declared variables is different in call of function \"" <> show fn <> "\""
-            True -> sequence (zipWith evalExpression (inp builtin) args) >>= return . func builtin
+            False -> lift $ Left $ EvalError $ "amount of passed and declared arguments is different in call of function \"" <> show fn <> "\""
+            True -> sequence (zipWith evalExpression (inp builtin) args) >>= func builtin
         _ -> lift $ Left $ EvalError $ show fn <> " is not a function."
       _ -> lift $ Left $ EvalError $ show fn <> " is not a function."
 

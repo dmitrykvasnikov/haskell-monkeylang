@@ -18,6 +18,8 @@ data Token -- Keywords
            | RPAREN
            | LBRACE
            | RBRACE
+           | LBRACKET
+           | RBRACKET
            -- Identifiers
            | ID String
            | INT String
@@ -57,6 +59,8 @@ instance Show Token where
   show RPAREN       = ")"
   show LBRACE       = "{"
   show RBRACE       = "}"
+  show LBRACKET     = "["
+  show RBRACKET     = "]"
   show (ID var)     = "ID " <> var
   show (INT num)    = "INT " <> show num
   show (STRING str) = "STRING " <> show str
