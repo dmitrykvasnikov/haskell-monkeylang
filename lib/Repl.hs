@@ -6,6 +6,8 @@ import           Lexer
 import           Parser
 import           System.IO
 import           Types.Ast
+import           Types.Object                     (Object)
+import           Types.Token                      (Token)
 
 prompt :: String
 prompt = ">>> "
@@ -40,4 +42,7 @@ repl :: IO ()
 repl = do
   hSetBuffering stdout NoBuffering
   putStrLn "Welcome to Monkey REPL in Haskell!"
+  putStrLn " 'exit'             for exit"
+  putStrLn " ':l filename'      to load and run code from file"
+  putStrLn " 'exp1; expr2; ...' to evaluate list of expressions"
   eval
