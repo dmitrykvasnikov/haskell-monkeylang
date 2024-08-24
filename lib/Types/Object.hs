@@ -3,6 +3,7 @@ module Types.Object where
 import           Control.Monad.Trans.State.Strict
 import qualified Data.HashMap.Internal            as H
 import           Data.List                        (intercalate)
+import           Data.Map.Strict                  (Map)
 import qualified Data.Map.Strict                  as M
 import           Types.Ast                        as A
 import           Types.Error                      (Error)

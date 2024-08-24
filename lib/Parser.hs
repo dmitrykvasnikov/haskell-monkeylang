@@ -226,13 +226,13 @@ getPrefixFn token = case token of
   (T.STRING _) -> return parseStringLiteral
   (T.ID _) -> return parseIdentifier
   T.MINUS -> return parsePrefixExpression
+  T.IF -> return parseIfExpression
   T.NOT -> return parsePrefixExpression
   T.TRUE -> return parseBoolLiteral
   T.FALSE -> return parseBoolLiteral
   T.LPAREN -> return parseGroupedExpression
   T.LBRACKET -> return parseArrayLiteral
   T.LBRACE -> return parseHashLiteral
-  T.IF -> return parseIfExpression
   T.FUNCTION -> return parseFunctionExpression
   _ -> lift $ Left $ ExpressionError $ "do not have prefix operation for '" <> show token <> "'"
 

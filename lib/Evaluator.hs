@@ -85,7 +85,6 @@ evalInfixExpression op expr1 expr2
 evalIfExpression :: Statement -> Statement -> Object -> Eval Object
 evalIfExpression cons alt cond = evalStatement ANY_OBJ (if cond == trueCONST then cons else alt)
 
-evalHashLiteral :: M.Map A.Expr A.Expr -> Eval Object
 evalHashLiteral hm = traverse (mkHashPair) (M.toList hm) >>= return . Hash HASH_OBJ . M.fromList
   where
     mkHashPair :: (A.Expr, A.Expr) -> Eval (H.Hash, (Object, Object))
@@ -118,13 +117,7 @@ evalIndexExpression indExpr objExpr = do
           case M.lookup (H.hash $ show ind) (hashmap hm) of
             Just (_, v) -> return v
             Nothing     -> return nullCONST
-    t -> lift $ Left $ mkTypeError ARRAY_OBJ obj
-
---   let ind' = read @Int $ value ind
---   let arr' = array arr
---   case (ind' < 0) || (ind' > (length arr') - 1) of
---     True  -> lift $ Left $ EvalError $ "index " <> show ind' <> " out of bound"
---     False -> return $ arr' !! ind'
+    _ -> lift $ Left $ mkTypeError ARRAY_OBJ obj
 
 evalCallExpresion :: A.Expr -> [A.Expr] -> Eval Object
 evalCallExpresion fn args = do
@@ -150,9 +143,8 @@ evalCallExpresion fn args = do
 getFunctionForCall :: A.Expr -> Eval (Maybe Object)
 getFunctionForCall expr =
   case expr of
-    (A.FN _ _)  -> evalExpression ANY_OBJ expr >>= return . Just
     (A.VAR var) -> gets heap >>= return . M.lookup var
-    _           -> lift $ Left $ EvalError $ show expr <> "is not a function"
+    _           -> evalExpression ANY_OBJ expr >>= return . Just
 
 -- helpers for Type Errors
 mkTypeError :: ObjectType -> Object -> Error
@@ -267,7 +259,7 @@ builtins =
               if (length arr') == 0 then return nullCONST else return $ last arr'
           }
       ),
-      ( "tail",
+      ( "rest",
         Builtin
           { oType = BUILTIN_OBJ,
             func = \args -> do

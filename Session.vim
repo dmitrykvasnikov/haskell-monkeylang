@@ -14,20 +14,20 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +28 lib/Types/Ast.hs
+badd +21 lib/Types/Ast.hs
 badd +32 lib/Repl.hs
-badd +140 lib/Evaluator.hs
-badd +5 s
-badd +25 lib/Parser.hs
-badd +85 lib/Lexer.hs
-badd +60 lib/Types/Object.hs
+badd +262 lib/Evaluator.hs
+badd +12 s
+badd +130 lib/Parser.hs
+badd +70 lib/Lexer.hs
+badd +64 lib/Types/Object.hs
 badd +1 app/Main.hs
 argglobal
 %argdel
 $argadd app/Main.hs
-edit lib/Types/Object.hs
+edit lib/Evaluator.hs
 argglobal
-balt lib/Evaluator.hs
+balt s
 setlocal fdm=marker
 setlocal fde=0
 setlocal fmr=/**,**/
@@ -41,7 +41,7 @@ if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
 keepjumps 1
-normal! 0
+normal! 022|
 lcd ~/code/haskell/interpreter
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0
