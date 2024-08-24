@@ -14,6 +14,7 @@ data Token -- Keywords
            | SEMICOLON
            | COMMA
            | EOF
+           | COLON
            | LPAREN
            | RPAREN
            | LBRACE
@@ -42,6 +43,7 @@ data Token -- Keywords
            -- System for internal usage
            | ILLEGAL
            | NOTOKEN
+  deriving (Ord)
 
 instance Show Token where
   show LET          = "LET"
@@ -52,6 +54,7 @@ instance Show Token where
   show TRUE         = "TRUE"
   show FALSE        = "FALSE"
   show ELSE         = "ELSE"
+  show COLON        = ":"
   show SEMICOLON    = ";"
   show COMMA        = ","
   show EOF          = "EOF"

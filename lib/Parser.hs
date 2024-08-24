@@ -2,11 +2,10 @@ module Parser where
 
 import           Control.Monad.Trans.Class
 import           Control.Monad.Trans.State.Strict
-import qualified GHC.Num                          as T
+import qualified Data.Map.Strict                  as M
+import           Debug.Trace
 import           Lexer
 import qualified Types.Ast                        as A
-import qualified Types.Ast                        as E
-import           Types.Ast                        (Statement (RETURN))
 import           Types.Error
 import qualified Types.Token                      as T
 
@@ -158,10 +157,10 @@ parseFunctionArguments = do
     _ -> errorCurToken (T.ID "function argument") >>= \errMsg -> lift $ Left $ ExpressionError errMsg
 
 parseCallExpression :: A.Expr -> Parser A.Expr
-parseCallExpression func = parseListExpression T.RPAREN >>= \args -> return $ A.CALL func args
+parseCallExpression func = parseListExpression T.RPAREN (parseExpression LOWEST) >>= \args -> return $ A.CALL func args
 
-parseListExpression :: T.Token -> Parser [A.Expr]
-parseListExpression end = do
+parseListExpression :: T.Token -> Parser A.Expr -> Parser [A.Expr]
+parseListExpression end parser = do
   b <- isPeekToken end
   case b of
     True -> nextToken >> return []
@@ -173,17 +172,27 @@ parseListExpression end = do
   where
     go :: Parser [A.Expr]
     go = do
-      arg <- parseExpression LOWEST
+      arg <- parser
       b <- isPeekToken T.COMMA
       case b of
         True  -> nextToken >> nextToken >> go >>= \args -> return $ arg : args
         False -> return [arg]
 
-parseArrayLiteral :: Parser E.Expr
-parseArrayLiteral = parseListExpression T.RBRACKET >>= return . A.ARRAY
+parseArrayLiteral :: Parser A.Expr
+parseArrayLiteral = parseListExpression T.RBRACKET (parseExpression LOWEST) >>= return . A.ARRAY
 
 parseIndexExpression :: A.Expr -> Parser A.Expr
 parseIndexExpression arr = nextToken >> parseExpression LOWEST >>= \ind -> getPeekToken T.RBRACKET ExpressionError >> return (A.INDEX ind arr)
+
+parseHashLiteral :: Parser A.Expr
+parseHashLiteral = parseListExpression T.RBRACE parsePair >>= makeMap
+  where
+    parsePair :: Parser A.Expr
+    parsePair = parseExpression LOWEST >>= \k -> getPeekToken T.COLON ExpressionError >> nextToken >> parseExpression LOWEST >>= return . A.PAIR k
+    makeMap :: [A.Expr] -> Parser A.Expr
+    makeMap exprs = do
+      let exprs' = map (\(A.PAIR k v) -> (k, v)) exprs
+       in return $ A.HASH . M.fromList $ exprs'
 
 -- parsers for literals
 parseIntegralLiteral, parseStringLiteral, parseIdentifier, parseBoolLiteral :: Parser A.Expr
@@ -222,6 +231,7 @@ getPrefixFn token = case token of
   T.FALSE -> return parseBoolLiteral
   T.LPAREN -> return parseGroupedExpression
   T.LBRACKET -> return parseArrayLiteral
+  T.LBRACE -> return parseHashLiteral
   T.IF -> return parseIfExpression
   T.FUNCTION -> return parseFunctionExpression
   _ -> lift $ Left $ ExpressionError $ "do not have prefix operation for '" <> show token <> "'"

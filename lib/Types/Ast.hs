@@ -1,14 +1,15 @@
 module Types.Ast where
 
-import           Data.List   (intercalate)
-import qualified Types.Token as T
+import           Data.List       (intercalate)
+import qualified Data.Map.Strict as M
+import qualified Types.Token     as T
 
 data Statement = EXPRESSION Expr
                | LET T.Token Expr
                | RETURN Expr
                | BLOCK [Statement]
                | NUL
-  deriving (Eq)
+  deriving (Eq, Ord)
 
 instance Show Statement where
   show (EXPRESSION expr)      = show expr
@@ -29,7 +30,9 @@ data Expr = VAR String
           | IF Expr Statement Statement
           | FN [Expr] Statement
           | CALL Expr [Expr]
-  deriving (Eq)
+          | HASH (M.Map Expr Expr)
+          | PAIR Expr Expr
+  deriving (Eq, Ord)
 
 instance Show Expr where
   show (VAR name) = name
@@ -43,3 +46,5 @@ instance Show Expr where
   show (CALL fn args) = show fn <> "(" <> intercalate ", " (map show args) <> ")"
   show (ARRAY arr) = "[" <> intercalate ", " (map show arr) <> "]"
   show (INDEX ind arr) = show arr <> "[" <> show ind <> "]"
+  show (HASH hash) = "{" <> (intercalate ", " . (map (\(k, v) -> "(" <> show k <> " : " <> show v <> ")")) . M.toList $ hash) <> "}"
+  show (PAIR expr1 expr2) = "(" <> show expr1 <> ", " <> show expr2 <> ")"

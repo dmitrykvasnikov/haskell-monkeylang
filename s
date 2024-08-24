@@ -1,4 +1,5 @@
-let x = 1
-[x+1,x+2]
-let arr = fn(x){[x+1, x+2, x+3]}
-arr(1)[3]
+let map = {1 : "hello", true : 123, "key" : fn(x){x + 1}}
+
+let func = map[12]
+
+lookup("key", map)(100)

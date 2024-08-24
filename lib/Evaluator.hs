@@ -1,12 +1,10 @@
 module Evaluator where
 
-import           Builtins
 import           Control.Monad.Trans.Class
 import           Control.Monad.Trans.State.Strict
+import qualified Data.HashMap.Internal            as H
 import           Data.List
-import           Data.Map.Strict                  (Map)
 import qualified Data.Map.Strict                  as M
-import           GHC.ExecutionStack               (Location (functionName))
 import           Types.Ast                        as A
 import           Types.Error
 import           Types.Object
@@ -49,8 +47,9 @@ evalExpression t (A.BINOP op expr1 expr2) = evalInfixExpression op expr1 expr2 >
 evalExpression t (A.IF cond cons alt) = evalExpression BOOLEAN_OBJ cond >>= evalIfExpression cons alt >>= typeCheck t
 evalExpression _ (A.FN args body) = gets heap >>= \env -> return $ Function FUNCTION_OBJ args body env
 evalExpression _ (A.ARRAY elements) = traverse (evalExpression ANY_OBJ) elements >>= return . Array ARRAY_OBJ
-evalExpression t (A.INDEX ind arr) = evalExpression INTEGER_OBJ ind >>= \ind' -> evalExpression ARRAY_OBJ arr >>= evalIndexExpression ind' >>= typeCheck t
+evalExpression t (A.INDEX ind arr) = evalIndexExpression ind arr >>= typeCheck t
 evalExpression t (A.CALL fn args) = evalCallExpresion fn args >>= typeCheck t
+evalExpression t (A.HASH hashmap) = evalHashLiteral hashmap
 evalExpression _ _ = return nullCONST
 -- evalReturnExpression t expr = evalExpression t expr >>= \obj -> modify (\e -> e {isFinal = True}) >> return obj
 evalReturnExpression t expr = modify (\e -> e {isFinal = True}) >> evalExpression t expr
@@ -80,19 +79,52 @@ evalInfixExpression op expr1 expr2
       arg2 <- evalExpression ANY_OBJ expr2
       case (oType arg1) == (oType arg2) of
         True -> return $ boolToBoolean $ (comp op) (value arg1) (value arg2)
-        False -> lift $ Left $ EvalError $ intercalate " " ["can not match types: ", show (oType arg1), "and", show (oType arg2), "in operation", show op]
+        False -> mkEvalError $ intercalate " " ["can not match types: ", show (oType arg1), "and", show (oType arg2), "in operation", show op]
   | otherwise = return nullCONST
 
 evalIfExpression :: Statement -> Statement -> Object -> Eval Object
 evalIfExpression cons alt cond = evalStatement ANY_OBJ (if cond == trueCONST then cons else alt)
 
-evalIndexExpression :: Object -> Object -> Eval Object
-evalIndexExpression ind arr = do
-  let ind' = read @Int $ value ind
-  let arr' = array arr
-  case (ind' < 0) || (ind' > (length arr') - 1) of
-    True  -> lift $ Left $ EvalError $ "index " <> show ind' <> " out of bound"
-    False -> return $ arr' !! ind'
+evalHashLiteral :: M.Map A.Expr A.Expr -> Eval Object
+evalHashLiteral hm = traverse (mkHashPair) (M.toList hm) >>= return . Hash HASH_OBJ . M.fromList
+  where
+    mkHashPair :: (A.Expr, A.Expr) -> Eval (H.Hash, (Object, Object))
+    mkHashPair (k, v) = do
+      key <- evalExpression ANY_OBJ k
+      case (elem (oType key) [INTEGER_OBJ, BOOLEAN_OBJ, STRING_OBJ]) of
+        False -> lift $ Left $ EvalError $ "not hashable type in hash : " <> show (oType key)
+        True -> do
+          let h = H.hash $ show key
+          val <- evalExpression ANY_OBJ v
+          return (h, (key, val))
+
+evalIndexExpression :: A.Expr -> A.Expr -> Eval Object
+evalIndexExpression indExpr objExpr = do
+  obj <- evalExpression ANY_OBJ objExpr
+  case oType obj of
+    ARRAY_OBJ -> do
+      indObj <- evalExpression INTEGER_OBJ indExpr
+      let ind = read @Int $ value indObj
+      let arr = array obj
+      case (ind < 0) || (ind > (length arr) - 1) of
+        True -> lift $ Left $ EvalError $ "index " <> show ind <> " out of bound"
+        False -> return $ arr !! ind
+    HASH_OBJ -> do
+      ind <- evalExpression ANY_OBJ indExpr
+      case (elem (oType ind) [INTEGER_OBJ, BOOLEAN_OBJ, STRING_OBJ]) of
+        False -> mkEvalError $ "not hashable type in index :" <> show (oType ind)
+        True -> do
+          hm <- evalExpression HASH_OBJ objExpr
+          case M.lookup (H.hash $ show ind) (hashmap hm) of
+            Just (_, v) -> return v
+            Nothing     -> return nullCONST
+    t -> lift $ Left $ mkTypeError ARRAY_OBJ obj
+
+--   let ind' = read @Int $ value ind
+--   let arr' = array arr
+--   case (ind' < 0) || (ind' > (length arr') - 1) of
+--     True  -> lift $ Left $ EvalError $ "index " <> show ind' <> " out of bound"
+--     False -> return $ arr' !! ind'
 
 evalCallExpresion :: A.Expr -> [A.Expr] -> Eval Object
 evalCallExpresion fn args = do
@@ -101,7 +133,7 @@ evalCallExpresion fn args = do
   case function of
     Just (Function _ vars body env) -> do
       case (length vars) == (length args) of
-        False -> lift $ Left $ EvalError $ "amount of passed and declared arguments is different in call of function \"" <> show fn <> "\""
+        False -> mkEvalError $ "amount of passed and declared arguments is different in call of function \"" <> show fn <> "\""
         True -> do
           args' <- traverse (evalExpression ANY_OBJ) args
           let closure' = M.union (M.fromList $ zipWith (,) (map (\(A.VAR var) -> var) vars) args') $ M.union closure env
@@ -111,12 +143,9 @@ evalCallExpresion fn args = do
             Left err  -> lift $ Left $ err
     _ -> case fn of
       (A.VAR var) -> case M.lookup var builtins of
-        (Just builtin) -> do
-          case (length args) == (length $ inp builtin) of
-            False -> lift $ Left $ EvalError $ "amount of passed and declared arguments is different in call of function \"" <> show fn <> "\""
-            True -> sequence (zipWith evalExpression (inp builtin) args) >>= func builtin
-        _ -> lift $ Left $ EvalError $ show fn <> " is not a function."
-      _ -> lift $ Left $ EvalError $ show fn <> " is not a function."
+        (Just builtin) -> traverse (evalExpression ANY_OBJ) args >>= func builtin
+        _ -> mkEvalError $ show fn <> " is not a function."
+      _ -> mkEvalError $ show fn <> " is not a function."
 
 getFunctionForCall :: A.Expr -> Eval (Maybe Object)
 getFunctionForCall expr =
@@ -130,11 +159,12 @@ mkTypeError :: ObjectType -> Object -> Error
 mkTypeError t o = EvalError $ "type error, can't match type " <> (show $ oType o) <> " with expected type " <> show t <> "\n" <> show o
 
 typeCheck :: ObjectType -> Object -> Eval Object
-typeCheck t o =
-  let b = (t == oType o)
-   in case b of
-        True  -> return o
-        False -> lift $ Left $ mkTypeError t o
+typeCheck t o = case t == (oType o) of
+  True  -> return o
+  False -> lift $ Left $ mkTypeError t o
+
+mkEvalError :: String -> Eval Object
+mkEvalError err = lift $ Left $ EvalError err
 
 -- helper to conver bool value to Boolean object
 boolToBoolean :: Bool -> Object
@@ -162,7 +192,7 @@ getVarFromHeap var = do
   env <- gets heap
   case M.lookup var env of
     Just val -> return val
-    Nothing -> lift $ Left $ EvalError $ "found no variable with name " <> show var
+    Nothing  -> mkEvalError $ "found no variable with name " <> show var
 
 -- helper to check if object is Truthy
 isTruthy :: Object -> Bool
@@ -170,3 +200,120 @@ isTruthy obj
   | obj == nullCONST = False
   | obj == falseCONST = False
   | otherwise = True
+
+-- Built-in Constants and functions
+constants, builtins :: M.Map String Object
+builtins =
+  M.fromList
+    [ ( "len",
+        Builtin
+          { oType = BUILTIN_OBJ,
+            func = \args -> do
+              checkArgsCount "len" args 1
+              let arg = head args
+              case oType arg of
+                STRING_OBJ -> return $ Object INTEGER_OBJ $ show $ length $ value $ arg
+                ARRAY_OBJ -> return $ Object INTEGER_OBJ $ show $ length $ array $ arg
+                _ -> mkEvalError $ (show . oType $ arg) <> " is not supported in 'len' method"
+          }
+      ),
+      ( "info",
+        Builtin
+          { oType = BUILTIN_OBJ,
+            func = \_ -> return $ Object STRING_OBJ "MonkeyLang Interpreter version Banana.0.0.1"
+          }
+      ),
+      ( "min",
+        Builtin
+          { oType = BUILTIN_OBJ,
+            func = \args ->
+              do
+                checkArgsCount "min" args 2
+                let arg1 = args !! 0
+                    arg2 = args !! 1
+                typeCheck INTEGER_OBJ arg1 >> typeCheck INTEGER_OBJ arg2 >> if (read @Int $ value arg1) > (read @Int $ value arg2) then return arg2 else return arg1
+          }
+      ),
+      ( "max",
+        Builtin
+          { oType = BUILTIN_OBJ,
+            func = \args ->
+              do
+                checkArgsCount "man" args 2
+                let arg1 = args !! 0
+                    arg2 = args !! 1
+                typeCheck INTEGER_OBJ arg1 >> typeCheck INTEGER_OBJ arg2 >> if (read @Int $ value arg1) < (read @Int $ value arg2) then return arg2 else return arg1
+          }
+      ),
+      ( "first",
+        Builtin
+          { oType = BUILTIN_OBJ,
+            func = \args -> do
+              checkArgsCount "first" args 1
+              let arr = head args
+              typeCheck ARRAY_OBJ arr
+              let arr' = array arr
+              if (length arr') == 0 then return nullCONST else return $ head arr'
+          }
+      ),
+      ( "last",
+        Builtin
+          { oType = BUILTIN_OBJ,
+            func = \args -> do
+              checkArgsCount "last" args 1
+              let arr = head args
+              typeCheck ARRAY_OBJ arr
+              let arr' = array arr
+              if (length arr') == 0 then return nullCONST else return $ last arr'
+          }
+      ),
+      ( "tail",
+        Builtin
+          { oType = BUILTIN_OBJ,
+            func = \args -> do
+              checkArgsCount "tail" args 1
+              let arr = head args
+              typeCheck ARRAY_OBJ arr
+              let arr' = array arr
+              if (length arr') == 0 then return nullCONST else return $ Array ARRAY_OBJ $ tail arr'
+          }
+      ),
+      ( "push",
+        Builtin
+          { oType = BUILTIN_OBJ,
+            func = \args -> do
+              checkArgsCount "push" args 2
+              let arr = args !! 0
+                  el = args !! 1
+              typeCheck ARRAY_OBJ arr
+              let arr' = array arr
+              return $ Array ARRAY_OBJ $ arr' ++ [el]
+          }
+      ),
+      ( "lookup",
+        Builtin
+          { oType = BUILTIN_OBJ,
+            func = \args -> do
+              checkArgsCount "lookup" args 2
+              let ind = args !! 0
+                  obj = args !! 1
+              case (elem (oType ind) [INTEGER_OBJ, BOOLEAN_OBJ, STRING_OBJ]) of
+                False -> lift $ Left $ EvalError $ "not hashable type in index :" <> show (oType ind)
+                True -> case (oType obj) == HASH_OBJ of
+                  False -> mkEvalError $ "index operator should be applyed to array of hashmap, but got " <> show (oType obj)
+                  True -> case M.lookup (H.hash $ show ind) (hashmap obj) of
+                    Nothing     -> return nullCONST
+                    Just (_, v) -> return v
+          }
+      )
+    ]
+constants =
+  M.fromList
+    [ ("PI", Object INTEGER_OBJ "3.1415")
+    ]
+
+-- helper function of Built-in functions
+checkArgsCount :: String -> [Object] -> Int -> Eval ()
+checkArgsCount fn args c = case c == length args of
+  True -> return ()
+  False -> lift $ Left $ EvalError $ "wrong number of arguments for method " <> show fn <> ", got " <> show (length args) <> ", want " <> show c

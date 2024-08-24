@@ -14,19 +14,18 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +26 lib/Types/Ast.hs
+badd +28 lib/Types/Ast.hs
 badd +32 lib/Repl.hs
-badd +102 lib/Evaluator.hs
-badd +4 s
-badd +161 lib/Parser.hs
-badd +138 lib/Lexer.hs
-badd +26 lib/Builtins.hs
-badd +34 lib/Types/Object.hs
-badd +0 app/Main.hs
+badd +140 lib/Evaluator.hs
+badd +5 s
+badd +25 lib/Parser.hs
+badd +85 lib/Lexer.hs
+badd +60 lib/Types/Object.hs
+badd +1 app/Main.hs
 argglobal
 %argdel
 $argadd app/Main.hs
-edit lib/Builtins.hs
+edit lib/Types/Object.hs
 argglobal
 balt lib/Evaluator.hs
 setlocal fdm=marker

@@ -63,7 +63,6 @@ library
                    ,  Types.Ast
                    ,  Types.Error
                    ,  Types.Object
-                   ,  Builtins
                    ,  Lexer
                    ,  Evaluator
                    ,  Parser
@@ -81,6 +80,7 @@ library
                  ,    transformers
                  ,    split
                  ,    containers
+                 ,    unordered-containers
 
     -- Directories containing source files.
     hs-source-dirs:   lib
