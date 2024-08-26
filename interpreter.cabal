@@ -59,14 +59,10 @@ library
     import:           warnings
 
     -- Modules exported by the library.
-    exposed-modules:  Types.Token
-                   ,  Types.Ast
-                   ,  Types.Error
-                   ,  Types.Object
+    exposed-modules:  Types.Error
+                   ,  Types.Token
+                   ,  Input
                    ,  Lexer
-                   ,  Evaluator
-                   ,  Parser
-                   ,  Repl
 
     -- Modules included in this library but not exported.
     -- other-modules:
@@ -81,6 +77,7 @@ library
                  ,    split
                  ,    containers
                  ,    unordered-containers
+                 ,    pretty-terminal
 
     -- Directories containing source files.
     hs-source-dirs:   lib
@@ -107,7 +104,7 @@ executable interpreter
         base ^>=4.20.0.0,
         interpreter,
         transformers,
-        mtl
+        mtl,
 
     -- Directories containing source files.
     hs-source-dirs:   app

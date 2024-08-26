@@ -1,165 +1,156 @@
 module Lexer where
 
-import           Control.Applicative
-import           Control.Monad
+import           Control.Applicative              (asum)
 import           Control.Monad.Trans.Class
+import           Control.Monad.Trans.Except
 import           Control.Monad.Trans.State.Strict
-import           Data.Char                        (isAlphaNum, isDigit,
-                                                   isLetter)
-import           Data.Text                        (Text)
+import           Data.Char                        (isAlpha, isAlphaNum, isDigit)
 import qualified Data.Text                        as T
+import           Input
 import           Types.Error
 import           Types.Token
 
-data Input a = Input { input           :: Text
-                     , curPos, peekPos :: Int
-                     , ch              :: Char
-                     , curTok, peekTok :: Token
-                     }
-  deriving (Show)
+runLexer :: Stream a -> String -> IO ((Either Error a), Input)
+runLexer l i = (runStateT . runExceptT) l $ makeInput i
 
-type Lexer a = StateT (Input Token) (Either Error) a
+getTokens :: Stream [Token]
+getTokens = do
+  c <- lift . gets $ curChar
+  case c of
+    '\NUL' -> return []
+    ';' -> (lift . modify $ moveInput) >> getTokens
+    _ -> nextToken >>= \token -> getTokens >>= \tokens -> return (token : tokens)
 
-nextToken :: Lexer ()
+nextToken :: Stream Token
 nextToken = do
   skipWhiteSpaces
-  pt <- gets peekTok
-  newTok <- asum [mkLexerError, readDouble, readSingle, readIdentifier, readNumber, readString]
-  readChar
-  modify (\i -> i {curTok = pt, peekTok = newTok})
-  return ()
+  token <- asum [eofToken, doubleCharToken, singleCharToken, identOrKeywordToken, intToken, stringToken]
+  lift . modify $ moveInput
+  pushToken token
+  return token
 
-getTokens :: Lexer [Token]
-getTokens = do
-  token <- gets curTok
-  case token of
-    EOF     -> return []
-    NOTOKEN -> nextToken >> getTokens
-    tok     -> nextToken >> getTokens >>= \rest -> return $ tok : rest
-
--- lexers for different kinds of lexem
-
--- consume chars with co :: (Char -> Bool) -> Lexer String
-peekWhile :: (Char -> Bool) -> Lexer String
-peekWhile cond = do
-  Input i _ pp _ _ _ <- get
-  case (pp < T.length i) of
-    True -> do
-      let c = T.index i pp
-      case (cond c) of
-        False -> return []
-        True -> do
-          readChar
-          rest <- peekWhile cond
-          return $ c : rest
-    False -> return []
-
-skipWhiteSpaces :: Lexer ()
-skipWhiteSpaces = do
-  c <- gets ch
-  case elem c " \t\r" of
-    True  -> readChar >> skipWhiteSpaces
-    False -> return ()
-
--- single operator
-readSingle :: Lexer Token
-readSingle = do
-  c <- gets ch
-  case elem c "\NUL\n\\=;,(){}[]+-*/<>!:" of
-    False -> mkLexerError
-    True -> case c of
-      '\NUL' -> return EOF
-      '='    -> return ASSIGN
-      '\n'   -> return SEMICOLON
-      ';'    -> return SEMICOLON
-      ':'    -> return COLON
-      ','    -> return COMMA
-      '('    -> return LPAREN
-      ')'    -> return RPAREN
-      '{'    -> return LBRACE
-      '}'    -> return RBRACE
-      '['    -> return LBRACKET
-      ']'    -> return RBRACKET
-      '+'    -> return PLUS
-      '-'    -> return MINUS
-      '!'    -> return NOT
-      '*'    -> return MULT
-      '/'    -> return DIV
-      '>'    -> return GRT
-      '<'    -> return LST
-      _      -> mkLexerError
-
--- double operator
-readDouble :: Lexer Token
-readDouble = do
-  Input i _ pp c _ _ <- get
-  case (pp < T.length i) of
-    True -> case (c, T.index i pp) of
-      ('+', '+') -> readChar >> return CONCAT
-      ('=', '=') -> readChar >> return EQL
-      ('!', '=') -> readChar >> return NOTEQL
-      ('<', '>') -> readChar >> return NOTEQL
-      ('<', '=') -> readChar >> return LSTEQL
-      ('=', '<') -> readChar >> return LSTEQL
-      ('=', '>') -> readChar >> return GRTEQL
-      ('>', '=') -> readChar >> return GRTEQL
-      _          -> mkLexerError
-    False -> mkLexerError
-
--- read number literal
-readNumber :: Lexer Token
-readNumber = do
-  c <- gets ch
-  case isDigit c of
-    True -> do
-      rest <- peekWhile isDigit
-      return $ INT $ c : rest
-    False -> mkLexerError
-
--- read string literal
-readString :: Lexer Token
-readString = do
-  c <- gets ch
+eofToken :: Stream Token
+eofToken = do
+  c <- lift $ gets curChar
   case c of
-    '\"' -> do
-      string <- peekWhile (/= '"')
-      readChar -- we have to skip quote
-      return $ STRING string
-    _ -> mkLexerError
+    '\NUL' -> return EOF
+    _      -> makeLexerError
 
--- read keyword / identifier
-readIdentifier :: Lexer Token
-readIdentifier = do
-  c <- gets ch
-  case isLetter c of
+singleCharToken :: Stream Token
+singleCharToken = do
+  c <- lift . gets $ curChar
+  case c of
+    '-'  -> return MINUS
+    '+'  -> return PLUS
+    '/'  -> return DIV
+    '*'  -> return MULT
+    '('  -> return LPAREN
+    ')'  -> return RPAREN
+    '{'  -> return LBRACE
+    '}'  -> return RBRACE
+    '['  -> return LBRACKET
+    ']'  -> return RBRACKET
+    '\n' -> return SEMICOLON
+    ';'  -> return SEMICOLON
+    '='  -> return ASSIGN
+    '!'  -> return NOT
+    ':'  -> return COLON
+    ','  -> return COMMA
+    '<'  -> return LST
+    '>'  -> return GRT
+    _    -> makeLexerError
+
+doubleCharToken :: Stream Token
+doubleCharToken = do
+  l <- lift . gets $ curLine
+  c <- lift . gets $ curChar
+  pp <- lift . gets $ peekPos
+  case (pp < T.length l) of
+    True -> case (c, T.index l pp) of
+      ('+', '+') -> (lift . modify $ moveInput) >> return CONCAT
+      ('=', '=') -> (lift . modify $ moveInput) >> return EQL
+      ('!', '=') -> (lift . modify $ moveInput) >> return NOTEQL
+      ('<', '>') -> (lift . modify $ moveInput) >> return NOTEQL
+      ('<', '=') -> (lift . modify $ moveInput) >> return LSTEQL
+      ('=', '<') -> (lift . modify $ moveInput) >> return LSTEQL
+      ('=', '>') -> (lift . modify $ moveInput) >> return GRTEQL
+      ('>', '=') -> (lift . modify $ moveInput) >> return GRTEQL
+      _          -> makeLexerError
+    False -> makeLexerError
+
+intToken :: Stream Token
+intToken = do
+  c <- lift . gets $ curChar
+  case isDigit c of
+    True -> peekWhile isDigit >>= \rest -> (checkPeekChar "\n\t\r ;=-*/]})><!") >> (return . INT $ read @Int (c : rest))
+    False -> makeLexerError
+
+stringToken :: Stream Token
+stringToken = do
+  c <- lift . gets $ curChar
+  case c == '"' of
+    True -> do
+      str <- peekWhile (\p -> (p /= '"') && (p /= '\n') && (p /= '\NUL'))
+      lift . modify $ moveInput
+      e <- lift . gets $ curChar
+      if e == '"' then return (STRING str) else makeLexerError
+    False -> makeLexerError
+
+identOrKeywordToken :: Stream Token
+identOrKeywordToken = do
+  c <- lift . gets $ curChar
+  case isAlpha c of
     True -> do
       rest <- peekWhile isAlphaNum
-      let var = c : rest
-      case lookup var keywords of
-        Just token -> return token
-        Nothing    -> return $ ID var
-    False -> mkLexerError
+      let identifier = c : rest
+      case lookup identifier keywords of
+        (Just keyword) -> return keyword
+        Nothing        -> return $ ID identifier
+    False -> makeLexerError
 
--- typical lexer error
-mkLexerError :: Lexer Token
-mkLexerError = do
-  Input _ cp _ c _ _ <- get
-  lift $ Left $ LexerError $ "wrong character at position " <> show (cp + 1) <> ": '" <> [c] <> "'"
+skipWhiteSpaces :: Stream ()
+skipWhiteSpaces = do
+  c <- lift . gets $ curChar
+  case elem c " \n\t\r" of
+    True  -> (lift . modify $ moveInput) >> skipWhiteSpaces
+    False -> return ()
 
--- return keyword or identifier
-lookUpIdent :: String -> Token
-lookUpIdent ident = case lookup ident keywords of
-  Just k  -> k
-  Nothing -> ID ident
+-- consume input until condition holds
+peekWhile :: (Char -> Bool) -> Stream String
+peekWhile cond = do
+  pp <- lift . gets $ peekPos
+  l <- lift . gets $ curLine
+  case (pp < T.length l) of
+    True -> do
+      let c = T.index l pp
+      case cond c of
+        True -> (lift . modify $ moveInput) >> peekWhile cond >>= \rest -> return (c : rest)
+        False -> return []
+    False -> return []
 
--- get next char from input
-readChar :: StateT (Input Token) (Either Error) ()
-readChar = do
-  Input i _ pp _ _ _ <- get
-  modify (\input -> input {ch = if (T.length i) <= pp then '\NUL' else T.index i pp, curPos = pp, peekPos = pp + 1})
-  return ()
+-- check if peekPos has on of chatacters
+checkPeekChar :: String -> Stream ()
+checkPeekChar pattern = do
+  pp <- lift . gets $ peekPos
+  l <- lift . gets $ curLine
+  case (pp < T.length l) of
+    True ->
+      if (elem (T.index l pp) pattern)
+        then return ()
+        else
+          (lift . modify $ moveInput) >> do
+            c <- lift . gets $ curChar
+            l' <- lift . gets $ line
+            p <- lift . gets $ curPos
+            ExceptT . return . Left . LexerError (l', p) $ "unexpected character: '" <> [c] <> ";"
+    False -> return ()
 
--- create input from String
-mkInput :: String -> Input Token
-mkInput ""  = Input (T.pack "") 0 1 '\NUL' EOF EOF
-mkInput str = Input (T.pack str) 0 1 (head str) NOTOKEN NOTOKEN
+makeLexerError :: Stream Token
+makeLexerError = do
+  c <- lift . gets $ curChar
+  l <- lift . gets $ line
+  p <- lift . gets $ curPos
+  ExceptT . return . Left . LexerError (l, p) $ "unexpected character: '" <> [c] <> ";"
+
+pushToken :: Token -> Stream ()
+pushToken token = lift . modify $ (\s -> s {curToken = peekToken s, peekToken = token})

@@ -23,7 +23,7 @@ data Token -- Keywords
            | RBRACKET
            -- Identifiers
            | ID String
-           | INT String
+           | INT Int
            | STRING String
            -- Unary operators
            | NOT

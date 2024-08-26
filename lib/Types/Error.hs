@@ -1,30 +1,26 @@
 module Types.Error where
 
-import           Control.Applicative
-import           Control.Monad
+type Pos = (Int, Int)
 
 type ErrorMessage = String
 
-data Error = LexerError ErrorMessage
-           | ExpressionError ErrorMessage
-           | StatementError ErrorMessage
-           | EvalError ErrorMessage
-           -- to use for Alternative empty
-           | InternalError
+data Error = InternalError
+           | LexerError Pos ErrorMessage
 
 instance Show Error where
-  show (LexerError msg)      = "Lexer error: " <> msg
-  show (ExpressionError msg) = "Expression parser error: " <> msg
-  show (StatementError msg)  = "Statement parser error: " <> msg
-  show (EvalError msg)       = "Evaluation error: " <> msg
-  show InternalError         = "Internal error"
+  show (LexerError pos err) = "Lexer error at position " <> show pos <> "\n" <> err
+  show InternalError = "Internal error for Monoid instance"
 
-instance Alternative (Either Error) where
-  empty = Left InternalError
-  res@(Right _) <|> _        = res
-  (Left _) <|> res@(Right _) = res
-  err@(Left _) <|> _         = err
+instance Semigroup Error where
+  err1 <> err2 =
+    let (_, c1) = getPos err1
+        (_, c2) = getPos err2
+     in if c2 > c1 then err2 else err1
 
-instance MonadPlus (Either Error) where
-  mzero = empty
-  mplus = (<|>)
+instance Monoid Error where
+  mempty = InternalError
+  mappend = (<>)
+
+getPos :: Error -> Pos
+getPos InternalError    = (0, 0)
+getPos (LexerError p _) = p
