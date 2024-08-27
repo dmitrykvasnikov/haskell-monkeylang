@@ -16,15 +16,16 @@ else
 endif
 badd +10 app/Main.hs
 badd +53 lib/Types/Token.hs
-badd +62 interpreter.cabal
-badd +47 lib/Input.hs
-badd +18 lib/Types/Error.hs
-badd +67 lib/Lexer.hs
+badd +66 interpreter.cabal
+badd +46 lib/Input.hs
+badd +14 lib/Types/Error.hs
+badd +32 lib/Lexer.hs
+badd +29 lib/Repl.hs
 argglobal
 %argdel
 edit lib/Lexer.hs
 argglobal
-balt lib/Types/Token.hs
+balt lib/Input.hs
 setlocal fdm=marker
 setlocal fde=0
 setlocal fmr=/**,**/
@@ -33,12 +34,12 @@ setlocal fdl=0
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-let s:l = 20 - ((19 * winheight(0) + 21) / 42)
+let s:l = 23 - ((20 * winheight(0) + 21) / 42)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 20
-normal! 023|
+keepjumps 23
+normal! 024|
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0
   silent exe 'bwipe ' . s:wipebuf
