@@ -15,19 +15,19 @@ else
   set shortmess=aoO
 endif
 badd +7 app/Main.hs
-badd +86 lib/Types/Token.hs
+badd +102 lib/Types/Token.hs
 badd +60 interpreter.cabal
-badd +47 lib/Input.hs
-badd +17 lib/Types/Error.hs
-badd +35 lib/Lexer.hs
-badd +32 lib/Repl.hs
-badd +116 lib/Parser.hs
-badd +25 lib/Types/Ast.hs
+badd +46 lib/Input.hs
+badd +19 lib/Types/Error.hs
+badd +81 lib/Lexer.hs
+badd +33 lib/Repl.hs
+badd +13 lib/Parser.hs
+badd +23 lib/Types/Ast.hs
 argglobal
 %argdel
-edit lib/Types/Error.hs
+edit lib/Input.hs
 argglobal
-balt lib/Parser.hs
+balt lib/Lexer.hs
 setlocal fdm=marker
 setlocal fde=0
 setlocal fmr=/**,**/
@@ -35,14 +35,13 @@ setlocal fdi=#
 setlocal fdl=0
 setlocal fml=1
 setlocal fdn=20
-setlocal nofen
-let s:l = 1 - ((0 * winheight(0) + 21) / 42)
+setlocal fen
+let s:l = 11 - ((10 * winheight(0) + 21) / 42)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 1
+keepjumps 11
 normal! 0
-lcd ~/code/haskell/interpreter
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0
   silent exe 'bwipe ' . s:wipebuf
@@ -55,6 +54,7 @@ if filereadable(s:sx)
   exe "source " . fnameescape(s:sx)
 endif
 let &g:so = s:so_save | let &g:siso = s:siso_save
+nohlsearch
 let g:this_session = v:this_session
 let g:this_obsession = v:this_session
 doautoall SessionLoadPost

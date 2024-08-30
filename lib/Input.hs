@@ -24,7 +24,7 @@ type Stream a = ExceptT Error (StateT Input IO) a
 
 makeInput :: String -> Input
 makeInput str =
-  let strs = map (T.pack) . lines $ str
+  let strs = map (flip T.append (T.pack ";") . T.pack) . lines $ str
    in Input
         { input = if str == "" then [] else strs,
           curInput = if str == "" then T.pack "" else head strs,

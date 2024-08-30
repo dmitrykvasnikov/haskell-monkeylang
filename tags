@@ -190,6 +190,9 @@
 8	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.12.depends
 9	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	array:install-plan
 ASSIGN	lib/Types/Token.hs	/^           | ASSIGN$/;"	c
+BinOpE	lib/Types/Ast.hs	/^                | BinOpE Token Expression Expression$/;"	c
+BlockE	lib/Types/Ast.hs	/^                | BlockE [Expression]$/;"	c
+BoolE	lib/Types/Ast.hs	/^                | BoolE Bool$/;"	c
 COLON	lib/Types/Token.hs	/^           | COLON$/;"	c
 COMMA	lib/Types/Token.hs	/^           | COMMA$/;"	c
 CONCAT	lib/Types/Token.hs	/^           | CONCAT$/;"	c
@@ -205,6 +208,8 @@ EOF	lib/Types/Token.hs	/^           | EOF$/;"	c
 EQL	lib/Types/Token.hs	/^           | EQL$/;"	c
 Error	lib/Types/Error.hs	/^data Error = InternalError$/;"	t
 ErrorMessage	lib/Types/Error.hs	/^type ErrorMessage = String$/;"	t
+ErrorSource	lib/Types/Error.hs	/^type ErrorSource = String$/;"	t
+Expression	lib/Types/Ast.hs	/^data Expression = IntE Int$/;"	t
 FALSE	lib/Types/Token.hs	/^           | FALSE$/;"	c
 FUNCTION	lib/Types/Token.hs	/^           | FUNCTION$/;"	c
 GRT	lib/Types/Token.hs	/^           | GRT$/;"	c
@@ -214,9 +219,11 @@ ID	lib/Types/Token.hs	/^           | ID String$/;"	c
 IF	lib/Types/Token.hs	/^           | IF$/;"	c
 ILLEGAL	lib/Types/Token.hs	/^           | ILLEGAL$/;"	c
 INT	lib/Types/Token.hs	/^           | INT Int$/;"	c
+IdE	lib/Types/Ast.hs	/^                | IdE String$/;"	c
 Input	lib/Input.hs	/^data Input = Input { input               :: [Text]$/;"	c
 Input	lib/Input.hs	/^data Input = Input { input               :: [Text]$/;"	t
 Input	lib/Input.hs	/^module Input where$/;"	m
+IntE	lib/Types/Ast.hs	/^data Expression = IntE Int$/;"	c
 InternalError	lib/Types/Error.hs	/^data Error = InternalError$/;"	c
 LBRACE	lib/Types/Token.hs	/^           | LBRACE$/;"	c
 LBRACKET	lib/Types/Token.hs	/^           | LBRACKET$/;"	c
@@ -224,8 +231,10 @@ LET	lib/Types/Token.hs	/^           = LET$/;"	c
 LPAREN	lib/Types/Token.hs	/^           | LPAREN$/;"	c
 LST	lib/Types/Token.hs	/^           | LST$/;"	c
 LSTEQL	lib/Types/Token.hs	/^           | LSTEQL$/;"	c
-Lexer	lib/Lexer.hs	/^module Lexer where$/;"	m
-LexerError	lib/Types/Error.hs	/^           | LexerError Pos ErrorMessage$/;"	c
+Length	lib/Types/Error.hs	/^type Length = Int$/;"	t
+LetE	lib/Types/Ast.hs	/^                | LetE Expression Expression$/;"	c
+Lexer	lib/Lexer.hs	/^module Lexer (Token, Input, nextToken, runLexer, getTokens) where$/;"	m
+LexerError	lib/Types/Error.hs	/^           | LexerError Pos ErrorMessage ErrorSource$/;"	c
 Line	lib/Input.hs	/^type Line = Int$/;"	t
 MINUS	lib/Types/Token.hs	/^           | MINUS$/;"	c
 MIN_TOOL_VERSION_gcc	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/cabal_macros.h	/^#define MIN_TOOL_VERSION_gcc(/;"	d
@@ -265,21 +274,29 @@ Main	app/Main.hs	/^module Main where$/;"	m
 NOT	lib/Types/Token.hs	/^           | NOT$/;"	c
 NOTEQL	lib/Types/Token.hs	/^           | NOTEQL$/;"	c
 NOTOKEN	lib/Types/Token.hs	/^           | NOTOKEN$/;"	c
+NullExpression	lib/Types/Ast.hs	/^                | NullExpression$/;"	c
 PLUS	lib/Types/Token.hs	/^           | PLUS$/;"	c
 PackageInfo_interpreter	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/PackageInfo_interpreter.hs	/^module PackageInfo_interpreter ($/;"	m
 PackageInfo_interpreter	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/x/interpreter/build/interpreter/autogen/PackageInfo_interpreter.hs	/^module PackageInfo_interpreter ($/;"	m
+Parser	lib/Parser.hs	/^module Parser where$/;"	m
+Parser	lib/Parser.hs	/^type Parser a = Stream a$/;"	t
+ParserError	lib/Types/Error.hs	/^           | ParserError Pos ErrorMessage ErrorSource$/;"	c
 Paths_interpreter	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/Paths_interpreter.hs	/^module Paths_interpreter ($/;"	m
 Paths_interpreter	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/x/interpreter/build/interpreter/autogen/Paths_interpreter.hs	/^module Paths_interpreter ($/;"	m
 Pos	lib/Types/Error.hs	/^type Pos = (Int, Int)$/;"	t
+Precedence	lib/Parser.hs	/^data Precedence = L | E | LG | S | M | P | C | I deriving (Eq, Ord, Show)$/;"	t
 RBRACE	lib/Types/Token.hs	/^           | RBRACE$/;"	c
 RBRACKET	lib/Types/Token.hs	/^           | RBRACKET$/;"	c
 RETURN	lib/Types/Token.hs	/^           | RETURN$/;"	c
 RPAREN	lib/Types/Token.hs	/^           | RPAREN$/;"	c
+Repl	lib/Repl.hs	/^module Repl where$/;"	m
+ReturnE	lib/Types/Ast.hs	/^                | ReturnE Expression$/;"	c
 Revision history for interpreter	CHANGELOG.md	/^# Revision history for interpreter$/;"	c
 SEMICOLON	lib/Types/Token.hs	/^           | SEMICOLON$/;"	c
 STRING	lib/Types/Token.hs	/^           | STRING String$/;"	c
 SessionLoad	Session.vim	/^let SessionLoad = 1$/;"	v
 Stream	lib/Input.hs	/^type Stream a = ExceptT Error (StateT Input IO) a$/;"	t
+StringE	lib/Types/Ast.hs	/^                | StringE String$/;"	c
 THEN	lib/Types/Token.hs	/^           | THEN$/;"	c
 TOOL_VERSION_gcc	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/cabal_macros.h	/^#define TOOL_VERSION_gcc /;"	d
 TOOL_VERSION_gcc	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/x/interpreter/build/interpreter/autogen/cabal_macros.h	/^#define TOOL_VERSION_gcc /;"	d
@@ -303,8 +320,10 @@ TOOL_VERSION_strip	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0
 TOOL_VERSION_strip	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/x/interpreter/build/interpreter/autogen/cabal_macros.h	/^#define TOOL_VERSION_strip /;"	d
 TRUE	lib/Types/Token.hs	/^           | TRUE$/;"	c
 Token	lib/Types/Token.hs	/^data Token -- Keywords$/;"	t
+Types	lib/Types/Ast.hs	/^module Types.Ast where$/;"	m
 Types	lib/Types/Error.hs	/^module Types.Error where$/;"	m
 Types	lib/Types/Token.hs	/^module Types.Token where$/;"	m
+UnOpE	lib/Types/Ast.hs	/^                | UnOpE Token Expression$/;"	c
 VERSION_base	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/cabal_macros.h	/^#define VERSION_base /;"	d
 VERSION_base	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/x/interpreter/build/interpreter/autogen/cabal_macros.h	/^#define VERSION_base /;"	d
 VERSION_containers	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/cabal_macros.h	/^#define VERSION_containers /;"	d
@@ -346,7 +365,8 @@ component-name	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","caba
 copyright	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/PackageInfo_interpreter.hs	/^copyright = ""$/;"	f
 copyright	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/x/interpreter/build/interpreter/autogen/PackageInfo_interpreter.hs	/^copyright = ""$/;"	f
 curChar	lib/Input.hs	/^                   , curChar             :: Char$/;"	f
-curLine	lib/Input.hs	/^                   , curLine             :: Text$/;"	f
+curInput	lib/Input.hs	/^                   , curInput            :: Text$/;"	f
+curLine	lib/Input.hs	/^                   , curLine             :: Line$/;"	f
 curPos	lib/Input.hs	/^                   , curPos, peekPos     :: Col$/;"	f
 curToken	lib/Input.hs	/^                   , curToken, peekToken :: Token$/;"	f
 datadir	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/Paths_interpreter.hs	/^datadir    = "\/home\/dmitry\/.cabal\/share\/x86_64-linux-ghc-9.10.1-7767\/interpreter-0.1.0.0"$/;"	f
@@ -389,7 +409,6 @@ dist-dir	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-
 doubleCharToken	lib/Lexer.hs	/^doubleCharToken = do$/;"	f
 dynlibdir	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/Paths_interpreter.hs	/^dynlibdir  = "\/home\/dmitry\/.cabal\/lib\/x86_64-linux-ghc-9.10.1-7767"$/;"	f
 dynlibdir	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/x/interpreter/build/interpreter/autogen/Paths_interpreter.hs	/^dynlibdir  = "\/home\/dmitry\/.cabal\/lib\/x86_64-linux-ghc-9.10.1-7767"$/;"	f
-eofToken	lib/Lexer.hs	/^eofToken = do$/;"	f
 exe-depends	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	a	object:install-plan.12
 exe-depends	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	a	object:install-plan.13
 exe-depends	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	a	object:install-plan.14
@@ -411,18 +430,23 @@ getBinDir	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/
 getBinDir	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/Paths_interpreter.hs	/^getBinDir, getLibDir, getDynLibDir, getDataDir, getLibexecDir, getSysconfDir :: IO FilePath$/;"	f
 getBinDir	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/x/interpreter/build/interpreter/autogen/Paths_interpreter.hs	/^getBinDir     = catchIO (getEnv "interpreter_bindir")     (\\_ -> return bindir)$/;"	f
 getBinDir	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/x/interpreter/build/interpreter/autogen/Paths_interpreter.hs	/^getBinDir, getLibDir, getDynLibDir, getDataDir, getLibexecDir, getSysconfDir :: IO FilePath$/;"	f
+getCurrentToken	lib/Parser.hs	/^getCurrentToken = lift . gets $ curToken$/;"	f
 getDataDir	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/Paths_interpreter.hs	/^getDataDir    = catchIO (getEnv "interpreter_datadir")    (\\_ -> return datadir)$/;"	f
 getDataDir	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/x/interpreter/build/interpreter/autogen/Paths_interpreter.hs	/^getDataDir    = catchIO (getEnv "interpreter_datadir")    (\\_ -> return datadir)$/;"	f
 getDataFileName	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/Paths_interpreter.hs	/^getDataFileName name = do$/;"	f
 getDataFileName	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/x/interpreter/build/interpreter/autogen/Paths_interpreter.hs	/^getDataFileName name = do$/;"	f
 getDynLibDir	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/Paths_interpreter.hs	/^getDynLibDir  = catchIO (getEnv "interpreter_dynlibdir")  (\\_ -> return dynlibdir)$/;"	f
 getDynLibDir	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/x/interpreter/build/interpreter/autogen/Paths_interpreter.hs	/^getDynLibDir  = catchIO (getEnv "interpreter_dynlibdir")  (\\_ -> return dynlibdir)$/;"	f
+getInfixOp	lib/Parser.hs	/^getInfixOp = \\case$/;"	f
 getLibDir	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/Paths_interpreter.hs	/^getLibDir     = catchIO (getEnv "interpreter_libdir")     (\\_ -> return libdir)$/;"	f
 getLibDir	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/x/interpreter/build/interpreter/autogen/Paths_interpreter.hs	/^getLibDir     = catchIO (getEnv "interpreter_libdir")     (\\_ -> return libdir)$/;"	f
 getLibexecDir	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/Paths_interpreter.hs	/^getLibexecDir = catchIO (getEnv "interpreter_libexecdir") (\\_ -> return libexecdir)$/;"	f
 getLibexecDir	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/x/interpreter/build/interpreter/autogen/Paths_interpreter.hs	/^getLibexecDir = catchIO (getEnv "interpreter_libexecdir") (\\_ -> return libexecdir)$/;"	f
-getPos	lib/Types/Error.hs	/^getPos (LexerError p _) = p$/;"	f
-getPos	lib/Types/Error.hs	/^getPos InternalError    = (0, 0)$/;"	f
+getPos	lib/Types/Error.hs	/^getPos (LexerError (l, c) _ _)  = (l, c)$/;"	f
+getPos	lib/Types/Error.hs	/^getPos (ParserError (l, c) _ _) = (l, c)$/;"	f
+getPos	lib/Types/Error.hs	/^getPos InternalError            = (0, 0)$/;"	f
+getPrecedence	lib/Parser.hs	/^getPrecedence token = maybe L id (lookup token precedences)$/;"	f
+getPrefixOp	lib/Parser.hs	/^getPrefixOp = \\case$/;"	f
 getSysconfDir	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/Paths_interpreter.hs	/^getSysconfDir = catchIO (getEnv "interpreter_sysconfdir") (\\_ -> return sysconfdir)$/;"	f
 getSysconfDir	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/x/interpreter/build/interpreter/autogen/Paths_interpreter.hs	/^getSysconfDir = catchIO (getEnv "interpreter_sysconfdir") (\\_ -> return sysconfdir)$/;"	f
 getTokens	lib/Lexer.hs	/^getTokens = do$/;"	f
@@ -457,7 +481,7 @@ id	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-versio
 id	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.8
 id	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.9
 id	dist-newstyle/packagedb/ghc-9.10.1/interpreter-0.1.0.0-inplace.conf	/^id:                   interpreter-0.1.0.0-inplace$/;"	k
-identOrKeywordToken	lib/Lexer.hs	/^identOrKeywordToken = do$/;"	f
+idOrKeywordToken	lib/Lexer.hs	/^idOrKeywordToken = do$/;"	f
 input	lib/Input.hs	/^data Input = Input { input               :: [Text]$/;"	f
 install-plan	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	a
 intToken	lib/Lexer.hs	/^intToken = do$/;"	f
@@ -480,19 +504,31 @@ libexecdir	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build
 libexecdir	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/x/interpreter/build/interpreter/autogen/Paths_interpreter.hs	/^libexecdir = "\/home\/dmitry\/.cabal\/libexec\/x86_64-linux-ghc-9.10.1-7767\/interpreter-0.1.0.0/;"	f
 libraries	dist-newstyle/packagedb/ghc-9.10.1/interpreter-0.1.0.0-inplace.conf	/^hs-libraries:         HSinterpreter-0.1.0.0-inplace$/;"	k
 license	dist-newstyle/packagedb/ghc-9.10.1/interpreter-0.1.0.0-inplace.conf	/^license:              MIT$/;"	k
-line	lib/Input.hs	/^                   , line                :: Line$/;"	f
-main	app/Main.hs	/^main = do$/;"	f
+main	app/Main.hs	/^main = repl$/;"	f
 maintainer	dist-newstyle/packagedb/ghc-9.10.1/interpreter-0.1.0.0-inplace.conf	/^maintainer:           dmitry.kvasnikov@gmail.com$/;"	k
-makeErrorMessage	lib/Input.hs	/^makeErrorMessage i l c len =$/;"	f
 makeInput	lib/Input.hs	/^makeInput str =$/;"	f
-makeLexerError	lib/Lexer.hs	/^makeLexerError = do$/;"	f
-modules	dist-newstyle/packagedb/ghc-9.10.1/interpreter-0.1.0.0-inplace.conf	/^exposed-modules:      Input Lexer Types.Error Types.Token$/;"	k
+makeLexerError	lib/Lexer.hs	/^makeLexerError mpos merr = do$/;"	f
+makeParseError	lib/Parser.hs	/^makeParseError err =$/;"	f
+modules	dist-newstyle/packagedb/ghc-9.10.1/interpreter-0.1.0.0-inplace.conf	/^exposed-modules:$/;"	k
 moveInput	lib/Input.hs	/^moveInput i =$/;"	f
+movePeekToken	lib/Parser.hs	/^movePeekToken tokens = do$/;"	f
 name	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/PackageInfo_interpreter.hs	/^name = "interpreter"$/;"	f
 name	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/x/interpreter/build/interpreter/autogen/PackageInfo_interpreter.hs	/^name = "interpreter"$/;"	f
 name	dist-newstyle/packagedb/ghc-9.10.1/interpreter-0.1.0.0-inplace.conf	/^name:                 interpreter$/;"	k
 nextToken	lib/Lexer.hs	/^nextToken = do$/;"	f
 os	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s
+parseBoolExpression	lib/Parser.hs	/^parseBoolExpression =$/;"	f
+parseExpression	lib/Parser.hs	/^parseExpression pr = do$/;"	f
+parseExpressions	lib/Parser.hs	/^parseExpressions end = do$/;"	f
+parseIdExpression	lib/Parser.hs	/^parseIdExpression = getCurrentToken >>= \\(ID i) -> return (IdE i)$/;"	f
+parseInfixExpression	lib/Parser.hs	/^parseInfixExpression left = getCurrentToken >>= \\op -> nextToken >> parseExpression (getPrecede/;"	f
+parseIntExpression	lib/Parser.hs	/^parseIntExpression = getCurrentToken >>= \\(INT n) -> return (IntE n)$/;"	f
+parseIntExpression	lib/Parser.hs	/^parseIntExpression, parseStringExpression, parseBoolExpression, parseIdExpression, parsePrefixEx/;"	f
+parseLetExpression	lib/Parser.hs	/^parseLetExpression = nextToken >> parseExpression L >>= \\right -> movePeekToken [ASSIGN] >> nex/;"	f
+parsePrefixExpression	lib/Parser.hs	/^parsePrefixExpression = getCurrentToken >>= \\op -> nextToken >> parseExpression L >>= \\expr ->/;"	f
+parseProgram	lib/Parser.hs	/^parseProgram = parseExpressions EOF >>= \\exprs -> return $ BlockE exprs$/;"	f
+parseReturnExpression	lib/Parser.hs	/^parseReturnExpression = nextToken >> parseExpression L >>= \\expr -> return $ ReturnE expr$/;"	f
+parseStringExpression	lib/Parser.hs	/^parseStringExpression = getCurrentToken >>= \\(STRING s) -> return (StringE s)$/;"	f
 path	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.13.pkg-src
 path	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.14.pkg-src
 pathSeparator	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/Paths_interpreter.hs	/^pathSeparator = '\/'$/;"	f
@@ -571,15 +607,24 @@ pkg-version	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-l
 pkg-version	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.7
 pkg-version	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.8
 pkg-version	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.9
+precedences	lib/Parser.hs	/^precedences =$/;"	f
+printError	lib/Repl.hs	/^printError (LexerError (l, c) msg src) = do$/;"	f
+printError	lib/Repl.hs	/^printError (ParserError (l, c) msg src) = do$/;"	f
+printError	lib/Repl.hs	/^printError InternalError = putStrLn $ color Yellow "Internal error"$/;"	f
+prompt	lib/Repl.hs	/^prompt = ">>>> "$/;"	f
 pushToken	lib/Lexer.hs	/^pushToken token = lift . modify $ (\\s -> s {curToken = peekToken s, peekToken = token})$/;"	f
 random-initial-seed	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	b	object:install-plan.12.flags
+repl	lib/Repl.hs	/^repl = do$/;"	f
+replExpressions	lib/Repl.hs	/^replExpressions = do$/;"	f
+replTokens	lib/Repl.hs	/^replTokens = do$/;"	f
 repo	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	object:install-plan.12.pkg-src
 repo	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	object:install-plan.18.pkg-src
 repo	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	object:install-plan.19.pkg-src
 repo	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	object:install-plan.21.pkg-src
 repo	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	object:install-plan.26.pkg-src
 runLexer	lib/Lexer.hs	/^runLexer l i = (runStateT . runExceptT) l $ makeInput i$/;"	f
-s:l	Session.vim	/^let s:l = 20 - ((19 * winheight(0) + 21) \/ 42)$/;"	v
+runParser	lib/Parser.hs	/^runParser l i = (runStateT . runExceptT) l $ makeInput i$/;"	f
+s:l	Session.vim	/^let s:l = 82 - ((19 * winheight(0) + 21) \/ 42)$/;"	v
 s:shortmess_save	Session.vim	/^let s:shortmess_save = &shortmess$/;"	v
 s:so_save	Session.vim	/^let s:so_save = &g:so | let s:siso_save = &g:siso | setg so=0 siso=0 | setl so=-1 siso=-1$/;"	v
 s:sx	Session.vim	/^let s:sx = expand("<sfile>:p:r")."x.vim"$/;"	v

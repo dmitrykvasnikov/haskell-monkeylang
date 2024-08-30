@@ -37,79 +37,58 @@ runParser :: Parser a -> String -> IO ((Either Error a), Input)
 runParser l i = (runStateT . runExceptT) l $ makeInput i
 
 -- parseProgram takes end token, because it's used both for whole program and block statements evaluation
-parseProgram :: Parser Expression
-parseProgram = parseExpressions EOF >>= \exprs -> return $ BlockE exprs
-
-parseExpressions :: Token -> Parser [Expression]
-parseExpressions end = do
-  token <- lift . gets $ curToken
-  let action
-        | token == NOTOKEN = nextToken >> parseExpressions end
-        | token == end = return []
-        | token == SEMICOLON = nextToken >> parseExpressions end
-        | token == EOF =
-            (lift . gets $ curPos) >>= \c ->
-              (lift . gets $ curLine) >>= \l ->
-                (lift . gets $ curInput) >>= \src -> throwE . ParserError (c, l) "unexpected end of stream" $ (T.unpack src)
-        | otherwise = parseExpression L >>= \expr -> checkPeekToken [SEMICOLON, end] >> nextToken >> parseExpressions end >>= \exprs -> return $ expr : exprs
-  action
-
-parseExpression :: Precedence -> Parser Expression
-parseExpression pr = do
-  prefix <- getPrefixOp =<< (lift . gets $ curToken)
-  expr <- prefix
-  return expr
-
 -- parsers for Tokens
-parseIntExpression, parseStringExpression, parseBoolExpression, parseIdExpression, parsePrefixExpression, parseReturnExpression, parseLetExpression :: Parser Expression
-parseIntExpression = getCurrentToken >>= \(INT n) -> return (IntE n)
-parseStringExpression = getCurrentToken >>= \(STRING s) -> return (StringE s)
-parseIdExpression = getCurrentToken >>= \(ID i) -> return (IdE i)
-parseBoolExpression =
-  getCurrentToken >>= \case
-    TRUE  -> return (BoolE True)
-    FALSE -> return (BoolE False)
-parsePrefixExpression = do
-  op <- getCurrentToken
-  nextToken
-  expr <- parseExpression L
-  return $ UnOp op expr
-parseReturnExpression = nextToken >> parseExpression L >>= \expr -> return $ ReturnE expr
-parseLetExpression = nextToken >> parseExpression L >>= \right -> movePeekToken ASSIGN >> nextToken >> parseExpression L >>= \left -> return $ LetE left right
 
-getCurrentToken :: Parser Token
-getCurrentToken = lift . gets $ curToken
+-- parseListExpression takes end Token, separator Token and parser
 
 -- helpers for prefix / infix operations
-getPrefixOp :: Token -> Parser (Parser Expression)
-getPrefixOp = \case
-  (INT _) -> return parseIntExpression
-  (STRING _) -> return parseStringExpression
-  (ID _) -> return parseIdExpression
-  TRUE -> return parseBoolExpression
-  FALSE -> return parseBoolExpression
-  NOT -> return parsePrefixExpression
-  MINUS -> return parsePrefixExpression
-  RETURN -> return parseReturnExpression
-  LET -> return parseLetExpression
-  token -> return $ makeParseError $ "no prefix operation found for token '" <> show token <> "'"
+-- getPrefixOp :: Token -> Parser (Parser Expression)
+-- getPrefixOp = \case
+--   (INT _) -> return parseIntExpression
+--   (STRING _) -> return parseStringExpression
+--   (ID _) -> return parseIdExpression
+--   TRUE -> return parseBoolExpression
+--   FALSE -> return parseBoolExpression
+--   NOT -> return parsePrefixExpression
+--   MINUS -> return parsePrefixExpression
+--   RETURN -> return parseReturnExpression
+--   LET -> return parseLetExpression
+--   IF -> return parseIfExpression
+--   token -> return $ makeParseError $ "no prefix operation found for token '" <> show token <> "'"
 
--- check for peekToken and move it to current position if it's equal to argument
-movePeekToken :: Token -> Parser Expression
-movePeekToken token = do
-  pToken <- lift . gets $ peekToken
-  case pToken == token of
-    True -> nextToken >> return NullExpression
-    False -> nextToken >> (makeParseError $ "unexpected token: got '" <> show pToken <> "', expected '" <> show token <> "'")
+-- getInfixOp :: Token -> Maybe (Expression -> Parser Expression)
+-- getInfixOp = \case
+--   PLUS   -> Just parseInfixExpression
+--   MINUS  -> Just parseInfixExpression
+--   MULT   -> Just parseInfixExpression
+--   DIV    -> Just parseInfixExpression
+--   GRT    -> Just parseInfixExpression
+--   LST    -> Just parseInfixExpression
+--   GRTEQL -> Just parseInfixExpression
+--   LSTEQL -> Just parseInfixExpression
+--   EQL    -> Just parseInfixExpression
+--   NOTEQL -> Just parseInfixExpression
+--   CONCAT -> Just parseInfixExpression
+--   _      -> Nothing
 
-checkPeekToken :: [Token] -> Parser Expression
-checkPeekToken tokens = do
-  pToken <- lift . gets $ peekToken
-  case elem pToken tokens of
-    True -> return NullExpression
-    False -> nextToken >> (makeParseError $ "unexpected token: got '" <> show pToken <> "', expected '" <> foldl1 (\s t -> s <> "', '" <> t) (map show tokens) <> "'")
+-- helpers
+-- check for peekTocken and move it to current position if it's equal to argument
 
-makeParseError :: String -> Parser Expression
+getCurrentToken, getPeekToken :: Parser Token
+getCurrentToken = lift . gets $ curToken
+getPeekToken = lift . gets $ peekToken
+
+getPrecedence :: Token -> Precedence
+getPrecedence token = maybe L id (lookup token precedences)
+
+-- movePeekToken :: [Token] -> Parser Statement
+-- movePeekToken tokens = do
+--   pToken <- getPeekToken
+--   case elem pToken tokens of
+--     True -> nextToken
+--     False -> nextToken >> (makeParseError $ "unexpected token: got '" <> show pToken <> "', expected '" <> foldl1 (\s t -> s <> "', '" <> t) (map show tokens) <> "'")
+
+makeParseError :: String -> Parser Statement
 makeParseError err =
   (lift . gets $ curPos) >>= \c ->
     (lift . gets $ curLine) >>= \l ->

@@ -2,24 +2,22 @@ module Types.Ast where
 
 import           Types.Token
 
-data Expression = IntE Int
-                | BoolE Bool
-                | StringE String
-                | IdE String
-                | ReturnE Expression
-                | LetE Expression Expression
-                | BlockE [Expression]
-                | UnOp Token Expression
-                -- for internal purpose only - to clean code
-                | NullExpression
+data Expr = IntE Int
+          | BoolE Bool
+          | StringE String
+          | IdE String
 
-instance Show Expression where
-  show (IntE n) = show n
-  show (BoolE b) = if b then "True" else "False"
+data Statement = ExprS Expr
+               | LetS Expr Expr
+               | ReturnS Expr
+
+instance Show Expr where
+  show (IntE n)    = show n
   show (StringE s) = show s
-  show (IdE i) = i
-  show (ReturnE e) = "return " <> show e
-  show (LetE i e) = "let " <> show i <> " = " <> show e
-  show (BlockE es) = "{" <> concat (map (\e -> (show e) <> ";\n") es) <> "}"
-  show (NullExpression) = "You should not use this constructor in production"
-  show (UnOp op e) = show op <> " " <> show e
+  show (BoolE b)   = if b then "True" else "False"
+  show (IdE i)     = i
+
+instance Show Statement where
+  show (ExprS e)   = show e
+  show (ReturnS e) = "return " <> show e
+  show (LetS i e)  = "let " <> show i <> " = " <> show e

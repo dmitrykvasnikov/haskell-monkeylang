@@ -25,7 +25,11 @@ getTokens = do
 
 nextToken :: Stream ()
 nextToken = do
-  skipWhiteSpaces
+  traceShow "here" skipWhiteSpaces
+  pp <- lift . gets $ peekPos
+  cc <- lift . gets $ curChar
+  l <- lift . gets $ curInput
+  if (pp < T.length l) then (traceShow (show (cc, T.index l pp)) return ()) else return ()
   token <- asum [doubleCharToken, singleCharToken, intToken, idOrKeywordToken, stringToken]
   lift . modify $ moveInput
   pushToken token
@@ -47,7 +51,7 @@ singleCharToken = do
     '}'    -> return RBRACE
     '['    -> return LBRACKET
     ']'    -> return RBRACKET
-    '\n'   -> return SEMICOLON
+    -- '\n'   -> return SEMICOLON
     ';'    -> return SEMICOLON
     '='    -> return ASSIGN
     '!'    -> return NOT
@@ -62,6 +66,8 @@ doubleCharToken = do
   l <- lift . gets $ curInput
   c <- lift . gets $ curChar
   pp <- lift . gets $ peekPos
+  let pc = T.index l pp
+  let ff = traceShow (show (c, pc)) 1
   case (pp < T.length l) of
     True -> case (c, T.index l pp) of
       ('+', '+') -> (lift . modify $ moveInput) >> return CONCAT
@@ -72,6 +78,7 @@ doubleCharToken = do
       ('=', '<') -> (lift . modify $ moveInput) >> return LSTEQL
       ('=', '>') -> (lift . modify $ moveInput) >> return GRTEQL
       ('>', '=') -> (lift . modify $ moveInput) >> return GRTEQL
+      (';', ';') -> (lift . modify $ moveInput) >> doubleCharToken
       _          -> makeLexerError Nothing Nothing
     False -> makeLexerError Nothing Nothing
 
@@ -95,7 +102,7 @@ stringToken = do
       if c == '"'
         then (checkPeekChar "\n\t\r ;=-+*/]})><!") >> return (STRING str)
         else makeLexerError (Just (l, p)) (Just "String literal must end with quote '\"'")
-    False -> traceShow "sting srr" $ makeLexerError Nothing Nothing
+    False -> makeLexerError Nothing Nothing
 
 idOrKeywordToken :: Stream Token
 idOrKeywordToken = do
