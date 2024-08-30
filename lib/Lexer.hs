@@ -25,7 +25,7 @@ getTokens = do
 nextToken :: Stream ()
 nextToken = do
   skipWhiteSpaces
-  token <- asum [doubleCharToken, singleCharToken, intToken, stringToken, identOrKeywordToken]
+  token <- asum [doubleCharToken, singleCharToken, intToken, identOrKeywordToken, stringToken]
   lift . modify $ moveInput
   pushToken token
 
@@ -88,7 +88,7 @@ stringToken = do
   c <- lift . gets $ curChar
   case c == '"' of
     True -> do
-      str <- peekWhile (\s -> s /= '"' && s /= '\n')
+      str <- peekWhile (not . flip elem "\"\n")
       lift . modify $ moveInput
       c' <- lift . gets $ curChar
       if c' == '"'
@@ -129,7 +129,7 @@ makeLexerError :: (Maybe (Int, Int)) -> Maybe String -> Stream Token
 makeLexerError mpos merr = do
   c <- lift . gets $ curChar
   p <- lift . gets $ pos
-  s <- lift . gets $ getCurrentLine
+  s <- lift . gets $ currentLine
   throwE . LexerError (fromJust (mpos <|> Just p)) (fromJust (merr <|> (Just $ "unexpected character: '" <> [c] <> "'"))) $ s
 
 pushToken :: Token -> Stream ()

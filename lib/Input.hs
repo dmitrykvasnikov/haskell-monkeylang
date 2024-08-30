@@ -44,13 +44,13 @@ moveInput i =
     True -> case curChar i of
       '\n' -> i {curChar = T.index (input i) (peekPos i), curPos = 1 + curPos i, peekPos = 1 + peekPos i, pos = newline (pos i), curLinePos = peekPos i}
       _ -> i {curChar = T.index (input i) (peekPos i), curPos = 1 + curPos i, peekPos = 1 + peekPos i, pos = move (pos i)}
-    False -> i {curChar = '\NUL', curPos = 1 + curPos i, peekPos = 1 + peekPos i, pos = move (pos i)}
+    False -> i {curChar = '\NUL'}
   where
     move (x, y) = (x, y + 1)
     newline (x, _) = (x + 1, 1)
 
-getCurrentLine :: Input -> String
-getCurrentLine i =
+currentLine :: Input -> String
+currentLine i =
   let src = input i
       start = T.drop (curLinePos i) src
    in T.unpack . T.takeWhile (/= '\n') $ start
