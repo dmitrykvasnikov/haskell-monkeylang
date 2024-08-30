@@ -11,37 +11,46 @@ type Line = Int
 
 type Col = Int
 
-data Input = Input { input               :: [Text]
-                   , curInput            :: Text
-                   , curLine             :: Line
+data Input = Input { input               :: Text
                    , curPos, peekPos     :: Col
                    , curChar             :: Char
+                   , pos                 :: (Line, Col)
+                   , curLinePos          :: Col
                    , curToken, peekToken :: Token
                    }
   deriving (Show)
 
 type Stream a = ExceptT Error (StateT Input IO) a
 
+todo :: a
+todo = undefined
+
 makeInput :: String -> Input
 makeInput str =
-  let strs = map (flip T.append (T.pack ";") . T.pack) . lines $ str
-   in Input
-        { input = if str == "" then [] else strs,
-          curInput = if str == "" then T.pack "" else head strs,
-          curLine = 1,
-          curPos = 0,
-          peekPos = 1,
-          curChar = if str == "" then '\NUL' else T.head . head $ strs,
-          curToken = if str == "" then EOF else NOTOKEN,
-          peekToken = if str == "" then EOF else NOTOKEN
-        }
+  Input
+    { input = T.pack str,
+      curPos = 0,
+      peekPos = 1,
+      curChar = if length str > 0 then head str else '\NUL',
+      pos = (1, 1),
+      curLinePos = 0,
+      curToken = NOTOKEN,
+      peekToken = NOTOKEN
+    }
 
 moveInput :: Input -> Input
 moveInput i =
-  case (peekPos i) < (T.length $ curInput i) of
-    True -> i {curPos = peekPos i, peekPos = 1 + peekPos i, curChar = T.index (curInput i) (peekPos i)}
-    False -> case curLine i >= length (input i) of
-      True -> i {curChar = '\NUL'}
-      False ->
-        let newCur = (input i) !! (curLine i)
-         in i {curInput = newCur, curPos = 0, peekPos = 1, curChar = T.head newCur, curLine = 1 + curLine i}
+  case (peekPos i) < (T.length $ input i) of
+    True -> case curChar i of
+      '\n' -> i {curChar = T.index (input i) (peekPos i), curPos = 1 + curPos i, peekPos = 1 + peekPos i, pos = newline (pos i), curLinePos = peekPos i}
+      _ -> i {curChar = T.index (input i) (peekPos i), curPos = 1 + curPos i, peekPos = 1 + peekPos i, pos = move (pos i)}
+    False -> i {curChar = '\NUL', curPos = 1 + curPos i, peekPos = 1 + peekPos i, pos = move (pos i)}
+  where
+    move (x, y) = (x, y + 1)
+    newline (x, _) = (x + 1, 1)
+
+getCurrentLine :: Input -> String
+getCurrentLine i =
+  let src = input i
+      start = T.drop (curLinePos i) src
+   in T.unpack . T.takeWhile (/= '\n') $ start

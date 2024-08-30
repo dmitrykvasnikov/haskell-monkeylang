@@ -2,7 +2,7 @@ module Types.Error where
 
 type Pos = (Int, Int)
 
-type Length = Int
+type LinePos = Int
 
 type ErrorMessage = String
 
@@ -10,11 +10,9 @@ type ErrorSource = String
 
 data Error = InternalError
            | LexerError Pos ErrorMessage ErrorSource
-           | ParserError Pos ErrorMessage ErrorSource
 
 instance Show Error where
-  show (LexerError (l, c) msg src) = "Lexer error at line " <> show l <> ", column " <> show c <> "\n" <> msg <> "\nSource line: \n" <> src
-  show (ParserError (l, c) msg src) = "Parser error at line " <> show l <> ", column " <> show c <> "\n" <> msg <> "\nSource line: \n" <> src
+  show (LexerError (l, c) msg src) = "Lexer error at line " <> show l <> ", column " <> show c <> "\n" <> msg <> "\nSource:\n" <> src <> "\n"
   show InternalError = "Internal error for Monoid instance"
 
 instance Semigroup Error where
@@ -30,6 +28,5 @@ instance Monoid Error where
   mappend = (<>)
 
 getPos :: Error -> (Int, Int)
-getPos InternalError            = (0, 0)
-getPos (LexerError (l, c) _ _)  = (l, c)
-getPos (ParserError (l, c) _ _) = (l, c)
+getPos InternalError           = (0, 0)
+getPos (LexerError (l, c) _ _) = (l, c)

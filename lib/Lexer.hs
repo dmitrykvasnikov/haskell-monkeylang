@@ -7,7 +7,6 @@ import           Control.Monad.Trans.State.Strict (gets, modify, runStateT)
 import           Data.Char                        (isAlpha, isAlphaNum, isDigit)
 import           Data.Maybe                       (fromJust)
 import qualified Data.Text                        as T
-import           Debug.Trace
 import           Input
 import           Types.Error
 import           Types.Token
@@ -25,12 +24,8 @@ getTokens = do
 
 nextToken :: Stream ()
 nextToken = do
-  traceShow "here" skipWhiteSpaces
-  pp <- lift . gets $ peekPos
-  cc <- lift . gets $ curChar
-  l <- lift . gets $ curInput
-  if (pp < T.length l) then (traceShow (show (cc, T.index l pp)) return ()) else return ()
-  token <- asum [doubleCharToken, singleCharToken, intToken, idOrKeywordToken, stringToken]
+  skipWhiteSpaces
+  token <- asum [doubleCharToken, singleCharToken, intToken, stringToken, identOrKeywordToken]
   lift . modify $ moveInput
   pushToken token
 
@@ -51,7 +46,7 @@ singleCharToken = do
     '}'    -> return RBRACE
     '['    -> return LBRACKET
     ']'    -> return RBRACKET
-    -- '\n'   -> return SEMICOLON
+    '\n'   -> return SEMICOLON
     ';'    -> return SEMICOLON
     '='    -> return ASSIGN
     '!'    -> return NOT
@@ -63,11 +58,9 @@ singleCharToken = do
 
 doubleCharToken :: Stream Token
 doubleCharToken = do
-  l <- lift . gets $ curInput
-  c <- lift . gets $ curChar
+  l <- lift . gets $ input
   pp <- lift . gets $ peekPos
-  let pc = T.index l pp
-  let ff = traceShow (show (c, pc)) 1
+  c <- lift . gets $ curChar
   case (pp < T.length l) of
     True -> case (c, T.index l pp) of
       ('+', '+') -> (lift . modify $ moveInput) >> return CONCAT
@@ -86,78 +79,58 @@ intToken :: Stream Token
 intToken = do
   c <- lift . gets $ curChar
   case isDigit c of
-    True -> peekWhile isDigit >>= \rest -> (checkPeekChar "\n\t\r ;=-+*/]})><!") >> (return . INT $ read @Int (c : rest))
+    True  -> peekWhile isDigit >>= \rest -> return . INT . read @Int $ c : rest
     False -> makeLexerError Nothing Nothing
 
 stringToken :: Stream Token
 stringToken = do
-  cur <- lift . gets $ curChar
-  case cur == '"' of
+  (l, p) <- lift . gets $ pos
+  c <- lift . gets $ curChar
+  case c == '"' of
     True -> do
-      str <- peekWhile (\p -> (p /= '"') && (p /= '\n') && (p /= '\NUL'))
+      str <- peekWhile (\s -> s /= '"' && s /= '\n')
       lift . modify $ moveInput
-      p <- lift . gets $ curPos
-      l <- lift . gets $ curLine
-      c <- lift . gets $ curChar
-      if c == '"'
-        then (checkPeekChar "\n\t\r ;=-+*/]})><!") >> return (STRING str)
-        else makeLexerError (Just (l, p)) (Just "String literal must end with quote '\"'")
+      c' <- lift . gets $ curChar
+      if c' == '"'
+        then return . STRING $ str
+        else makeLexerError (Just (l, p + 1)) (Just "string literal doesn't have closing quote")
     False -> makeLexerError Nothing Nothing
 
-idOrKeywordToken :: Stream Token
-idOrKeywordToken = do
+identOrKeywordToken :: Stream Token
+identOrKeywordToken = do
   c <- lift . gets $ curChar
   case isAlpha c of
-    True -> do
-      rest <- peekWhile isAlphaNum
-      checkPeekChar "\n\t\r ;=-*+/]})><!"
-      let identifier = c : rest
-      case lookup identifier keywords of
-        (Just keyword) -> return keyword
-        Nothing        -> return $ ID identifier
+    True -> peekWhile isAlphaNum >>= \rest -> return $ maybe (ID $ c : rest) id (lookup (c : rest) keywords)
     False -> makeLexerError Nothing Nothing
 
+-- combine chars while they satisfy predicate
+peekWhile :: (Char -> Bool) -> Stream String
+peekWhile cond = do
+  pp <- lift . gets $ peekPos
+  i <- lift . gets $ input
+  case (pp < T.length i) of
+    True -> do
+      let pc = T.index i pp
+      case cond pc of
+        True -> (lift . modify $ moveInput) >> peekWhile cond >>= \rest -> return $ pc : rest
+        False -> return []
+    False -> return []
+
+-- skips all spaces and tabs before next token
 skipWhiteSpaces :: Stream ()
 skipWhiteSpaces = do
   c <- lift . gets $ curChar
-  case elem c " \n\t\r" of
+  case elem c " \t\r" of
     True  -> (lift . modify $ moveInput) >> skipWhiteSpaces
     False -> return ()
 
 -- consume input until condition holds
-peekWhile :: (Char -> Bool) -> Stream String
-peekWhile cond = do
-  pp <- lift . gets $ peekPos
-  l <- lift . gets $ curInput
-  case (pp < T.length l) of
-    True -> do
-      let c = T.index l pp
-      case cond c of
-        True -> (lift . modify $ moveInput) >> peekWhile cond >>= \rest -> return (c : rest)
-        False -> return []
-    False -> return []
-
--- check if peekPos has one of chatacters
-checkPeekChar :: String -> Stream ()
-checkPeekChar pattern = do
-  pp <- lift . gets $ peekPos
-  src <- lift . gets $ curInput
-  case (pp < T.length src) of
-    True ->
-      if (elem (T.index src pp) pattern)
-        then return ()
-        else do
-          l <- lift . gets $ curLine
-          throwE . LexerError (l, pp) ("unexpected character: '" <> [T.index src pp] <> "'") $ (T.unpack src)
-    False -> return ()
-
 makeLexerError :: (Maybe (Int, Int)) -> Maybe String -> Stream Token
 makeLexerError mpos merr = do
   c <- lift . gets $ curChar
-  l <- lift . gets $ curLine
-  p <- lift . gets $ curPos
-  src <- lift . gets $ curInput
-  throwE $ LexerError (fromJust (mpos <|> Just (l, p))) (fromJust (merr <|> (Just $ "unexpected character: '" <> [c] <> "'"))) (T.unpack src)
+  p <- lift . gets $ pos
+  s <- lift . gets $ getCurrentLine
+  throwE . LexerError (fromJust (mpos <|> Just p)) (fromJust (merr <|> (Just $ "unexpected character: '" <> [c] <> "'"))) $ s
 
 pushToken :: Token -> Stream ()
 pushToken token = lift . modify $ (\s -> s {curToken = peekToken s, peekToken = token})

@@ -40,16 +40,7 @@ printError :: Error -> IO ()
 printError InternalError = putStrLn $ color Yellow "Internal error"
 printError (LexerError (l, c) msg src) = do
   putStrLn (color Yellow "Error")
-  putStrLn $ "Lexer error at line " <> show l <> ", position " <> show (c + 1)
-  putStrLn $ msg <> "\nSource code:"
-  putStrLn $ take c src <> color Red (drop c src)
-  putStrLn ""
-printError (ParserError (l, c) msg src) = do
-  putStrLn (color Yellow "Error")
-  putStrLn $ "Parser error at line " <> show l <> ", position " <> show (c + 1)
-  putStrLn $ msg <> "\nSource code:"
-  putStrLn $ take c src <> color Red (drop c src)
-  putStrLn ""
+  putStrLn $ "Lexer error at line " <> show l <> ", position " <> show c <> "\n" <> msg <> "\nSource code:\n" <> (take (c - 1) src <> color Red (drop (c - 1) src)) <> "\n"
 
 repl :: IO ()
 repl = do

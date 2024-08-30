@@ -88,8 +88,8 @@ getPrecedence token = maybe L id (lookup token precedences)
 --     True -> nextToken
 --     False -> nextToken >> (makeParseError $ "unexpected token: got '" <> show pToken <> "', expected '" <> foldl1 (\s t -> s <> "', '" <> t) (map show tokens) <> "'")
 
-makeParseError :: String -> Parser Statement
-makeParseError err =
-  (lift . gets $ curPos) >>= \c ->
-    (lift . gets $ curLine) >>= \l ->
-      (lift . gets $ curInput) >>= \src -> throwE . ParserError (l, c) err $ (T.unpack src)
+-- makeParseError :: String -> Parser Statement
+-- makeParseError err =
+--   (lift . gets $ curPos) >>= \c ->
+--     (lift . gets $ curLine) >>= \l ->
+--       (lift . gets $ curInput) >>= \src -> throwE . ParserError (l, c) err $ (T.unpack src)
