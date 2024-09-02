@@ -62,10 +62,13 @@ library
     exposed-modules:  Types.Error
                    ,  Types.Token
                    ,  Types.Ast
+                   ,  Types.Object
                    ,  Input
                    ,  Lexer
                    ,  Repl
                    ,  Parser
+                   ,  Eval
+
 
     -- Modules included in this library but not exported.
     -- other-modules:
@@ -81,6 +84,7 @@ library
                  ,    containers
                  ,    unordered-containers
                  ,    pretty-terminal
+                 ,    directory
 
     -- Directories containing source files.
     hs-source-dirs:   lib

@@ -11,10 +11,12 @@ type ErrorSource = String
 data Error = InternalError
            | LexerError Pos ErrorMessage ErrorSource
            | ParserError Pos ErrorMessage ErrorSource
+           | EvalError LinePos LinePos ErrorMessage
 
 instance Show Error where
   show (LexerError (l, c) msg src) = "Lexer error at line " <> show l <> ", column " <> show c <> "\n" <> msg <> "\nSource:\n" <> src <> "\n"
   show (ParserError (l, c) msg src) = "Parser error at line " <> show l <> ", column " <> show c <> "\n" <> msg <> "\nSource:\n" <> src <> "\n"
+  show (EvalError b e msg) = "Evaluation error"
   show InternalError = "Internal error for Monoid instance"
 
 instance Semigroup Error where
@@ -33,3 +35,4 @@ getPos :: Error -> (Int, Int)
 getPos InternalError            = (0, 0)
 getPos (LexerError (l, c) _ _)  = (l, c)
 getPos (ParserError (l, c) _ _) = (l, c)
+getPos (EvalError _ _ _)        = (0, 0)
