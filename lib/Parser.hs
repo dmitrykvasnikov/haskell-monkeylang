@@ -3,6 +3,8 @@ module Parser where
 import           Control.Monad.Trans.Class        (lift)
 import           Control.Monad.Trans.Except       (runExceptT, throwE)
 import           Control.Monad.Trans.State.Strict (gets, runStateT)
+import           Data.Map                         (Map)
+import qualified Data.Map                         as M
 import qualified Data.Text                        as T
 import           Input
 import           Lexer                            (nextToken)
@@ -40,6 +42,7 @@ runParser l i = (runStateT . runExceptT) l $ makeInput i
 parseProgram :: Parser Statement
 parseProgram = gP >>= \p1 -> parseStatements EOF >>= \sts -> gP >>= \p2 -> return . BlockS p1 p2 $ sts
 
+-- parseStatements parses statements separated with semicolon until it reaches end token
 parseStatements :: Token -> Parser [Statement]
 parseStatements end = do
   token <- getCurrentToken
@@ -82,7 +85,7 @@ parseExpresion pr = do
             (Just f) -> nextToken >> f l >>= go
         False -> return l
 
-parseIntE, parseStringE, parseBoolE, parseIdE, parseGroupedE, parsePrefixE, parseIfE :: Parser Expr
+parseIntE, parseStringE, parseBoolE, parseIdE, parseGroupedE, parsePrefixE, parseIfE, parseFunctionE, parseArrayE, parseHashE :: Parser Expr
 parseIntE = checkCurrentToken [(INT 0)] >>= \(INT n) -> return $ IntE n
 parseStringE = checkCurrentToken [(STRING "")] >>= \(STRING s) -> return $ StringE s
 parseBoolE = checkCurrentToken [TRUE, FALSE] >>= \b -> return $ BoolE (b == TRUE)
@@ -95,12 +98,33 @@ parseIfE = do
   if pt == ELSE
     then nextToken >> movePeekToken [LBRACE] >> parseBlockS >>= return . IfE cond th
     else gP >>= \p -> return $ IfE cond th (BlockS p p [])
+parseFunctionE = movePeekToken [LPAREN] >> parseListE RPAREN COMMA parseIdE >>= \args -> movePeekToken [LBRACE] >> parseBlockS >>= return . FnE args
+parseArrayE = parseListE RBRACKET COMMA (parseExpresion L) >>= return . ArrayE
+parseHashE = parseListE RBRACE COMMA parseKeyValue >>= return . HashE . M.fromList . map (\(PairE k v) -> (k, v))
 parsePrefixE = getCurrentToken >>= \op -> nextToken >> (parseExpresion L) >>= return . UnOpE op
 
-parseInfixE :: Expr -> Parser Expr
+parseInfixE, parseCallE, parseIndexE :: Expr -> Parser Expr
 parseInfixE left = getCurrentToken >>= \op -> nextToken >> parseExpresion (getPrecedence op) >>= return . BinOpE op left
+parseCallE f = parseListE RPAREN COMMA (parseExpresion L) >>= return . CallE f
+parseIndexE e = nextToken >> parseExpresion L >>= \i -> movePeekToken [RBRACKET] >> (return $ IndexE e i)
 
--- parseListExpression takes end Token, separator Token and parser
+parseKeyValue :: Parser Expr
+parseKeyValue = parseExpresion L >>= \k -> movePeekToken [COLON] >> nextToken >> parseExpresion L >>= return . PairE k
+
+-- parseListE takes end Token, separator Token and parser
+parseListE :: Token -> Token -> Parser Expr -> Parser [Expr]
+parseListE end sep parser = do
+  pt <- getPeekToken
+  case pt == end of
+    True -> nextToken >> return []
+    False -> nextToken >> parser >>= \token -> go >>= \rest -> return $ token : rest
+  where
+    go :: Parser [Expr]
+    go = do
+      pt <- getPeekToken
+      case pt == end of
+        True -> nextToken >> return []
+        False -> movePeekToken [sep] >> nextToken >> parser >>= \t -> go >>= \ts -> return $ t : ts
 
 -- helpers for prefix / infix operations
 getPrefixOp :: Token -> Parser (Parser Expr)
@@ -111,25 +135,30 @@ getPrefixOp = \case
   TRUE -> return parseBoolE
   FALSE -> return parseBoolE
   LPAREN -> return parseGroupedE
+  LBRACKET -> return parseArrayE
+  LBRACE -> return parseHashE
   NOT -> return parsePrefixE
   MINUS -> return parsePrefixE
   IF -> return parseIfE
+  FUNCTION -> return parseFunctionE
   token -> (lift . gets $ pos) >>= \p -> (lift . gets $ currentLine) >>= \src -> throwE . ParserError p ("no prefix operation found for token '" <> show token <> "'") $ src
 
 getInfixOp :: Token -> Maybe (Expr -> Parser Expr)
 getInfixOp = \case
-  PLUS   -> Just parseInfixE
-  MINUS  -> Just parseInfixE
-  MULT   -> Just parseInfixE
-  DIV    -> Just parseInfixE
-  GRT    -> Just parseInfixE
-  LST    -> Just parseInfixE
-  GRTEQL -> Just parseInfixE
-  LSTEQL -> Just parseInfixE
-  EQL    -> Just parseInfixE
-  NOTEQL -> Just parseInfixE
-  CONCAT -> Just parseInfixE
-  _      -> Nothing
+  PLUS     -> Just parseInfixE
+  MINUS    -> Just parseInfixE
+  MULT     -> Just parseInfixE
+  DIV      -> Just parseInfixE
+  GRT      -> Just parseInfixE
+  LST      -> Just parseInfixE
+  GRTEQL   -> Just parseInfixE
+  LSTEQL   -> Just parseInfixE
+  EQL      -> Just parseInfixE
+  NOTEQL   -> Just parseInfixE
+  CONCAT   -> Just parseInfixE
+  LPAREN   -> Just parseCallE
+  LBRACKET -> Just parseIndexE
+  _        -> Nothing
 
 -- helpers
 -- check for peekTocken and move it to current position if it's equal to argument
