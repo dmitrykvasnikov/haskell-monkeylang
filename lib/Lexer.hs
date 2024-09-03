@@ -1,4 +1,4 @@
-module Lexer (Token, Input, nextToken, runLexer, getTokens) where
+module Lexer where
 
 import           Control.Applicative              (asum, (<|>))
 import           Control.Monad.Trans.Class        (lift)
@@ -7,30 +7,26 @@ import           Control.Monad.Trans.State.Strict (gets, modify, runStateT)
 import           Data.Char                        (isAlpha, isAlphaNum, isDigit)
 import           Data.Maybe                       (fromJust)
 import qualified Data.Text                        as T
+import           Debug.Trace
 import           Input
 import           Types.Error
 import           Types.Token
 
-runLexer :: Stream a -> String -> IO ((Either Error a), Input)
-runLexer l i = (runStateT . runExceptT) l $ makeInput i
+-- runLexer :: Stream a -> String -> IO ((Either Error a), Input)
+-- runLexer l i = (runStateT . runExceptT) l $ makeInput i
 
 getTokens :: Stream [Token]
 getTokens = do
-  token <- lift . gets $ curToken
+  token <- fst <$> (lift . gets $ curToken)
   case token of
     EOF     -> return [EOF]
     NOTOKEN -> nextToken >> getTokens
     _       -> nextToken >> getTokens >>= \tokens -> return (token : tokens)
 
 nextToken :: Stream ()
-nextToken = do
-  skipWhiteSpaces
-  token <- asum [doubleCharToken, singleCharToken, intToken, identOrKeywordToken, stringToken]
-  lift . modify $ moveInput
-  pushToken token
+nextToken = skipWhiteSpaces >> asum [doubleCharToken, singleCharToken, intToken, identOrKeywordToken, stringToken] >>= pushToken >> (lift . modify $ moveInput)
 
 -- return token
-
 singleCharToken :: Stream Token
 singleCharToken = do
   c <- lift . gets $ curChar
@@ -71,6 +67,8 @@ doubleCharToken = do
       ('=', '<') -> (lift . modify $ moveInput) >> return LSTEQL
       ('=', '>') -> (lift . modify $ moveInput) >> return GRTEQL
       ('>', '=') -> (lift . modify $ moveInput) >> return GRTEQL
+      ('&', '&') -> (lift . modify $ moveInput) >> return AND
+      ('|', '|') -> (lift . modify $ moveInput) >> return OR
       (';', ';') -> (lift . modify $ moveInput) >> doubleCharToken
       _          -> makeLexerError Nothing Nothing
     False -> makeLexerError Nothing Nothing
@@ -133,4 +131,4 @@ makeLexerError mpos merr = do
   throwE . LexerError (fromJust (mpos <|> Just p)) (fromJust (merr <|> (Just $ "unexpected character: '" <> [c] <> "'"))) $ s
 
 pushToken :: Token -> Stream ()
-pushToken token = lift . modify $ (\s -> s {curToken = peekToken s, peekToken = token})
+pushToken token = (lift . gets $ curLinePos) >>= \c -> lift . modify $ (\s -> s {curToken = peekToken s, peekToken = (token, c)})

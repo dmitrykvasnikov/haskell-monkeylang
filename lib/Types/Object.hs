@@ -6,7 +6,9 @@ import           Data.Map.Strict                  (Map)
 import qualified Data.Map.Strict                  as M
 import           Types.Error
 
-data ObjectType = INTEGER_OBJ | STRING_OBJ | BOOL_OBJ | NULL_OBJ | ANY_OBJECT
+data ObjectType = INTEGER_OBJ | STRING_OBJ | BOOL_OBJ | NULL_OBJ | ANY_OBJECT deriving
+  ( Ord
+  )
 
 instance Show ObjectType where
   show INTEGER_OBJ = "INT"
@@ -24,6 +26,7 @@ data Value = IntV Int
            | StringV String
            | BoolV Bool
            | NullV
+  deriving (Eq, Ord)
 
 instance Show Value where
   show (IntV i)    = show i
@@ -34,19 +37,10 @@ instance Show Value where
 data Object = Object { oType :: ObjectType
                      , value :: Value
                      }
+  deriving (Eq, Ord)
 
 instance Show Object where
   show (Object t v) = show t <> " :: " <> show v
-
-data Env = Env { isReturn :: Bool
-               , heap     :: Map String Object
-               }
-  deriving (Show)
-
-initialEnv :: Env
-initialEnv = Env False (M.fromList [("PI", Object INTEGER_OBJ (IntV 31415))])
-
-type Program = ExceptT Error (StateT Env IO) Object
 
 -- constants for Eval
 trueConst, falseConst, nullConst :: Object

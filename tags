@@ -86,12 +86,15 @@
 0	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.18.depends
 0	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.19.depends
 0	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.2.depends
-0	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.21.depends
+0	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.20.depends
 0	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.22.depends
 0	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.23.depends
 0	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.24.depends
 0	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.25.depends
 0	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.26.depends
+0	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.27.depends
+0	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.28.depends
+0	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.29.depends
 0	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.3.depends
 0	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.4.depends
 0	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.5.depends
@@ -102,8 +105,7 @@
 0.1.0.0 -- YYYY-mm-dd	CHANGELOG.md	/^## 0.1.0.0 -- YYYY-mm-dd$/;"	s	chapter:Revision history for interpreter
 1	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	array:install-plan
 1	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.1.depends
-1	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.10.depends
-1	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.12.depends
+1	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.11.depends
 1	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.13.depends
 1	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.14.depends
 1	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.15.depends
@@ -112,15 +114,19 @@
 1	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.18.depends
 1	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.19.depends
 1	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.2.depends
-1	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.22.depends
+1	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.20.depends
 1	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.23.depends
 1	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.24.depends
+1	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.25.depends
 1	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.26.depends
+1	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.28.depends
+1	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.29.depends
 1	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.3.depends
 1	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.4.depends
 1	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.5.depends
 1	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.6.depends
 1	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.7.depends
+1	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.8.depends
 10	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	array:install-plan
 11	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	array:install-plan
 12	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	array:install-plan
@@ -132,22 +138,24 @@
 18	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	array:install-plan
 19	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	array:install-plan
 2	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	array:install-plan
-2	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.10.depends
-2	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.12.depends
+2	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.11.depends
 2	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.13.depends
 2	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.14.depends
-2	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.16.depends
+2	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.15.depends
 2	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.17.depends
-2	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.19.depends
+2	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.18.depends
 2	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.2.depends
-2	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.23.depends
+2	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.20.depends
 2	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.24.depends
-2	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.26.depends
+2	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.25.depends
+2	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.28.depends
+2	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.29.depends
 2	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.3.depends
 2	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.4.depends
 2	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.5.depends
 2	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.6.depends
 2	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.7.depends
+2	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.8.depends
 20	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	array:install-plan
 21	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	array:install-plan
 22	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	array:install-plan
@@ -155,44 +163,56 @@
 24	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	array:install-plan
 25	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	array:install-plan
 26	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	array:install-plan
+27	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	array:install-plan
+28	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	array:install-plan
+29	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	array:install-plan
 3	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	array:install-plan
-3	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.12.depends
 3	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.13.depends
 3	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.14.depends
-3	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.16.depends
+3	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.15.depends
+3	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.17.depends
 3	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.2.depends
-3	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.23.depends
 3	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.24.depends
-3	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.26.depends
+3	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.25.depends
+3	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.28.depends
+3	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.29.depends
 3	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.3.depends
 3	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.4.depends
 3	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.6.depends
 3	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.7.depends
+3	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.8.depends
 4	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	array:install-plan
-4	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.12.depends
 4	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.13.depends
-4	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.16.depends
-4	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.24.depends
+4	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.14.depends
+4	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.17.depends
+4	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.25.depends
+4	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.28.depends
 4	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.6.depends
 4	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.7.depends
+4	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.8.depends
 5	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	array:install-plan
-5	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.12.depends
 5	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.13.depends
-5	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.24.depends
-5	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.7.depends
+5	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.14.depends
+5	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.25.depends
+5	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.8.depends
 6	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	array:install-plan
-6	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.12.depends
 6	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.13.depends
-6	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.24.depends
+6	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.14.depends
+6	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.25.depends
 7	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	array:install-plan
-7	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.12.depends
+7	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.13.depends
+7	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.14.depends
 8	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	array:install-plan
-8	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.12.depends
+8	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	array:install-plan.13.depends
 9	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	array:install-plan
+ANY_OBJECT	lib/Types/Object.hs	/^data ObjectType = INTEGER_OBJ | STRING_OBJ | BOOL_OBJ | NULL_OBJ | ANY_OBJECT$/;"	c
 ASSIGN	lib/Types/Token.hs	/^           | ASSIGN$/;"	c
-BinOpE	lib/Types/Ast.hs	/^                | BinOpE Token Expression Expression$/;"	c
-BlockE	lib/Types/Ast.hs	/^                | BlockE [Expression]$/;"	c
-BoolE	lib/Types/Ast.hs	/^                | BoolE Bool$/;"	c
+ArrayE	lib/Types/Ast.hs	/^          | ArrayE [Expr]$/;"	c
+BOOL_OBJ	lib/Types/Object.hs	/^data ObjectType = INTEGER_OBJ | STRING_OBJ | BOOL_OBJ | NULL_OBJ | ANY_OBJECT$/;"	c
+BinOpE	lib/Types/Ast.hs	/^          | BinOpE Token Expr Expr$/;"	c
+BlockS	lib/Types/Ast.hs	/^               | BlockS Pos Pos [Statement]$/;"	c
+BoolE	lib/Types/Ast.hs	/^          | BoolE Bool$/;"	c
+BoolV	lib/Types/Object.hs	/^           | BoolV Bool$/;"	c
 COLON	lib/Types/Token.hs	/^           | COLON$/;"	c
 COMMA	lib/Types/Token.hs	/^           | COMMA$/;"	c
 CONCAT	lib/Types/Token.hs	/^           | CONCAT$/;"	c
@@ -201,29 +221,42 @@ CURRENT_COMPONENT_ID	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1
 CURRENT_PACKAGE_KEY	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/cabal_macros.h	/^#define CURRENT_PACKAGE_KEY /;"	d
 CURRENT_PACKAGE_VERSION	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/cabal_macros.h	/^#define CURRENT_PACKAGE_VERSION /;"	d
 CURRENT_PACKAGE_VERSION	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/x/interpreter/build/interpreter/autogen/cabal_macros.h	/^#define CURRENT_PACKAGE_VERSION /;"	d
+CallE	lib/Types/Ast.hs	/^          | CallE Expr [Expr]$/;"	c
+Col	lib/Input.hs	/^                   , pos                 :: (Line, Col)$/;"	f
 Col	lib/Input.hs	/^type Col = Int$/;"	t
 DIV	lib/Types/Token.hs	/^           | DIV$/;"	c
 ELSE	lib/Types/Token.hs	/^           | ELSE$/;"	c
 EOF	lib/Types/Token.hs	/^           | EOF$/;"	c
 EQL	lib/Types/Token.hs	/^           | EQL$/;"	c
+Env	lib/Types/Object.hs	/^data Env = Env { isReturn :: Bool$/;"	c
+Env	lib/Types/Object.hs	/^data Env = Env { isReturn :: Bool$/;"	t
 Error	lib/Types/Error.hs	/^data Error = InternalError$/;"	t
 ErrorMessage	lib/Types/Error.hs	/^type ErrorMessage = String$/;"	t
 ErrorSource	lib/Types/Error.hs	/^type ErrorSource = String$/;"	t
-Expression	lib/Types/Ast.hs	/^data Expression = IntE Int$/;"	t
+Eval	lib/Eval.hs	/^module Eval where$/;"	m
+EvalError	lib/Types/Error.hs	/^           | EvalError LinePos LinePos ErrorMessage$/;"	c
+Expr	lib/Types/Ast.hs	/^data Expr = IntE Int$/;"	t
+ExprS	lib/Types/Ast.hs	/^data Statement = ExprS Pos Pos Expr$/;"	c
 FALSE	lib/Types/Token.hs	/^           | FALSE$/;"	c
 FUNCTION	lib/Types/Token.hs	/^           | FUNCTION$/;"	c
+FnE	lib/Types/Ast.hs	/^          | FnE [Expr] Statement$/;"	c
 GRT	lib/Types/Token.hs	/^           | GRT$/;"	c
 GRTEQL	lib/Types/Token.hs	/^           | GRTEQL$/;"	c
+HashE	lib/Types/Ast.hs	/^          | HashE (Map Expr Expr)$/;"	c
 Haskell implementation of "Writing interpreter in Go" by Thorsten Bell	README.md	/^# Haskell implementation of "Writing interpreter in Go" by Thorsten Bell$/;"	c
 ID	lib/Types/Token.hs	/^           | ID String$/;"	c
 IF	lib/Types/Token.hs	/^           | IF$/;"	c
 ILLEGAL	lib/Types/Token.hs	/^           | ILLEGAL$/;"	c
 INT	lib/Types/Token.hs	/^           | INT Int$/;"	c
-IdE	lib/Types/Ast.hs	/^                | IdE String$/;"	c
-Input	lib/Input.hs	/^data Input = Input { input               :: [Text]$/;"	c
-Input	lib/Input.hs	/^data Input = Input { input               :: [Text]$/;"	t
+INTEGER_OBJ	lib/Types/Object.hs	/^data ObjectType = INTEGER_OBJ | STRING_OBJ | BOOL_OBJ | NULL_OBJ | ANY_OBJECT$/;"	c
+IdE	lib/Types/Ast.hs	/^          | IdE String$/;"	c
+IfE	lib/Types/Ast.hs	/^          | IfE Expr Statement Statement$/;"	c
+IndexE	lib/Types/Ast.hs	/^          | IndexE Expr Expr$/;"	c
+Input	lib/Input.hs	/^data Input = Input { input               :: Text$/;"	c
+Input	lib/Input.hs	/^data Input = Input { input               :: Text$/;"	t
 Input	lib/Input.hs	/^module Input where$/;"	m
-IntE	lib/Types/Ast.hs	/^data Expression = IntE Int$/;"	c
+IntE	lib/Types/Ast.hs	/^data Expr = IntE Int$/;"	c
+IntV	lib/Types/Object.hs	/^data Value = IntV Int$/;"	c
 InternalError	lib/Types/Error.hs	/^data Error = InternalError$/;"	c
 LBRACE	lib/Types/Token.hs	/^           | LBRACE$/;"	c
 LBRACKET	lib/Types/Token.hs	/^           | LBRACKET$/;"	c
@@ -231,11 +264,11 @@ LET	lib/Types/Token.hs	/^           = LET$/;"	c
 LPAREN	lib/Types/Token.hs	/^           | LPAREN$/;"	c
 LST	lib/Types/Token.hs	/^           | LST$/;"	c
 LSTEQL	lib/Types/Token.hs	/^           | LSTEQL$/;"	c
-Length	lib/Types/Error.hs	/^type Length = Int$/;"	t
-LetE	lib/Types/Ast.hs	/^                | LetE Expression Expression$/;"	c
+LetS	lib/Types/Ast.hs	/^               | LetS Pos Pos Expr Expr$/;"	c
 Lexer	lib/Lexer.hs	/^module Lexer (Token, Input, nextToken, runLexer, getTokens) where$/;"	m
 LexerError	lib/Types/Error.hs	/^           | LexerError Pos ErrorMessage ErrorSource$/;"	c
 Line	lib/Input.hs	/^type Line = Int$/;"	t
+LinePos	lib/Types/Error.hs	/^type LinePos = Int$/;"	t
 MINUS	lib/Types/Token.hs	/^           | MINUS$/;"	c
 MIN_TOOL_VERSION_gcc	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/cabal_macros.h	/^#define MIN_TOOL_VERSION_gcc(/;"	d
 MIN_TOOL_VERSION_gcc	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/x/interpreter/build/interpreter/autogen/cabal_macros.h	/^#define MIN_TOOL_VERSION_gcc(/;"	d
@@ -260,6 +293,7 @@ MIN_TOOL_VERSION_strip	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0
 MIN_VERSION_base	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/cabal_macros.h	/^#define MIN_VERSION_base(/;"	d
 MIN_VERSION_base	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/x/interpreter/build/interpreter/autogen/cabal_macros.h	/^#define MIN_VERSION_base(/;"	d
 MIN_VERSION_containers	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/cabal_macros.h	/^#define MIN_VERSION_containers(/;"	d
+MIN_VERSION_directory	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/cabal_macros.h	/^#define MIN_VERSION_directory(/;"	d
 MIN_VERSION_interpreter	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/cabal_macros.h	/^#define MIN_VERSION_interpreter(/;"	d
 MIN_VERSION_interpreter	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/x/interpreter/build/interpreter/autogen/cabal_macros.h	/^#define MIN_VERSION_interpreter(/;"	d
 MIN_VERSION_mtl	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/x/interpreter/build/interpreter/autogen/cabal_macros.h	/^#define MIN_VERSION_mtl(/;"	d
@@ -274,29 +308,39 @@ Main	app/Main.hs	/^module Main where$/;"	m
 NOT	lib/Types/Token.hs	/^           | NOT$/;"	c
 NOTEQL	lib/Types/Token.hs	/^           | NOTEQL$/;"	c
 NOTOKEN	lib/Types/Token.hs	/^           | NOTOKEN$/;"	c
-NullExpression	lib/Types/Ast.hs	/^                | NullExpression$/;"	c
+NULL_OBJ	lib/Types/Object.hs	/^data ObjectType = INTEGER_OBJ | STRING_OBJ | BOOL_OBJ | NULL_OBJ | ANY_OBJECT$/;"	c
+NullV	lib/Types/Object.hs	/^           | NullV$/;"	c
+Object	lib/Types/Object.hs	/^data Object = Object { oType :: ObjectType$/;"	c
+Object	lib/Types/Object.hs	/^data Object = Object { oType :: ObjectType$/;"	t
+ObjectType	lib/Types/Object.hs	/^data ObjectType = INTEGER_OBJ | STRING_OBJ | BOOL_OBJ | NULL_OBJ | ANY_OBJECT$/;"	t
 PLUS	lib/Types/Token.hs	/^           | PLUS$/;"	c
 PackageInfo_interpreter	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/PackageInfo_interpreter.hs	/^module PackageInfo_interpreter ($/;"	m
 PackageInfo_interpreter	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/x/interpreter/build/interpreter/autogen/PackageInfo_interpreter.hs	/^module PackageInfo_interpreter ($/;"	m
+PairE	lib/Types/Ast.hs	/^          | PairE Expr Expr$/;"	c
 Parser	lib/Parser.hs	/^module Parser where$/;"	m
 Parser	lib/Parser.hs	/^type Parser a = Stream a$/;"	t
 ParserError	lib/Types/Error.hs	/^           | ParserError Pos ErrorMessage ErrorSource$/;"	c
 Paths_interpreter	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/Paths_interpreter.hs	/^module Paths_interpreter ($/;"	m
 Paths_interpreter	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/x/interpreter/build/interpreter/autogen/Paths_interpreter.hs	/^module Paths_interpreter ($/;"	m
+Pos	lib/Types/Ast.hs	/^type Pos = Int$/;"	t
 Pos	lib/Types/Error.hs	/^type Pos = (Int, Int)$/;"	t
 Precedence	lib/Parser.hs	/^data Precedence = L | E | LG | S | M | P | C | I deriving (Eq, Ord, Show)$/;"	t
+Program	lib/Types/Object.hs	/^type Program = ExceptT Error (StateT Env IO) Object$/;"	t
 RBRACE	lib/Types/Token.hs	/^           | RBRACE$/;"	c
 RBRACKET	lib/Types/Token.hs	/^           | RBRACKET$/;"	c
 RETURN	lib/Types/Token.hs	/^           | RETURN$/;"	c
 RPAREN	lib/Types/Token.hs	/^           | RPAREN$/;"	c
 Repl	lib/Repl.hs	/^module Repl where$/;"	m
-ReturnE	lib/Types/Ast.hs	/^                | ReturnE Expression$/;"	c
+ReturnS	lib/Types/Ast.hs	/^               | ReturnS Pos Pos Expr$/;"	c
 Revision history for interpreter	CHANGELOG.md	/^# Revision history for interpreter$/;"	c
 SEMICOLON	lib/Types/Token.hs	/^           | SEMICOLON$/;"	c
 STRING	lib/Types/Token.hs	/^           | STRING String$/;"	c
+STRING_OBJ	lib/Types/Object.hs	/^data ObjectType = INTEGER_OBJ | STRING_OBJ | BOOL_OBJ | NULL_OBJ | ANY_OBJECT$/;"	c
 SessionLoad	Session.vim	/^let SessionLoad = 1$/;"	v
+Statement	lib/Types/Ast.hs	/^data Statement = ExprS Pos Pos Expr$/;"	t
 Stream	lib/Input.hs	/^type Stream a = ExceptT Error (StateT Input IO) a$/;"	t
-StringE	lib/Types/Ast.hs	/^                | StringE String$/;"	c
+StringE	lib/Types/Ast.hs	/^          | StringE String$/;"	c
+StringV	lib/Types/Object.hs	/^           | StringV String$/;"	c
 THEN	lib/Types/Token.hs	/^           | THEN$/;"	c
 TOOL_VERSION_gcc	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/cabal_macros.h	/^#define TOOL_VERSION_gcc /;"	d
 TOOL_VERSION_gcc	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/x/interpreter/build/interpreter/autogen/cabal_macros.h	/^#define TOOL_VERSION_gcc /;"	d
@@ -322,11 +366,13 @@ TRUE	lib/Types/Token.hs	/^           | TRUE$/;"	c
 Token	lib/Types/Token.hs	/^data Token -- Keywords$/;"	t
 Types	lib/Types/Ast.hs	/^module Types.Ast where$/;"	m
 Types	lib/Types/Error.hs	/^module Types.Error where$/;"	m
+Types	lib/Types/Object.hs	/^module Types.Object where$/;"	m
 Types	lib/Types/Token.hs	/^module Types.Token where$/;"	m
-UnOpE	lib/Types/Ast.hs	/^                | UnOpE Token Expression$/;"	c
+UnOpE	lib/Types/Ast.hs	/^          | UnOpE Token Expr$/;"	c
 VERSION_base	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/cabal_macros.h	/^#define VERSION_base /;"	d
 VERSION_base	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/x/interpreter/build/interpreter/autogen/cabal_macros.h	/^#define VERSION_base /;"	d
 VERSION_containers	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/cabal_macros.h	/^#define VERSION_containers /;"	d
+VERSION_directory	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/cabal_macros.h	/^#define VERSION_directory /;"	d
 VERSION_interpreter	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/cabal_macros.h	/^#define VERSION_interpreter /;"	d
 VERSION_interpreter	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/x/interpreter/build/interpreter/autogen/cabal_macros.h	/^#define VERSION_interpreter /;"	d
 VERSION_mtl	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/x/interpreter/build/interpreter/autogen/cabal_macros.h	/^#define VERSION_mtl /;"	d
@@ -336,42 +382,44 @@ VERSION_text	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/bui
 VERSION_transformers	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/cabal_macros.h	/^#define VERSION_transformers /;"	d
 VERSION_transformers	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/x/interpreter/build/interpreter/autogen/cabal_macros.h	/^#define VERSION_transformers /;"	d
 VERSION_unordered_containers	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/cabal_macros.h	/^#define VERSION_unordered_containers /;"	d
+Value	lib/Types/Object.hs	/^data Value = IntV Int$/;"	t
 abi	dist-newstyle/packagedb/ghc-9.10.1/interpreter-0.1.0.0-inplace.conf	/^abi:                  inplace$/;"	k
 arch	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s
-arch-native	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	b	object:install-plan.12.flags
+arch-native	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	b	object:install-plan.13.flags
 author	dist-newstyle/packagedb/ghc-9.10.1/interpreter-0.1.0.0-inplace.conf	/^author:               Dmitry Kvasnikov$/;"	k
-bin-file	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.14
-bin-file	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.19
+bin-file	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.15
+bin-file	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.20
 bindir	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/Paths_interpreter.hs	/^bindir     = "\/home\/dmitry\/.cabal\/bin"$/;"	f
 bindir	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/Paths_interpreter.hs	/^bindir, libdir, dynlibdir, datadir, libexecdir, sysconfdir :: FilePath$/;"	f
 bindir	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/x/interpreter/build/interpreter/autogen/Paths_interpreter.hs	/^bindir     = "\/home\/dmitry\/.cabal\/bin"$/;"	f
 bindir	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/x/interpreter/build/interpreter/autogen/Paths_interpreter.hs	/^bindir, libdir, dynlibdir, datadir, libexecdir, sysconfdir :: FilePath$/;"	f
-build-info	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.13
 build-info	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.14
+build-info	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.15
 cabal-lib-version	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s
 cabal-version	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s
 catchIO	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/Paths_interpreter.hs	/^catchIO = Exception.catch$/;"	f
 catchIO	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/x/interpreter/build/interpreter/autogen/Paths_interpreter.hs	/^catchIO = Exception.catch$/;"	f
 category	dist-newstyle/packagedb/ghc-9.10.1/interpreter-0.1.0.0-inplace.conf	/^category:             Programming$/;"	k
-checkPeekChar	lib/Lexer.hs	/^checkPeekChar pattern = do$/;"	f
+checkCurrentToken	lib/Parser.hs	/^checkCurrentToken tokens = do$/;"	f
+checkType	lib/Eval.hs	/^checkType p1 p2 t o = do$/;"	f
 compiler-id	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s
-component-name	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.12
 component-name	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.13
 component-name	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.14
-component-name	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.18
+component-name	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.15
 component-name	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.19
-component-name	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.21
-component-name	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.26
+component-name	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.20
+component-name	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.22
+component-name	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.29
 copyright	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/PackageInfo_interpreter.hs	/^copyright = ""$/;"	f
 copyright	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/x/interpreter/build/interpreter/autogen/PackageInfo_interpreter.hs	/^copyright = ""$/;"	f
 curChar	lib/Input.hs	/^                   , curChar             :: Char$/;"	f
-curInput	lib/Input.hs	/^                   , curInput            :: Text$/;"	f
-curLine	lib/Input.hs	/^                   , curLine             :: Line$/;"	f
+curLinePos	lib/Input.hs	/^                   , curLinePos          :: Col$/;"	f
 curPos	lib/Input.hs	/^                   , curPos, peekPos     :: Col$/;"	f
 curToken	lib/Input.hs	/^                   , curToken, peekToken :: Token$/;"	f
+currentLine	lib/Input.hs	/^currentLine i =$/;"	f
 datadir	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/Paths_interpreter.hs	/^datadir    = "\/home\/dmitry\/.cabal\/share\/x86_64-linux-ghc-9.10.1-7767\/interpreter-0.1.0.0"$/;"	f
 datadir	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/x/interpreter/build/interpreter/autogen/Paths_interpreter.hs	/^datadir    = "\/home\/dmitry\/.cabal\/share\/x86_64-linux-ghc-9.10.1-7767\/interpreter-0.1.0.0"$/;"	f
-debug	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	b	object:install-plan.26.flags
+debug	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	b	object:install-plan.29.flags
 depends	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	a	object:install-plan.0
 depends	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	a	object:install-plan.1
 depends	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	a	object:install-plan.10
@@ -392,6 +440,9 @@ depends	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-v
 depends	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	a	object:install-plan.24
 depends	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	a	object:install-plan.25
 depends	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	a	object:install-plan.26
+depends	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	a	object:install-plan.27
+depends	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	a	object:install-plan.28
+depends	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	a	object:install-plan.29
 depends	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	a	object:install-plan.3
 depends	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	a	object:install-plan.4
 depends	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	a	object:install-plan.5
@@ -404,33 +455,49 @@ dir	dist-newstyle/packagedb/ghc-9.10.1/interpreter-0.1.0.0-inplace.conf	/^data-d
 dirs	dist-newstyle/packagedb/ghc-9.10.1/interpreter-0.1.0.0-inplace.conf	/^dynamic-library-dirs:$/;"	k
 dirs	dist-newstyle/packagedb/ghc-9.10.1/interpreter-0.1.0.0-inplace.conf	/^import-dirs:$/;"	k
 dirs	dist-newstyle/packagedb/ghc-9.10.1/interpreter-0.1.0.0-inplace.conf	/^library-dirs:$/;"	k
-dist-dir	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.13
 dist-dir	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.14
+dist-dir	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.15
 doubleCharToken	lib/Lexer.hs	/^doubleCharToken = do$/;"	f
 dynlibdir	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/Paths_interpreter.hs	/^dynlibdir  = "\/home\/dmitry\/.cabal\/lib\/x86_64-linux-ghc-9.10.1-7767"$/;"	f
 dynlibdir	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/x/interpreter/build/interpreter/autogen/Paths_interpreter.hs	/^dynlibdir  = "\/home\/dmitry\/.cabal\/lib\/x86_64-linux-ghc-9.10.1-7767"$/;"	f
-exe-depends	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	a	object:install-plan.12
+evalBlockS	lib/Eval.hs	/^evalBlockS (s : ss) = do$/;"	f
+evalBlockS	lib/Eval.hs	/^evalBlockS [] = return nullConst$/;"	f
+evalBlockS	lib/Eval.hs	/^evalBlockS [s] = evalStatement s$/;"	f
+evalE	lib/Eval.hs	/^evalE _ _ (BoolE b) = return $ if b then trueConst else falseConst$/;"	f
+evalE	lib/Eval.hs	/^evalE _ _ (IntE i) = return $ Object INTEGER_OBJ (IntV i)$/;"	f
+evalE	lib/Eval.hs	/^evalE _ _ (StringE s) = return $ Object STRING_OBJ (StringV s)$/;"	f
+evalE	lib/Eval.hs	/^evalE p1 p2 (IdE i) = do$/;"	f
+evalLetS	lib/Eval.hs	/^evalLetS p1 p2 (IdE var) e = evalE p1 p2 e >>= \\val -> (lift . modify $ (\\e -> e {heap = M.ins/;"	f
+evalProgram	lib/Eval.hs	/^evalProgram = evalStatement$/;"	f
+evalStatement	lib/Eval.hs	/^evalStatement (BlockS _ _ sts)   = evalBlockS sts$/;"	f
+evalStatement	lib/Eval.hs	/^evalStatement (ExprS p1 p2 expr) = evalE p1 p2 expr$/;"	f
+evalStatement	lib/Eval.hs	/^evalStatement (LetS p1 p2 i e)   = evalLetS p1 p2 i e$/;"	f
+evalStatement	lib/Eval.hs	/^evalStatement s                  = makeEvalError 0 0 $ "error " <> show s$/;"	f
 exe-depends	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	a	object:install-plan.13
 exe-depends	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	a	object:install-plan.14
-exe-depends	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	a	object:install-plan.18
+exe-depends	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	a	object:install-plan.15
 exe-depends	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	a	object:install-plan.19
-exe-depends	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	a	object:install-plan.21
-exe-depends	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	a	object:install-plan.26
+exe-depends	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	a	object:install-plan.20
+exe-depends	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	a	object:install-plan.22
+exe-depends	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	a	object:install-plan.29
 exposed	dist-newstyle/packagedb/ghc-9.10.1/interpreter-0.1.0.0-inplace.conf	/^exposed:              True$/;"	k
-flags	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	object:install-plan.12
+falseConst	lib/Types/Object.hs	/^falseConst = Object BOOL_OBJ (BoolV False)$/;"	f
 flags	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	object:install-plan.13
 flags	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	object:install-plan.14
-flags	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	object:install-plan.18
+flags	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	object:install-plan.15
 flags	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	object:install-plan.19
-flags	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	object:install-plan.21
-flags	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	object:install-plan.26
+flags	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	object:install-plan.20
+flags	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	object:install-plan.22
+flags	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	object:install-plan.29
 g:this_obsession	Session.vim	/^let g:this_obsession = v:this_session$/;"	v
 g:this_session	Session.vim	/^let g:this_session = v:this_session$/;"	v
+gP	lib/Parser.hs	/^gP = lift . gets $ curLinePos$/;"	f
 getBinDir	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/Paths_interpreter.hs	/^getBinDir     = catchIO (getEnv "interpreter_bindir")     (\\_ -> return bindir)$/;"	f
 getBinDir	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/Paths_interpreter.hs	/^getBinDir, getLibDir, getDynLibDir, getDataDir, getLibexecDir, getSysconfDir :: IO FilePath$/;"	f
 getBinDir	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/x/interpreter/build/interpreter/autogen/Paths_interpreter.hs	/^getBinDir     = catchIO (getEnv "interpreter_bindir")     (\\_ -> return bindir)$/;"	f
 getBinDir	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/x/interpreter/build/interpreter/autogen/Paths_interpreter.hs	/^getBinDir, getLibDir, getDynLibDir, getDataDir, getLibexecDir, getSysconfDir :: IO FilePath$/;"	f
 getCurrentToken	lib/Parser.hs	/^getCurrentToken = lift . gets $ curToken$/;"	f
+getCurrentToken	lib/Parser.hs	/^getCurrentToken, getPeekToken :: Parser Token$/;"	f
 getDataDir	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/Paths_interpreter.hs	/^getDataDir    = catchIO (getEnv "interpreter_datadir")    (\\_ -> return datadir)$/;"	f
 getDataDir	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/x/interpreter/build/interpreter/autogen/Paths_interpreter.hs	/^getDataDir    = catchIO (getEnv "interpreter_datadir")    (\\_ -> return datadir)$/;"	f
 getDataFileName	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/Paths_interpreter.hs	/^getDataFileName name = do$/;"	f
@@ -438,10 +505,13 @@ getDataFileName	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/
 getDynLibDir	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/Paths_interpreter.hs	/^getDynLibDir  = catchIO (getEnv "interpreter_dynlibdir")  (\\_ -> return dynlibdir)$/;"	f
 getDynLibDir	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/x/interpreter/build/interpreter/autogen/Paths_interpreter.hs	/^getDynLibDir  = catchIO (getEnv "interpreter_dynlibdir")  (\\_ -> return dynlibdir)$/;"	f
 getInfixOp	lib/Parser.hs	/^getInfixOp = \\case$/;"	f
+getInput	lib/Repl.hs	/^getInput = do$/;"	f
 getLibDir	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/Paths_interpreter.hs	/^getLibDir     = catchIO (getEnv "interpreter_libdir")     (\\_ -> return libdir)$/;"	f
 getLibDir	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/x/interpreter/build/interpreter/autogen/Paths_interpreter.hs	/^getLibDir     = catchIO (getEnv "interpreter_libdir")     (\\_ -> return libdir)$/;"	f
 getLibexecDir	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/Paths_interpreter.hs	/^getLibexecDir = catchIO (getEnv "interpreter_libexecdir") (\\_ -> return libexecdir)$/;"	f
 getLibexecDir	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/x/interpreter/build/interpreter/autogen/Paths_interpreter.hs	/^getLibexecDir = catchIO (getEnv "interpreter_libexecdir") (\\_ -> return libexecdir)$/;"	f
+getPeekToken	lib/Parser.hs	/^getPeekToken = lift . gets $ peekToken$/;"	f
+getPos	lib/Types/Error.hs	/^getPos (EvalError _ _ _)        = (0, 0)$/;"	f
 getPos	lib/Types/Error.hs	/^getPos (LexerError (l, c) _ _)  = (l, c)$/;"	f
 getPos	lib/Types/Error.hs	/^getPos (ParserError (l, c) _ _) = (l, c)$/;"	f
 getPos	lib/Types/Error.hs	/^getPos InternalError            = (0, 0)$/;"	f
@@ -450,6 +520,7 @@ getPrefixOp	lib/Parser.hs	/^getPrefixOp = \\case$/;"	f
 getSysconfDir	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/Paths_interpreter.hs	/^getSysconfDir = catchIO (getEnv "interpreter_sysconfdir") (\\_ -> return sysconfdir)$/;"	f
 getSysconfDir	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/x/interpreter/build/interpreter/autogen/Paths_interpreter.hs	/^getSysconfDir = catchIO (getEnv "interpreter_sysconfdir") (\\_ -> return sysconfdir)$/;"	f
 getTokens	lib/Lexer.hs	/^getTokens = do$/;"	f
+heap	lib/Types/Object.hs	/^               , heap     :: Map String Object$/;"	f
 homepage	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/PackageInfo_interpreter.hs	/^homepage = ""$/;"	f
 homepage	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/x/interpreter/build/interpreter/autogen/PackageInfo_interpreter.hs	/^homepage = ""$/;"	f
 html	dist-newstyle/packagedb/ghc-9.10.1/interpreter-0.1.0.0-inplace.conf	/^haddock-html:$/;"	k
@@ -473,6 +544,9 @@ id	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-versio
 id	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.24
 id	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.25
 id	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.26
+id	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.27
+id	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.28
+id	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.29
 id	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.3
 id	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.4
 id	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.5
@@ -481,13 +555,15 @@ id	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-versio
 id	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.8
 id	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.9
 id	dist-newstyle/packagedb/ghc-9.10.1/interpreter-0.1.0.0-inplace.conf	/^id:                   interpreter-0.1.0.0-inplace$/;"	k
-idOrKeywordToken	lib/Lexer.hs	/^idOrKeywordToken = do$/;"	f
-input	lib/Input.hs	/^data Input = Input { input               :: [Text]$/;"	f
+identOrKeywordToken	lib/Lexer.hs	/^identOrKeywordToken = do$/;"	f
+initialEnv	lib/Types/Object.hs	/^initialEnv = Env False (M.fromList [("PI", Object INTEGER_OBJ (IntV 31415))])$/;"	f
+input	lib/Input.hs	/^data Input = Input { input               :: Text$/;"	f
 install-plan	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	a
 intToken	lib/Lexer.hs	/^intToken = do$/;"	f
 interfaces	dist-newstyle/packagedb/ghc-9.10.1/interpreter-0.1.0.0-inplace.conf	/^haddock-interfaces:$/;"	k
 isPathSeparator	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/Paths_interpreter.hs	/^isPathSeparator c = c == '\/'$/;"	f
 isPathSeparator	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/x/interpreter/build/interpreter/autogen/Paths_interpreter.hs	/^isPathSeparator c = c == '\/'$/;"	f
+isReturn	lib/Types/Object.hs	/^data Env = Env { isReturn :: Bool$/;"	f
 joinFileName	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/Paths_interpreter.hs	/^joinFileName ""  fname = fname$/;"	f
 joinFileName	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/Paths_interpreter.hs	/^joinFileName "." fname = fname$/;"	f
 joinFileName	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/Paths_interpreter.hs	/^joinFileName dir ""    = dir$/;"	f
@@ -506,9 +582,11 @@ libraries	dist-newstyle/packagedb/ghc-9.10.1/interpreter-0.1.0.0-inplace.conf	/^
 license	dist-newstyle/packagedb/ghc-9.10.1/interpreter-0.1.0.0-inplace.conf	/^license:              MIT$/;"	k
 main	app/Main.hs	/^main = repl$/;"	f
 maintainer	dist-newstyle/packagedb/ghc-9.10.1/interpreter-0.1.0.0-inplace.conf	/^maintainer:           dmitry.kvasnikov@gmail.com$/;"	k
+makeEvalError	lib/Eval.hs	/^makeEvalError p1 p2 msg = throwE . EvalError p1 p2 $ msg$/;"	f
 makeInput	lib/Input.hs	/^makeInput str =$/;"	f
 makeLexerError	lib/Lexer.hs	/^makeLexerError mpos merr = do$/;"	f
 makeParseError	lib/Parser.hs	/^makeParseError err =$/;"	f
+makeParseError_	lib/Parser.hs	/^makeParseError_ err =$/;"	f
 modules	dist-newstyle/packagedb/ghc-9.10.1/interpreter-0.1.0.0-inplace.conf	/^exposed-modules:$/;"	k
 moveInput	lib/Input.hs	/^moveInput i =$/;"	f
 movePeekToken	lib/Parser.hs	/^movePeekToken tokens = do$/;"	f
@@ -516,31 +594,47 @@ name	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autog
 name	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/x/interpreter/build/interpreter/autogen/PackageInfo_interpreter.hs	/^name = "interpreter"$/;"	f
 name	dist-newstyle/packagedb/ghc-9.10.1/interpreter-0.1.0.0-inplace.conf	/^name:                 interpreter$/;"	k
 nextToken	lib/Lexer.hs	/^nextToken = do$/;"	f
+nullConst	lib/Types/Object.hs	/^nullConst = Object NULL_OBJ NullV$/;"	f
+oType	lib/Types/Object.hs	/^data Object = Object { oType :: ObjectType$/;"	f
 os	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s
-parseBoolExpression	lib/Parser.hs	/^parseBoolExpression =$/;"	f
-parseExpression	lib/Parser.hs	/^parseExpression pr = do$/;"	f
-parseExpressions	lib/Parser.hs	/^parseExpressions end = do$/;"	f
-parseIdExpression	lib/Parser.hs	/^parseIdExpression = getCurrentToken >>= \\(ID i) -> return (IdE i)$/;"	f
-parseInfixExpression	lib/Parser.hs	/^parseInfixExpression left = getCurrentToken >>= \\op -> nextToken >> parseExpression (getPrecede/;"	f
-parseIntExpression	lib/Parser.hs	/^parseIntExpression = getCurrentToken >>= \\(INT n) -> return (IntE n)$/;"	f
-parseIntExpression	lib/Parser.hs	/^parseIntExpression, parseStringExpression, parseBoolExpression, parseIdExpression, parsePrefixEx/;"	f
-parseLetExpression	lib/Parser.hs	/^parseLetExpression = nextToken >> parseExpression L >>= \\right -> movePeekToken [ASSIGN] >> nex/;"	f
-parsePrefixExpression	lib/Parser.hs	/^parsePrefixExpression = getCurrentToken >>= \\op -> nextToken >> parseExpression L >>= \\expr ->/;"	f
-parseProgram	lib/Parser.hs	/^parseProgram = parseExpressions EOF >>= \\exprs -> return $ BlockE exprs$/;"	f
-parseReturnExpression	lib/Parser.hs	/^parseReturnExpression = nextToken >> parseExpression L >>= \\expr -> return $ ReturnE expr$/;"	f
-parseStringExpression	lib/Parser.hs	/^parseStringExpression = getCurrentToken >>= \\(STRING s) -> return (StringE s)$/;"	f
-path	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.13.pkg-src
+parseArrayE	lib/Parser.hs	/^parseArrayE = parseListE RBRACKET COMMA (parseExpresion L) >>= return . ArrayE$/;"	f
+parseBlockS	lib/Parser.hs	/^parseBlockS = gP >>= \\p1 -> nextToken >> parseStatements RBRACE >>= \\sts -> gP >>= \\p2 -> ret/;"	f
+parseBoolE	lib/Parser.hs	/^parseBoolE = checkCurrentToken [TRUE, FALSE] >>= \\b -> return $ BoolE (b == TRUE)$/;"	f
+parseCallE	lib/Parser.hs	/^parseCallE f = parseListE RPAREN COMMA (parseExpresion L) >>= return . CallE f$/;"	f
+parseExprS	lib/Parser.hs	/^parseExprS = gP >>= \\p1 -> parseExpresion L >>= \\expr -> gP >>= \\p2 -> return $ ExprS p1 p2 e/;"	f
+parseExprS	lib/Parser.hs	/^parseExprS, parseLetS, parseReturnS, parseBlockS :: Parser Statement$/;"	f
+parseExpresion	lib/Parser.hs	/^parseExpresion pr = do$/;"	f
+parseFunctionE	lib/Parser.hs	/^parseFunctionE = movePeekToken [LPAREN] >> parseListE RPAREN COMMA parseIdE >>= \\args -> movePe/;"	f
+parseGroupedE	lib/Parser.hs	/^parseGroupedE = nextToken >> parseExpresion L >>= \\expr -> movePeekToken [RPAREN] >> return exp/;"	f
+parseHashE	lib/Parser.hs	/^parseHashE = parseListE RBRACE COMMA parseKeyValue >>= return . HashE . M.fromList . map (\\(Pai/;"	f
+parseIdE	lib/Parser.hs	/^parseIdE = checkCurrentToken [ID "variable name"] >>= \\(ID i) -> return $ IdE i$/;"	f
+parseIfE	lib/Parser.hs	/^parseIfE = do$/;"	f
+parseIndexE	lib/Parser.hs	/^parseIndexE e = nextToken >> parseExpresion L >>= \\i -> movePeekToken [RBRACKET] >> (return $ I/;"	f
+parseInfixE	lib/Parser.hs	/^parseInfixE left = getCurrentToken >>= \\op -> nextToken >> parseExpresion (getPrecedence op) >>/;"	f
+parseInfixE	lib/Parser.hs	/^parseInfixE, parseCallE, parseIndexE :: Expr -> Parser Expr$/;"	f
+parseIntE	lib/Parser.hs	/^parseIntE = checkCurrentToken [(INT 0)] >>= \\(INT n) -> return $ IntE n$/;"	f
+parseIntE	lib/Parser.hs	/^parseIntE, parseStringE, parseBoolE, parseIdE, parseGroupedE, parsePrefixE, parseIfE, parseFunct/;"	f
+parseKeyValue	lib/Parser.hs	/^parseKeyValue = parseExpresion L >>= \\k -> movePeekToken [COLON] >> nextToken >> parseExpresion/;"	f
+parseLetS	lib/Parser.hs	/^parseLetS = gP >>= \\p1 -> nextToken >> parseIdE >>= \\var -> movePeekToken [ASSIGN] >> nextToke/;"	f
+parseListE	lib/Parser.hs	/^parseListE end sep parser = do$/;"	f
+parsePrefixE	lib/Parser.hs	/^parsePrefixE = getCurrentToken >>= \\op -> nextToken >> (parseExpresion L) >>= return . UnOpE op$/;"	f
+parseProgram	lib/Parser.hs	/^parseProgram = gP >>= \\p1 -> parseStatements EOF >>= \\sts -> gP >>= \\p2 -> return . BlockS p1/;"	f
+parseReturnS	lib/Parser.hs	/^parseReturnS = gP >>= \\p1 -> nextToken >> parseExpresion L >>= \\expr -> gP >>= \\p2 -> return /;"	f
+parseStatement	lib/Parser.hs	/^parseStatement = do$/;"	f
+parseStatements	lib/Parser.hs	/^parseStatements end = do$/;"	f
+parseStringE	lib/Parser.hs	/^parseStringE = checkCurrentToken [(STRING "")] >>= \\(STRING s) -> return $ StringE s$/;"	f
 path	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.14.pkg-src
+path	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.15.pkg-src
 pathSeparator	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/Paths_interpreter.hs	/^pathSeparator = '\/'$/;"	f
 pathSeparator	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/x/interpreter/build/interpreter/autogen/Paths_interpreter.hs	/^pathSeparator = '\/'$/;"	f
 peekPos	lib/Input.hs	/^                   , curPos, peekPos     :: Col$/;"	f
 peekToken	lib/Input.hs	/^                   , curToken, peekToken :: Token$/;"	f
 peekWhile	lib/Lexer.hs	/^peekWhile cond = do$/;"	f
-pkg-cabal-sha256	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.12
-pkg-cabal-sha256	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.18
+pkg-cabal-sha256	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.13
 pkg-cabal-sha256	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.19
-pkg-cabal-sha256	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.21
-pkg-cabal-sha256	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.26
+pkg-cabal-sha256	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.20
+pkg-cabal-sha256	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.22
+pkg-cabal-sha256	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.29
 pkg-name	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.0
 pkg-name	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.1
 pkg-name	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.10
@@ -561,6 +655,9 @@ pkg-name	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-
 pkg-name	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.24
 pkg-name	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.25
 pkg-name	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.26
+pkg-name	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.27
+pkg-name	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.28
+pkg-name	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.29
 pkg-name	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.3
 pkg-name	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.4
 pkg-name	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.5
@@ -568,18 +665,18 @@ pkg-name	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-
 pkg-name	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.7
 pkg-name	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.8
 pkg-name	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.9
-pkg-src	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	object:install-plan.12
 pkg-src	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	object:install-plan.13
 pkg-src	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	object:install-plan.14
-pkg-src	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	object:install-plan.18
+pkg-src	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	object:install-plan.15
 pkg-src	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	object:install-plan.19
-pkg-src	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	object:install-plan.21
-pkg-src	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	object:install-plan.26
-pkg-src-sha256	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.12
-pkg-src-sha256	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.18
+pkg-src	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	object:install-plan.20
+pkg-src	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	object:install-plan.22
+pkg-src	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	object:install-plan.29
+pkg-src-sha256	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.13
 pkg-src-sha256	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.19
-pkg-src-sha256	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.21
-pkg-src-sha256	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.26
+pkg-src-sha256	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.20
+pkg-src-sha256	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.22
+pkg-src-sha256	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.29
 pkg-version	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.0
 pkg-version	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.1
 pkg-version	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.10
@@ -600,6 +697,9 @@ pkg-version	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-l
 pkg-version	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.24
 pkg-version	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.25
 pkg-version	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.26
+pkg-version	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.27
+pkg-version	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.28
+pkg-version	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.29
 pkg-version	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.3
 pkg-version	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.4
 pkg-version	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.5
@@ -607,24 +707,31 @@ pkg-version	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-l
 pkg-version	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.7
 pkg-version	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.8
 pkg-version	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.9
+pos	lib/Input.hs	/^                   , pos                 :: (Line, Col)$/;"	f
 precedences	lib/Parser.hs	/^precedences =$/;"	f
 printError	lib/Repl.hs	/^printError (LexerError (l, c) msg src) = do$/;"	f
 printError	lib/Repl.hs	/^printError (ParserError (l, c) msg src) = do$/;"	f
 printError	lib/Repl.hs	/^printError InternalError = putStrLn $ color Yellow "Internal error"$/;"	f
+printError	lib/Repl.hs	/^printError _ = putStrLn "no error message"$/;"	f
+printEvalError	lib/Repl.hs	/^printEvalError (EvalError b e msg) inp = do$/;"	f
+printEvalError	lib/Repl.hs	/^printEvalError _ _ = putStrLn "no error message"$/;"	f
+program	lib/Input.hs	/^                   , program             :: [Statement]$/;"	f
 prompt	lib/Repl.hs	/^prompt = ">>>> "$/;"	f
+pushStatement	lib/Parser.hs	/^pushStatement st = lift . modify $ (\\e -> e {program = (program e) ++ [st]})$/;"	f
 pushToken	lib/Lexer.hs	/^pushToken token = lift . modify $ (\\s -> s {curToken = peekToken s, peekToken = token})$/;"	f
-random-initial-seed	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	b	object:install-plan.12.flags
+random-initial-seed	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	b	object:install-plan.13.flags
 repl	lib/Repl.hs	/^repl = do$/;"	f
-replExpressions	lib/Repl.hs	/^replExpressions = do$/;"	f
-replTokens	lib/Repl.hs	/^replTokens = do$/;"	f
-repo	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	object:install-plan.12.pkg-src
-repo	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	object:install-plan.18.pkg-src
+replEval	lib/Repl.hs	/^replEval env = do$/;"	f
+replLexer	lib/Repl.hs	/^replLexer = do$/;"	f
+replParser	lib/Repl.hs	/^replParser = do$/;"	f
+repo	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	object:install-plan.13.pkg-src
 repo	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	object:install-plan.19.pkg-src
-repo	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	object:install-plan.21.pkg-src
-repo	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	object:install-plan.26.pkg-src
+repo	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	object:install-plan.20.pkg-src
+repo	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	object:install-plan.22.pkg-src
+repo	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	o	object:install-plan.29.pkg-src
 runLexer	lib/Lexer.hs	/^runLexer l i = (runStateT . runExceptT) l $ makeInput i$/;"	f
 runParser	lib/Parser.hs	/^runParser l i = (runStateT . runExceptT) l $ makeInput i$/;"	f
-s:l	Session.vim	/^let s:l = 82 - ((19 * winheight(0) + 21) \/ 42)$/;"	v
+s:l	Session.vim	/^let s:l = 1 - ((0 * winheight(0) + 18) \/ 37)$/;"	v
 s:shortmess_save	Session.vim	/^let s:shortmess_save = &shortmess$/;"	v
 s:so_save	Session.vim	/^let s:so_save = &g:so | let s:siso_save = &g:siso | setg so=0 siso=0 | setl so=-1 siso=-1$/;"	v
 s:sx	Session.vim	/^let s:sx = expand("<sfile>:p:r")."x.vim"$/;"	v
@@ -633,49 +740,55 @@ singleCharToken	lib/Lexer.hs	/^singleCharToken = do$/;"	f
 skipWhiteSpaces	lib/Lexer.hs	/^skipWhiteSpaces = do$/;"	f
 static	dist-newstyle/packagedb/ghc-9.10.1/interpreter-0.1.0.0-inplace.conf	/^library-dirs-static:$/;"	k
 stringToken	lib/Lexer.hs	/^stringToken = do$/;"	f
-style	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.12
 style	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.13
 style	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.14
-style	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.18
+style	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.15
 style	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.19
-style	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.21
-style	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.26
+style	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.20
+style	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.22
+style	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.29
 synopsis	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/PackageInfo_interpreter.hs	/^synopsis = ""$/;"	f
 synopsis	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/x/interpreter/build/interpreter/autogen/PackageInfo_interpreter.hs	/^synopsis = ""$/;"	f
 sysconfdir	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/Paths_interpreter.hs	/^sysconfdir = "\/home\/dmitry\/.cabal\/etc"$/;"	f
 sysconfdir	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/x/interpreter/build/interpreter/autogen/Paths_interpreter.hs	/^sysconfdir = "\/home\/dmitry\/.cabal\/etc"$/;"	f
+todo	lib/Input.hs	/^todo = undefined$/;"	f
+trueConst	lib/Types/Object.hs	/^trueConst = Object BOOL_OBJ (BoolV True)$/;"	f
+trueConst	lib/Types/Object.hs	/^trueConst, falseConst, nullConst :: Object$/;"	f
 type	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.0
 type	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.1
 type	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.10
 type	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.11
 type	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.12
-type	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.12.pkg-src
-type	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.12.pkg-src.repo
 type	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.13
 type	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.13.pkg-src
+type	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.13.pkg-src.repo
 type	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.14
 type	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.14.pkg-src
 type	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.15
+type	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.15.pkg-src
 type	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.16
 type	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.17
 type	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.18
-type	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.18.pkg-src
-type	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.18.pkg-src.repo
 type	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.19
 type	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.19.pkg-src
 type	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.19.pkg-src.repo
 type	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.2
 type	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.20
+type	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.20.pkg-src
+type	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.20.pkg-src.repo
 type	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.21
-type	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.21.pkg-src
-type	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.21.pkg-src.repo
 type	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.22
+type	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.22.pkg-src
+type	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.22.pkg-src.repo
 type	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.23
 type	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.24
 type	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.25
 type	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.26
-type	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.26.pkg-src
-type	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.26.pkg-src.repo
+type	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.27
+type	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.28
+type	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.29
+type	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.29.pkg-src
+type	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.29.pkg-src.repo
 type	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.3
 type	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.4
 type	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.5
@@ -683,11 +796,12 @@ type	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-vers
 type	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.7
 type	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.8
 type	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.9
-uri	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.12.pkg-src.repo
-uri	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.18.pkg-src.repo
+uri	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.13.pkg-src.repo
 uri	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.19.pkg-src.repo
-uri	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.21.pkg-src.repo
-uri	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.26.pkg-src.repo
+uri	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.20.pkg-src.repo
+uri	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.22.pkg-src.repo
+uri	dist-newstyle/cache/plan.json	/^{"cabal-version":"3.12.1.0","cabal-lib-version":"3.12.1.0","compiler-id":"ghc-9.10.1","os":"linu/;"	s	object:install-plan.29.pkg-src.repo
+value	lib/Types/Object.hs	/^                     , value :: Value$/;"	f
 version	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/PackageInfo_interpreter.hs	/^version = Version [0,1,0,0] []$/;"	f
 version	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/build/autogen/Paths_interpreter.hs	/^version = Version [0,1,0,0] []$/;"	f
 version	dist-newstyle/build/x86_64-linux/ghc-9.10.1/interpreter-0.1.0.0/x/interpreter/build/interpreter/autogen/PackageInfo_interpreter.hs	/^version = Version [0,1,0,0] []$/;"	f

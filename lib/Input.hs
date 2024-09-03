@@ -2,9 +2,12 @@ module Input where
 
 import           Control.Monad.Trans.Except
 import           Control.Monad.Trans.State.Strict
+import qualified Data.Map                         as M
 import           Data.Text                        (Text)
 import qualified Data.Text                        as T
+import           Types.Ast
 import           Types.Error
+import           Types.Object
 import           Types.Token
 
 type Line = Int
@@ -16,7 +19,11 @@ data Input = Input { input               :: Text
                    , curChar             :: Char
                    , pos                 :: (Line, Col)
                    , curLinePos          :: Col
-                   , curToken, peekToken :: Token
+                   , curToken, peekToken :: (Token, Col)
+                   , program             :: [Statement]
+                   , heap                :: M.Map String Object
+                     -- statementPos keeps position of first and last lines of stratemen
+                   , statementPos        :: (Col, Col)
                    }
   deriving (Show)
 
@@ -34,8 +41,26 @@ makeInput str =
       curChar = if length str > 0 then head str else '\NUL',
       pos = (1, 1),
       curLinePos = 0,
-      curToken = NOTOKEN,
-      peekToken = NOTOKEN
+      curToken = (NOTOKEN, 0),
+      peekToken = (NOTOKEN, 0),
+      program = [],
+      heap = M.empty,
+      statementPos = (0, 0)
+    }
+
+updateInput :: String -> Input -> Input
+updateInput str inp =
+  inp
+    { input = T.pack str,
+      curPos = 0,
+      peekPos = 1,
+      curChar = if length str > 0 then head str else '\NUL',
+      pos = (1, 1),
+      curLinePos = 0,
+      curToken = (NOTOKEN, 0),
+      peekToken = (NOTOKEN, 0),
+      program = [],
+      statementPos = (0, 0)
     }
 
 moveInput :: Input -> Input

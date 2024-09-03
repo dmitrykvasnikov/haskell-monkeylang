@@ -48,7 +48,7 @@ instance Show Expr where
 -- show (FnE args) = "function (" <> intercalate ", " (map show args) <> ")\n"
 
 instance Show Statement where
-  show (ExprS _ _ e)    = show e
-  show (ReturnS _ _ e)  = "return " <> show e
-  show (LetS _ _ i e)   = "let " <> show i <> " = " <> show e
-  show (BlockS _ _ sts) = "{ " <> intercalate "\n  " (map show sts) <> " }"
+  show (ExprS b e expr) = "b:" <> show b <> " | e:" <> show e <> " |" <> show expr
+  show (ReturnS b e expr) = "b:" <> show b <> " | e:" <> show e <> " |" <> "return " <> show expr
+  show (LetS b e i expr) = "b:" <> show b <> " | e:" <> show e <> " |" <> "let " <> show i <> " = " <> show expr
+  show (BlockS b e sts) = "b:" <> show b <> " | e:" <> show e <> " |" <> "{ " <> intercalate "\n  " (map show sts) <> " }"

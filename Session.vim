@@ -14,22 +14,22 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +12 app/Main.hs
-badd +21 lib/Types/Token.hs
-badd +52 lib/Input.hs
-badd +38 lib/Types/Error.hs
-badd +56 lib/Repl.hs
-badd +194 lib/Parser.hs
-badd +28 lib/Types/Ast.hs
-badd +24 lib/Types/Object.hs
-badd +26 lib/Eval.hs
-badd +3 file
-badd +87 interpreter.cabal
+badd +7 app/Main.hs
+badd +86 lib/Types/Token.hs
+badd +11 lib/Input.hs
+badd +22 lib/Types/Error.hs
+badd +63 lib/Repl.hs
+badd +161 lib/Parser.hs
+badd +54 lib/Types/Ast.hs
+badd +48 lib/Types/Object.hs
+badd +78 lib/Eval.hs
+badd +4 file
+badd +69 lib/Lexer.hs
 argglobal
 %argdel
-edit lib/Repl.hs
+edit lib/Eval.hs
 argglobal
-balt file
+balt lib/Parser.hs
 setlocal fdm=marker
 setlocal fde=0
 setlocal fmr=/**,**/
@@ -38,12 +38,12 @@ setlocal fdl=0
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-let s:l = 19 - ((18 * winheight(0) + 21) / 42)
+let s:l = 102 - ((16 * winheight(0) + 16) / 33)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 19
-normal! 016|
+keepjumps 102
+normal! 050|
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0
   silent exe 'bwipe ' . s:wipebuf
@@ -56,7 +56,6 @@ if filereadable(s:sx)
   exe "source " . fnameescape(s:sx)
 endif
 let &g:so = s:so_save | let &g:siso = s:siso_save
-nohlsearch
 let g:this_session = v:this_session
 let g:this_obsession = v:this_session
 doautoall SessionLoadPost

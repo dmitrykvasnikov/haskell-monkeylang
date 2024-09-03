@@ -39,6 +39,8 @@ data Token -- Keywords
            | LST
            | GRTEQL
            | LSTEQL
+           | AND
+           | OR
            | ASSIGN
            -- System for internal usage
            | ILLEGAL
@@ -80,6 +82,8 @@ instance Show Token where
   show GRTEQL       = ">="
   show LSTEQL       = "<="
   show ASSIGN       = "="
+  show AND          = "&&"
+  show OR           = "||"
   show ILLEGAL      = "ILLEGAL"
   show NOTOKEN      = "NOTOKEN"
 

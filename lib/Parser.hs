@@ -2,10 +2,11 @@ module Parser where
 
 import           Control.Monad.Trans.Class        (lift)
 import           Control.Monad.Trans.Except       (runExceptT, throwE)
-import           Control.Monad.Trans.State.Strict (gets, runStateT)
+import           Control.Monad.Trans.State.Strict (gets, modify, runStateT)
 import           Data.Map                         (Map)
 import qualified Data.Map                         as M
 import qualified Data.Text                        as T
+import           GHC.StableName                   (StableName)
 import           Input
 import           Lexer                            (nextToken)
 import           Types.Ast
@@ -15,7 +16,7 @@ import           Types.Token
 type Parser a = Stream a
 
 -- Lowest / Equals / LessOrGreat / Sum / Mult / Prefix / Call / Index
-data Precedence = L | E | LG | S | M | P | C | I deriving (Eq, Ord, Show)
+data Precedence = L | E | O | LG | S | M | P | C | I deriving (Eq, Ord, Show)
 
 precedences :: [(Token, Precedence)]
 precedences =
@@ -26,6 +27,8 @@ precedences =
     (DIV, M),
     (EQL, E),
     (NOTEQL, E),
+    (OR, O),
+    (AND, O),
     (GRT, LG),
     (LST, LG),
     (GRTEQL, LG),
@@ -37,21 +40,14 @@ precedences =
 runParser :: Parser a -> String -> IO ((Either Error a), Input)
 runParser l i = (runStateT . runExceptT) l $ makeInput i
 
--- parseProgram takes end token, because it's used both for whole program and block statements evaluation
--- parsers for Tokens
-parseProgram :: Parser Statement
-parseProgram = gP >>= \p1 -> parseStatements EOF >>= \sts -> gP >>= \p2 -> return . BlockS p1 p2 $ sts
-
--- parseStatements parses statements separated with semicolon until it reaches end token
-parseStatements :: Token -> Parser [Statement]
-parseStatements end = do
+parseProgram :: Parser ()
+parseProgram = do
   token <- getCurrentToken
   let action
-        | token == end = return []
-        | token == EOF = (lift . gets $ pos) >>= \p -> (lift . gets $ currentLine) >>= \src -> throwE . ParserError p "unexpected end of input stream" $ src
-        | token == NOTOKEN = nextToken >> parseStatements end
-        | token == SEMICOLON = nextToken >> parseStatements end
-        | otherwise = parseStatement >>= \st -> movePeekToken [SEMICOLON, end] >> parseStatements end >>= \sts -> return $ st : sts
+        | token == EOF = return ()
+        | token == NOTOKEN = nextToken >> parseProgram
+        | token == SEMICOLON = nextToken >> parseProgram
+        | otherwise = parseStatement >>= pushStatement >> movePeekToken [SEMICOLON, EOF] >> parseProgram
   action
 
 parseStatement :: Parser Statement
@@ -63,10 +59,23 @@ parseStatement = do
     _      -> parseExprS
 
 parseExprS, parseLetS, parseReturnS, parseBlockS :: Parser Statement
-parseExprS = gP >>= \p1 -> parseExpresion L >>= \expr -> gP >>= \p2 -> return $ ExprS p1 p2 expr
-parseLetS = gP >>= \p1 -> nextToken >> parseIdE >>= \var -> movePeekToken [ASSIGN] >> nextToken >> parseExpresion L >>= \expr -> gP >>= \p2 -> return $ LetS p1 p2 var expr
-parseReturnS = gP >>= \p1 -> nextToken >> parseExpresion L >>= \expr -> gP >>= \p2 -> return $ ReturnS p1 p2 expr
-parseBlockS = gP >>= \p1 -> nextToken >> parseStatements RBRACE >>= \sts -> gP >>= \p2 -> return $ BlockS p1 p2 sts
+parseExprS = getCurLine >>= \p1 -> parseExpresion L >>= \expr -> getCurLine >>= \p2 -> return $ ExprS p1 p2 expr
+parseLetS = getCurLine >>= \p1 -> nextToken >> parseIdE >>= \var -> movePeekToken [ASSIGN] >> nextToken >> parseExpresion L >>= \expr -> getCurLine >>= \p2 -> return $ LetS p1 p2 var expr
+parseReturnS = getCurLine >>= \p1 -> nextToken >> parseExpresion L >>= \expr -> getCurLine >>= \p2 -> return $ ReturnS p1 p2 expr
+parseBlockS = do
+  p1 <- getCurLine
+  pt <- getPeekToken
+  if pt == RBRACE
+    then nextToken >> (return $ BlockS p1 p1 [])
+    else do nextToken >> parseStatement >>= \st -> nextToken >> go >>= \sts -> getCurLine >>= \p2 -> return $ BlockS p1 p2 (st : sts)
+  where
+    go :: Parser [Statement]
+    go = do
+      pt' <- getCurrentToken
+      case pt' of
+        SEMICOLON -> nextToken >> go
+        RBRACE -> return []
+        _ -> parseStatement >>= \st' -> nextToken >> go >>= \sts' -> return $ st' : sts'
 
 parseExpresion :: Precedence -> Parser Expr
 parseExpresion pr = do
@@ -77,7 +86,7 @@ parseExpresion pr = do
   where
     go :: Expr -> Parser Expr
     go l = do
-      op <- lift . gets $ peekToken
+      op <- getPeekToken
       case (op /= SEMICOLON && pr < (getPrecedence op)) of
         True -> do
           case (getInfixOp op) of
@@ -97,7 +106,7 @@ parseIfE = do
   pt <- getPeekToken
   if pt == ELSE
     then nextToken >> movePeekToken [LBRACE] >> parseBlockS >>= return . IfE cond th
-    else gP >>= \p -> return $ IfE cond th (BlockS p p [])
+    else getCurLine >>= \p -> return $ IfE cond th (BlockS p p [])
 parseFunctionE = movePeekToken [LPAREN] >> parseListE RPAREN COMMA parseIdE >>= \args -> movePeekToken [LBRACE] >> parseBlockS >>= return . FnE args
 parseArrayE = parseListE RBRACKET COMMA (parseExpresion L) >>= return . ArrayE
 parseHashE = parseListE RBRACE COMMA parseKeyValue >>= return . HashE . M.fromList . map (\(PairE k v) -> (k, v))
@@ -154,6 +163,8 @@ getInfixOp = \case
   GRTEQL   -> Just parseInfixE
   LSTEQL   -> Just parseInfixE
   EQL      -> Just parseInfixE
+  OR       -> Just parseInfixE
+  AND      -> Just parseInfixE
   NOTEQL   -> Just parseInfixE
   CONCAT   -> Just parseInfixE
   LPAREN   -> Just parseCallE
@@ -163,12 +174,15 @@ getInfixOp = \case
 -- helpers
 -- check for peekTocken and move it to current position if it's equal to argument
 
-gP :: Parser Col
-gP = lift . gets $ curLinePos
+pushStatement :: Statement -> Parser ()
+pushStatement st = lift . modify $ (\e -> e {program = (program e) ++ [st]})
 
 getCurrentToken, getPeekToken :: Parser Token
-getCurrentToken = lift . gets $ curToken
-getPeekToken = lift . gets $ peekToken
+getCurrentToken = fst <$> (lift . gets $ curToken)
+getPeekToken = fst <$> (lift . gets $ peekToken)
+
+getCurLine :: Parser Int
+getCurLine = snd <$> (lift . gets $ curToken)
 
 getPrecedence :: Token -> Precedence
 getPrecedence token = maybe L id (lookup token precedences)
