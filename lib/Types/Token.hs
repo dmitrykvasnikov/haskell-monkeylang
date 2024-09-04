@@ -59,7 +59,7 @@ instance Show Token where
   show ELSE         = "ELSE"
   show COLON        = ":"
   show SEMICOLON    = ";"
-  show SEMICOLON_   = ";"
+  show SEMICOLON_   = "\n"
   show COMMA        = ","
   show EOF          = "EOF"
   show LPAREN       = "("

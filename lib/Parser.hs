@@ -42,9 +42,8 @@ parseProgram = do
   token <- getCurrentToken
   let action
         | token == EOF = return ()
-        | token == NOTOKEN = nextToken >> parseProgram
-        | token == SEMICOLON = nextToken >> parseProgram
-        | otherwise = parseStatement >>= pushStatement >> movePeekToken [SEMICOLON, EOF] >> parseProgram
+        | elem token [NOTOKEN, SEMICOLON, SEMICOLON_] = nextToken >> parseProgram
+        | otherwise = parseStatement >>= pushStatement >> movePeekToken [SEMICOLON, SEMICOLON_, EOF] >> parseProgram
   action
 
 parseStatement :: Parser Statement
@@ -71,6 +70,7 @@ parseBlockS = do
       pt' <- getCurrentToken
       case pt' of
         SEMICOLON -> nextToken >> go
+        SEMICOLON_ -> nextToken >> go
         RBRACE -> return []
         _ -> parseStatement >>= \st' -> nextToken >> go >>= \sts' -> return $ st' : sts'
 
@@ -84,7 +84,7 @@ parseExpresion pr = do
     go :: Expr -> Parser Expr
     go l = do
       op <- getPeekToken
-      case (op /= SEMICOLON && pr < (getPrecedence op)) of
+      case (op /= SEMICOLON && op /= SEMICOLON_ && pr < (getPrecedence op)) of
         True -> do
           case (getInfixOp op) of
             Nothing  -> return l
@@ -99,12 +99,12 @@ parseIdE = checkCurrentToken [ID "variable name"] >>= \(ID i) -> return $ IdE i
 parseGroupedE = nextToken >> parseExpresion L >>= \expr -> movePeekToken [RPAREN] >> return expr
 parseIfE = do
   cond <- (movePeekToken [LPAREN] >> nextToken >> parseExpresion L)
-  th <- (movePeekToken [RPAREN] >> movePeekToken [THEN] >> movePeekToken [LBRACE] >> parseBlockS)
-  pt <- getPeekToken
+  th <- (movePeekToken [RPAREN] >> sps >> movePeekToken [THEN] >> sps >> movePeekToken [LBRACE] >> sps >> parseBlockS)
+  pt <- (sps >> getPeekToken)
   if pt == ELSE
-    then nextToken >> movePeekToken [LBRACE] >> parseBlockS >>= return . IfE cond th
+    then nextToken >> sps >> movePeekToken [LBRACE] >> sps >> parseBlockS >>= return . IfE cond th
     else getCurLine >>= \p -> return $ IfE cond th (BlockS p p [])
-parseFunctionE = movePeekToken [LPAREN] >> parseListE RPAREN COMMA parseIdE >>= \args -> movePeekToken [LBRACE] >> parseBlockS >>= return . FnE args
+parseFunctionE = movePeekToken [LPAREN] >> parseListE RPAREN COMMA parseIdE >>= \args -> movePeekToken [LBRACE] >> sps >> parseBlockS >>= return . FnE args
 parseArrayE = parseListE RBRACKET COMMA (parseExpresion L) >>= return . ArrayE
 parseHashE = parseListE RBRACE COMMA parseKeyValue >>= return . HashE . M.fromList . map (\(PairE k v) -> (k, v))
 parsePrefixE = getCurrentToken >>= \op -> nextToken >> (parseExpresion L) >>= return . UnOpE op
@@ -204,6 +204,9 @@ skipPeekToken token = do
   case pt == token of
     True  -> nextToken >> skipPeekToken token
     False -> return ()
+
+sps :: Parser ()
+sps = skipPeekToken SEMICOLON_
 
 makeParseError :: String -> Parser Token
 makeParseError err =

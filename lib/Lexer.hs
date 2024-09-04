@@ -42,7 +42,7 @@ singleCharToken = do
     '}'    -> return RBRACE
     '['    -> return LBRACKET
     ']'    -> return RBRACKET
-    '\n'   -> return SEMICOLON
+    '\n'   -> return SEMICOLON_
     ';'    -> return SEMICOLON
     '='    -> return ASSIGN
     '!'    -> return NOT
