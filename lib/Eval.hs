@@ -4,14 +4,10 @@ import           Control.Monad.IO.Class           (liftIO)
 import           Control.Monad.Trans.Class        (lift)
 import           Control.Monad.Trans.Except       (runExceptT, throwE)
 import           Control.Monad.Trans.State.Strict (get, gets, modify, runStateT)
-import           Data.Data                        (constrType)
 import qualified Data.HashMap.Internal            as H
 import           Data.Map                         (Map)
 import qualified Data.Map                         as M
 import qualified Data.Text                        as T
-import           Debug.Trace
-import           GHC.Float                        (expt)
-import           GHC.Real                         (infinity)
 import           Input
 import           Types.Ast
 import           Types.Error
@@ -83,22 +79,30 @@ evalE (IndexE expr ind) = do
     _ -> makeEvalError "only Array and HashMap supports index operation"
 evalE (FnE args body) = (lift . gets $ heap) >>= return . Object FUNCTION_OBJ . FnV (map (\(IdE var) -> var) args) body
 evalE (CallE i args) = do
-  Object _ (FnV params (BlockS _ _ body) closure) <-
-    ( evalE i >>= \i' ->
-        if oType i' == FUNCTION_OBJ
-          then return i'
-          else makeEvalError $ show i <> " is not a function"
-    )
-  case length params /= length args of
-    True -> makeEvalError "amount of parameters and arguments does not match"
-    False -> do
-      env <- lift get
-      argsO <- traverse evalE args
-      let newHeap = M.union (M.fromList $ zip params argsO) $ M.union closure (heap env)
-      res <- liftIO $ (runStateT . runExceptT) evalProgram (env {heap = newHeap, program = body})
-      case res of
-        (Right o, _) -> return o
-        (Left e, _)  -> throwE e
+  case i of
+    (IdE i) -> case M.lookup i builtins of
+      Just f  -> (traverse evalE args) >>= f
+      Nothing -> go
+    _ -> go
+  where
+    go :: Stream Object
+    go = do
+      Object _ (FnV params (BlockS _ _ body) closure) <-
+        ( evalE i >>= \i' ->
+            if oType i' == FUNCTION_OBJ
+              then return i'
+              else makeEvalError $ show i <> " is not a function"
+        )
+      case length params /= length args of
+        True -> makeEvalError "amount of parameters and arguments does not match"
+        False -> do
+          env <- lift get
+          argsO <- traverse evalE args
+          let newHeap = M.union (M.fromList $ zip params argsO) $ M.union closure (heap env)
+          res <- liftIO $ (runStateT . runExceptT) evalProgram (env {heap = newHeap, program = body})
+          case res of
+            (Right o, _) -> return o
+            (Left e, _)  -> throwE e
 evalE _ = makeEvalError "This error should have never happens"
 evalNotE e = evalE e >>= checkType BOOL_OBJ >>= \b -> if b == trueConst then return falseConst else return trueConst
 evalNegateE e = evalE e >>= checkType INTEGER_OBJ >>= \(Object _ (IntV n)) -> return $ Object INTEGER_OBJ (IntV $ negate n)
@@ -192,3 +196,50 @@ getSource = do
   let begin = T.take (e - b + 1) $ T.drop b src
       end = T.takeWhile (/= '\n') (T.drop (e + 1) src)
   return $ T.unpack $ begin <> end
+
+-- Map of builtin functions
+builtins :: M.Map String ([Object] -> Stream Object)
+builtins =
+  M.fromList
+    [ ( "length",
+        \args -> do
+          checkArgsAmount args 1
+          case head args of
+            (Object ARRAY_OBJ (ArrayV arr)) -> return . Object INTEGER_OBJ . IntV $ length arr
+            (Object STRING_OBJ (StringV str)) -> return . Object INTEGER_OBJ . IntV $ length str
+            _ -> makeEvalError "'length' supports only array and string arguments"
+      ),
+      ( "first",
+        \args -> do
+          checkArgsAmount args 1
+          case head args of
+            (Object ARRAY_OBJ (ArrayV arr)) -> return $ if arr == [] then nullConst else head arr
+            _ -> makeEvalError "'first' supports only array argument"
+      ),
+      ( "last",
+        \args -> do
+          checkArgsAmount args 1
+          case head args of
+            (Object ARRAY_OBJ (ArrayV arr)) -> return $ if arr == [] then nullConst else last arr
+            _ -> makeEvalError "'last' supports only array argument"
+      ),
+      ( "rest",
+        \args -> do
+          checkArgsAmount args 1
+          case head args of
+            (Object ARRAY_OBJ (ArrayV arr)) -> return $ if arr == [] then nullConst else Object ARRAY_OBJ (ArrayV $ tail arr)
+            _ -> makeEvalError "'rest' supports only array argument"
+      ),
+      ( "push",
+        \args -> do
+          checkArgsAmount args 2
+          case head args of
+            (Object ARRAY_OBJ (ArrayV arr)) -> return $ Object ARRAY_OBJ (ArrayV $ (arr ++ [args !! 1]))
+            _ -> makeEvalError "'push' supports only array argument"
+      )
+    ]
+
+checkArgsAmount :: [Object] -> Int -> Stream Object
+checkArgsAmount obs i = case i /= length obs of
+  True -> makeEvalError $ "wrong amoutn of argument, need " <> show i <> ", got " <> (show $ length obs)
+  False -> return nullConst

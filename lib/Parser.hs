@@ -198,6 +198,13 @@ checkCurrentToken tokens = do
     True -> return cToken
     False -> (makeParseError $ "unexpected token: got '" <> show cToken <> "', expected '" <> foldl1 (\s t -> s <> "'or '" <> t) (map show tokens) <> "'")
 
+skipPeekToken :: Token -> Parser ()
+skipPeekToken token = do
+  pt <- getPeekToken
+  case pt == token of
+    True  -> nextToken >> skipPeekToken token
+    False -> return ()
+
 makeParseError :: String -> Parser Token
 makeParseError err =
   (lift . gets $ pos) >>= \p ->

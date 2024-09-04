@@ -12,6 +12,7 @@ data Token -- Keywords
            | ELSE
            -- Syntax
            | SEMICOLON
+           | SEMICOLON_
            | COMMA
            | EOF
            | COLON
@@ -58,6 +59,7 @@ instance Show Token where
   show ELSE         = "ELSE"
   show COLON        = ":"
   show SEMICOLON    = ";"
+  show SEMICOLON_   = ";"
   show COMMA        = ","
   show EOF          = "EOF"
   show LPAREN       = "("
