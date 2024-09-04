@@ -1,14 +1,17 @@
 module Eval where
 
+import           Control.Monad.IO.Class           (liftIO)
 import           Control.Monad.Trans.Class        (lift)
 import           Control.Monad.Trans.Except       (runExceptT, throwE)
-import           Control.Monad.Trans.State.Strict (gets, modify, runStateT)
+import           Control.Monad.Trans.State.Strict (get, gets, modify, runStateT)
 import           Data.Data                        (constrType)
-import           Data.HashMap.Internal
+import qualified Data.HashMap.Internal            as H
 import           Data.Map                         (Map)
 import qualified Data.Map                         as M
 import qualified Data.Text                        as T
 import           Debug.Trace
+import           GHC.Float                        (expt)
+import           GHC.Real                         (infinity)
 import           Input
 import           Types.Ast
 import           Types.Error
@@ -19,23 +22,24 @@ evalProgram :: Stream Object
 evalProgram = (lift . gets $ program) >>= run
   where
     run :: [Statement] -> Stream Object
-    run []        = return nullConst
-    run [s]       = evalStatement s >>= return
-    run (s : sts) = evalStatement s >> run sts
+    run [] = return nullConst
+    run [s] = evalStatement s >>= return
+    run (s : sts) = evalStatement s >>= \o -> ifReturn >>= \r -> if r then return o else run sts
 
 evalStatement :: Statement -> Stream Object
-evalStatement s@(LetS _ _ i e)   = sP s >> evalLetS i e
+evalStatement s@(LetS _ _ i e) = sP s >> evalLetS i e
+evalStatement s@(ReturnS _ _ e) = sP s >> evalE e >>= \r -> (lift . modify $ (\s -> s {isReturn = True})) >> return r
 evalStatement s@(BlockS _ _ sts) = sP s >> evalBlockS sts
 evalStatement s@(ExprS _ _ expr) = sP s >> evalE expr
-evalStatement s                  = makeEvalError $ "error " <> show s
 
 evalLetS :: Expr -> Expr -> Stream Object
-evalLetS (IdE var) e = evalE e >>= \val -> (lift . modify $ (\e -> e {heap = M.insert var val (heap e)})) >> return nullConst
+evalLetS (IdE var) e = evalE e >>= \val -> (lift . modify $ (\s -> s {heap = M.insert var val (heap s)})) >> return nullConst
+evalLetS e _ = makeEvalError $ "in the left part of let expression should be ad identifier, but got " <> show e
 
 evalBlockS :: [Statement] -> Stream Object
-evalBlockS []       = return nullConst
-evalBlockS [s]      = evalStatement s
-evalBlockS (s : ss) = evalStatement s >> evalBlockS ss
+evalBlockS [] = return nullConst
+evalBlockS [s] = evalStatement s
+evalBlockS (s : ss) = evalStatement s >>= \o -> ifReturn >>= \r -> if r then return o else evalBlockS ss
 
 evalE, evalNotE, evalNegateE :: Expr -> Stream Object
 evalE (IntE i) = return $ Object INTEGER_OBJ (IntV i)
@@ -46,6 +50,15 @@ evalE (IdE i) = do
   case M.lookup i e of
     Just o  -> return o
     Nothing -> makeEvalError $ "unknown identifier : '" <> i <> "'"
+evalE (ArrayE arr) = traverse evalE arr >>= return . Object ARRAY_OBJ . ArrayV
+evalE (HashE hs) = traverse makeHashPair (M.toList hs) >>= return . Object HASH_MAP . HashV . M.fromList
+  where
+    makeHashPair :: (Expr, Expr) -> Stream (H.Hash, (Object, Object))
+    makeHashPair (keyE, valueE) = do
+      key <- evalE keyE
+      case elem (oType key) [INTEGER_OBJ, BOOL_OBJ, STRING_OBJ] of
+        True -> evalE valueE >>= \value -> return (H.hash $ show key, (key, value))
+        False -> getSource >>= throwE . EvalError "only INT, BOOL and STRING types could be keys in hashmap"
 evalE (UnOpE op expr) = do
   let action
         | op == NOT = evalNotE expr
@@ -53,6 +66,39 @@ evalE (UnOpE op expr) = do
         | otherwise = makeEvalError "Unsupported unary operation"
   action
 evalE (BinOpE op e1 e2) = evalInfixE op e1 e2
+evalE (IfE cond t e) = evalE cond >>= \o -> isFalsy o >>= \b -> if b then (evalStatement e) else (evalStatement t)
+evalE (IndexE expr ind) = do
+  obj <- evalE expr
+  case obj of
+    (Object ARRAY_OBJ (ArrayV arr)) -> do
+      Object _ (IntV ind') <- (evalE ind >>= checkType INTEGER_OBJ)
+      case (ind' >= 0) && (ind' < length arr) of
+        True  -> return $ arr !! ind'
+        False -> makeEvalError $ "index '" <> show ind' <> "' out of bound"
+    (Object HASH_MAP (HashV hs)) -> do
+      key <- evalE ind
+      case elem (oType key) [INTEGER_OBJ, BOOL_OBJ, STRING_OBJ] of
+        True -> return $ maybe nullConst (\(_, v) -> v) (M.lookup (H.hash $ show key) hs)
+        False -> getSource >>= throwE . EvalError "only INT, BOOL and STRING types could be keys in hashmap"
+    _ -> makeEvalError "only Array and HashMap supports index operation"
+evalE (FnE args body) = (lift . gets $ heap) >>= return . Object FUNCTION_OBJ . FnV (map (\(IdE var) -> var) args) body
+evalE (CallE i args) = do
+  Object _ (FnV params (BlockS _ _ body) closure) <-
+    ( evalE i >>= \i' ->
+        if oType i' == FUNCTION_OBJ
+          then return i'
+          else makeEvalError $ show i <> " is not a function"
+    )
+  case length params /= length args of
+    True -> makeEvalError "amount of parameters and arguments does not match"
+    False -> do
+      env <- lift get
+      argsO <- traverse evalE args
+      let newHeap = M.union (M.fromList $ zip params argsO) $ M.union closure (heap env)
+      res <- liftIO $ (runStateT . runExceptT) evalProgram (env {heap = newHeap, program = body})
+      case res of
+        (Right o, _) -> return o
+        (Left e, _)  -> throwE e
 evalE _ = makeEvalError "This error should have never happens"
 evalNotE e = evalE e >>= checkType BOOL_OBJ >>= \b -> if b == trueConst then return falseConst else return trueConst
 evalNegateE e = evalE e >>= checkType INTEGER_OBJ >>= \(Object _ (IntV n)) -> return $ Object INTEGER_OBJ (IntV $ negate n)
@@ -86,18 +132,23 @@ evalInfixE op e1 e2
           case op of
             AND -> if e1 == falseConst then return e1 else return e2
             OR  -> if e1 == trueConst then return e1 else return e2
+  | op == CONCAT =
+      evalE e1 >>= checkType STRING_OBJ >>= \(Object STRING_OBJ (StringV s1)) ->
+        evalE e2 >>= checkType STRING_OBJ >>= \(Object STRING_OBJ (StringV s2)) -> return $ Object STRING_OBJ (StringV $ s1 ++ s2)
   | otherwise = makeEvalError $ "'" <> "' is not an infix operator"
   where
     mathop PLUS  = (+)
     mathop MINUS = (-)
     mathop MULT  = (*)
     mathop DIV   = div
+    mathop _     = todo
     compop LST    = (<)
     compop GRT    = (>)
     compop NOTEQL = (/=)
     compop LSTEQL = (<=)
     compop GRTEQL = (>=)
     compop EQL    = (==)
+    compop _      = todo
 
 checkType :: ObjectType -> Object -> Stream Object
 checkType t o = do
@@ -105,6 +156,9 @@ checkType t o = do
    in if t == ot
         then return o
         else makeEvalError $ "type error: expect " <> show t <> " but got " <> show o
+
+ifReturn :: Stream Bool
+ifReturn = lift . gets $ isReturn
 
 -- set and get first and last lines of current statement
 sP :: Statement -> Stream ()
@@ -118,14 +172,23 @@ sP st = lift . modify $ (\s -> s {statementPos = go st})
 gP :: Stream (Col, Col)
 gP = lift . gets $ statementPos
 
+isFalsy :: Object -> Stream Bool
+isFalsy o
+  | o == nullConst = return True
+  | o == falseConst = return True
+  | otherwise = return False
+
 boolToObject :: Bool -> Object
 boolToObject True  = trueConst
 boolToObject False = falseConst
 
 makeEvalError :: String -> Stream Object
-makeEvalError msg = do
+makeEvalError msg = getSource >>= throwE . EvalError msg
+
+getSource :: Stream String
+getSource = do
   (b, e) <- gP
   src <- lift . gets $ input
   let begin = T.take (e - b + 1) $ T.drop b src
       end = T.takeWhile (/= '\n') (T.drop (e + 1) src)
-  traceShow (show b <> "," <> show e) $ throwE . EvalError msg $ T.unpack $ begin <> end
+  return $ T.unpack $ begin <> end

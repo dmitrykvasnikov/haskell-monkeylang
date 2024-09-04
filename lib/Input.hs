@@ -24,6 +24,7 @@ data Input = Input { input               :: Text
                    , heap                :: M.Map String Object
                      -- statementPos keeps position of first and last lines of stratemen
                    , statementPos        :: (Col, Col)
+                   , isReturn            :: Bool
                    }
   deriving (Show)
 
@@ -45,7 +46,8 @@ makeInput str =
       peekToken = (NOTOKEN, 0),
       program = [],
       heap = M.empty,
-      statementPos = (0, 0)
+      statementPos = (0, 0),
+      isReturn = False
     }
 
 updateInput :: String -> Input -> Input
@@ -60,7 +62,8 @@ updateInput str inp =
       curToken = (NOTOKEN, 0),
       peekToken = (NOTOKEN, 0),
       program = [],
-      statementPos = (0, 0)
+      statementPos = (0, 0),
+      isReturn = False
     }
 
 moveInput :: Input -> Input

@@ -3,10 +3,7 @@ module Parser where
 import           Control.Monad.Trans.Class        (lift)
 import           Control.Monad.Trans.Except       (runExceptT, throwE)
 import           Control.Monad.Trans.State.Strict (gets, modify, runStateT)
-import           Data.Map                         (Map)
 import qualified Data.Map                         as M
-import qualified Data.Text                        as T
-import           GHC.StableName                   (StableName)
 import           Input
 import           Lexer                            (nextToken)
 import           Types.Ast
