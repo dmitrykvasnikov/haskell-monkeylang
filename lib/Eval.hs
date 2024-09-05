@@ -32,7 +32,12 @@ evalStatement s@(BlockS _ _ sts) = sP s >> evalBlockS sts
 evalStatement s@(ExprS _ _ expr) = sP s >> evalE expr
 
 evalLetS :: Expr -> Expr -> Eval Object
-evalLetS (IdE var) e = checkRestricted var >> evalE e >>= \val -> (lift . modify $ (\s -> s {heap = M.insert var val (heap s)})) >> return nullConst
+evalLetS (IdE var) e = do
+  checkRestricted var
+  d <- lift . gets $ declaredVars
+  case elem var d of
+    True -> makeEvalError $ "variable '" <> var <> "' already declared"
+    False -> evalE e >>= \val -> (lift . modify $ (\s -> s {declaredVars = (declaredVars s) ++ [var], heap = M.insert var val (heap s)})) >> return nullConst
 evalLetS e _ = makeEvalError $ "in the left part of let expression should be ad identifier, but got " <> show e
 
 evalBlockS :: [Statement] -> Eval Object
@@ -91,9 +96,11 @@ evalE (CallE fn args) = do
           argsO <- traverse evalE args
           -- order of (heap env) and closure are important for correct work of recursion
           let newHeap = M.union (M.fromList $ zip params argsO) $ M.union (heap env) closure
-          lift . modify $ (\e -> e {heap = newHeap, program = body})
+          lift . modify $ (\e -> e {heap = newHeap, program = body, declaredVars = []})
           res <- run body
-          lift . put $ env
+          d <- lift . gets $ declaredVars
+          h <- (M.filterWithKey (\k _ -> not . elem k $ d)) <$> (lift . gets $ heap)
+          lift . put $ env {heap = M.union h (heap env)}
           return res
     Object BUILTIN_OBJ (BuiltinV (Builtin _ builtin)) -> traverse evalE args >>= builtin
     _ -> makeEvalError $ show fn <> " is not a function"
@@ -193,6 +200,7 @@ getSource = do
 
 -- Map of builtin functions
 -- if you add new builtin - don't forget to include the name of it to restricted list in Types.Token
+-- builtins doesn't get separate environment and runs in current state
 builtins :: [(String, [Object] -> Eval Object)]
 builtins =
   [ ( "length",

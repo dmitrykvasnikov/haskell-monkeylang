@@ -1,0 +1,4 @@
+let a = 10
+let add= fn(x,y){
+let a = 20
+return x + y}

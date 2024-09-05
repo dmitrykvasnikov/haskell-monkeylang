@@ -23,6 +23,8 @@ data Input a = Input { input               :: Text
                      , heap                :: M.Map String a
                        -- statementPos keeps position of first and last lines of stratemen
                      , statementPos        :: (Col, Col)
+                       -- list of declared variables to remove them when return to higher scope
+                     , declaredVars        :: [String]
                      , isReturn            :: Bool
                      }
   deriving (Show)
@@ -46,6 +48,7 @@ makeInput str =
       program = [],
       heap = M.empty,
       statementPos = (0, 0),
+      declaredVars = [],
       isReturn = False
     }
 
