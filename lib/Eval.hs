@@ -1,12 +1,9 @@
 module Eval where
 
-import           Control.Monad.IO.Class           (liftIO)
 import           Control.Monad.Trans.Class        (lift)
-import           Control.Monad.Trans.Except       (runExceptT, throwE)
-import           Control.Monad.Trans.State.Strict (get, gets, modify, put,
-                                                   runStateT)
+import           Control.Monad.Trans.Except       (throwE)
+import           Control.Monad.Trans.State.Strict (get, gets, modify, put)
 import qualified Data.HashMap.Internal            as H
-import           Data.Map                         (Map)
 import qualified Data.Map                         as M
 import qualified Data.Text                        as T
 import           Debug.Trace
@@ -16,30 +13,34 @@ import           Types.Error
 import           Types.Object
 import           Types.Token
 
-evalProgram :: Stream Object
-evalProgram = (lift . gets $ program) >>= run
-  where
-    run :: [Statement] -> Stream Object
-    run [] = return nullConst
-    run [s] = evalStatement s >>= return
-    run (s : sts) = evalStatement s >>= \o -> ifReturn >>= \r -> if r then return o else run sts
+type Eval a = Stream Object a
 
-evalStatement :: Statement -> Stream Object
+evalProgram :: Eval Object
+evalProgram =
+  let newHeap = M.fromList . map builtinToHeap $ builtins
+   in (lift . modify $ (\e -> e {heap = M.union newHeap (heap e)})) >> (lift . gets $ program) >>= run
+
+run :: [Statement] -> Eval Object
+run [] = return nullConst
+run [s] = evalStatement s >>= return
+run (s : sts) = evalStatement s >>= \o -> ifReturn >>= \r -> if r then return o else run sts
+
+evalStatement :: Statement -> Eval Object
 evalStatement s@(LetS _ _ i e) = sP s >> evalLetS i e
 evalStatement s@(ReturnS _ _ e) = sP s >> evalE e >>= \r -> (lift . modify $ (\s -> s {isReturn = True})) >> return r
 evalStatement s@(BlockS _ _ sts) = sP s >> evalBlockS sts
 evalStatement s@(ExprS _ _ expr) = sP s >> evalE expr
 
-evalLetS :: Expr -> Expr -> Stream Object
+evalLetS :: Expr -> Expr -> Eval Object
 evalLetS (IdE var) e = checkRestricted var >> evalE e >>= \val -> (lift . modify $ (\s -> s {heap = M.insert var val (heap s)})) >> return nullConst
 evalLetS e _ = makeEvalError $ "in the left part of let expression should be ad identifier, but got " <> show e
 
-evalBlockS :: [Statement] -> Stream Object
+evalBlockS :: [Statement] -> Eval Object
 evalBlockS [] = return nullConst
 evalBlockS [s] = evalStatement s
 evalBlockS (s : ss) = evalStatement s >>= \o -> ifReturn >>= \r -> if r then return o else evalBlockS ss
 
-evalE, evalNotE, evalNegateE :: Expr -> Stream Object
+evalE, evalNotE, evalNegateE :: Expr -> Eval Object
 evalE (IntE i) = return $ Object INTEGER_OBJ (IntV i)
 evalE (StringE s) = return $ Object STRING_OBJ (StringV s)
 evalE (BoolE b) = return $ if b then trueConst else falseConst
@@ -51,7 +52,7 @@ evalE (IdE i) = do
 evalE (ArrayE arr) = traverse evalE arr >>= return . Object ARRAY_OBJ . ArrayV
 evalE (HashE hs) = traverse makeHashPair (M.toList hs) >>= return . Object HASH_MAP . HashV . M.fromList
   where
-    makeHashPair :: (Expr, Expr) -> Stream (H.Hash, (Object, Object))
+    makeHashPair :: (Expr, Expr) -> Eval (H.Hash, (Object, Object))
     makeHashPair (keyE, valueE) = do
       key <- evalE keyE
       case elem (oType key) [INTEGER_OBJ, BOOL_OBJ, STRING_OBJ] of
@@ -80,21 +81,9 @@ evalE (IndexE expr ind) = do
         False -> getSource >>= throwE . EvalError "only INT, BOOL and STRING types could be keys in hashmap"
     _ -> makeEvalError "only Array and HashMap supports index operation"
 evalE (FnE args body) = (lift . gets $ heap) >>= return . Object FUNCTION_OBJ . FnV (map (\(IdE var) -> var) args) body
-evalE (CallE i args) = do
-  case i of
-    (IdE i) -> case M.lookup i builtins of
-      Just f  -> (traverse evalE args) >>= f
-      Nothing -> go
-    _ -> go
-  where
-    go :: Stream Object
-    go = do
-      Object _ (FnV params (BlockS _ _ body) closure) <-
-        ( evalE i >>= \i' ->
-            if oType i' == FUNCTION_OBJ
-              then return i'
-              else makeEvalError $ show i <> " is not a function"
-        )
+evalE (CallE fn args) = do
+  evalE fn >>= \case
+    Object FUNCTION_OBJ (FnV params (BlockS _ _ body) closure) ->
       case length params /= length args of
         True -> makeEvalError "amount of parameters and arguments does not match"
         False -> do
@@ -102,19 +91,17 @@ evalE (CallE i args) = do
           argsO <- traverse evalE args
           -- order of (heap env) and closure are important for correct work of recursion
           let newHeap = M.union (M.fromList $ zip params argsO) $ M.union (heap env) closure
-          -- res <- liftIO $ (runStateT . runExceptT) evalProgram (env {heap = newHeap, program = body})
           lift . modify $ (\e -> e {heap = newHeap, program = body})
-          res <- evalProgram
+          res <- run body
           lift . put $ env
           return res
---           case res of
---             (Right o, _) -> return o
---             (Left e, _)  -> throwE e
+    Object BUILTIN_OBJ (BuiltinV (Builtin _ builtin)) -> traverse evalE args >>= builtin
+    _ -> makeEvalError $ show fn <> " is not a function"
 evalE _ = makeEvalError "This error should have never happens"
 evalNotE e = evalE e >>= checkType BOOL_OBJ >>= \b -> if b == trueConst then return falseConst else return trueConst
 evalNegateE e = evalE e >>= checkType INTEGER_OBJ >>= \(Object _ (IntV n)) -> return $ Object INTEGER_OBJ (IntV $ negate n)
 
-evalInfixE :: Token -> Expr -> Expr -> Stream Object
+evalInfixE :: Token -> Expr -> Expr -> Eval Object
 evalInfixE op e1 e2
   | elem op [PLUS, MINUS, MULT, DIV] =
       do
@@ -135,7 +122,7 @@ evalInfixE op e1 e2
               (IntV i1, IntV i2) -> return . boolToObject $ (compop op) i1 i2
               (StringV s1, StringV s2) -> return . boolToObject $ (compop op) s1 s2
               (BoolV b1, BoolV b2) -> return . boolToObject $ (compop op) b1 b2
-            else makeEvalError $ "can not compare differnet types: " <> show o1 <> " and " <> show o2
+            else makeEvalError $ "can not compare different types: " <> show o1 <> " and " <> show o2
         else makeEvalError "compare operation must be applied to INT, BOOL or STRING arguments"
   | elem op [AND, OR] =
       evalE e1 >>= checkType BOOL_OBJ >>= \e1 ->
@@ -161,18 +148,18 @@ evalInfixE op e1 e2
     compop EQL    = (==)
     compop _      = todo
 
-checkType :: ObjectType -> Object -> Stream Object
+checkType :: ObjectType -> Object -> Eval Object
 checkType t o = do
   let ot = oType o
    in if t == ot
         then return o
         else makeEvalError $ "type error: expect " <> show t <> " but got " <> show o
 
-ifReturn :: Stream Bool
+ifReturn :: Eval Bool
 ifReturn = lift . gets $ isReturn
 
 -- set and get first and last lines of current statement
-sP :: Statement -> Stream ()
+sP :: Statement -> Eval ()
 sP st = lift . modify $ (\s -> s {statementPos = go st})
   where
     go (BlockS b e _)  = (b, e)
@@ -180,10 +167,10 @@ sP st = lift . modify $ (\s -> s {statementPos = go st})
     go (ReturnS b e _) = (b, e)
     go (ExprS b e _)   = (b, e)
 
-gP :: Stream (Col, Col)
+gP :: Eval (Col, Col)
 gP = lift . gets $ statementPos
 
-isFalsy :: Object -> Stream Bool
+isFalsy :: Object -> Eval Bool
 isFalsy o
   | o == nullConst = return True
   | o == falseConst = return True
@@ -193,10 +180,10 @@ boolToObject :: Bool -> Object
 boolToObject True  = trueConst
 boolToObject False = falseConst
 
-makeEvalError :: String -> Stream Object
+makeEvalError :: String -> Eval Object
 makeEvalError msg = getSource >>= throwE . EvalError msg
 
-getSource :: Stream String
+getSource :: Eval String
 getSource = do
   (b, e) <- gP
   src <- lift . gets $ input
@@ -206,55 +193,57 @@ getSource = do
 
 -- Map of builtin functions
 -- if you add new builtin - don't forget to include the name of it to restricted list in Types.Token
-builtins :: M.Map String ([Object] -> Stream Object)
+builtins :: [(String, [Object] -> Eval Object)]
 builtins =
-  M.fromList
-    [ ( "length",
-        \args -> do
-          checkArgsAmount args 1
-          case head args of
-            (Object ARRAY_OBJ (ArrayV arr)) -> return . Object INTEGER_OBJ . IntV $ length arr
-            (Object STRING_OBJ (StringV str)) -> return . Object INTEGER_OBJ . IntV $ length str
-            _ -> makeEvalError "'length' supports only array and string arguments"
-      ),
-      ( "first",
-        \args -> do
-          checkArgsAmount args 1
-          case head args of
-            (Object ARRAY_OBJ (ArrayV arr)) -> return $ if arr == [] then nullConst else head arr
-            _ -> makeEvalError "'first' supports only array argument"
-      ),
-      ( "last",
-        \args -> do
-          checkArgsAmount args 1
-          case head args of
-            (Object ARRAY_OBJ (ArrayV arr)) -> return $ if arr == [] then nullConst else last arr
-            _ -> makeEvalError "'last' supports only array argument"
-      ),
-      ( "rest",
-        \args -> do
-          checkArgsAmount args 1
-          case head args of
-            (Object ARRAY_OBJ (ArrayV arr)) -> return $ if arr == [] then nullConst else Object ARRAY_OBJ (ArrayV $ tail arr)
-            _ -> makeEvalError "'rest' supports only array argument"
-      ),
-      ( "push",
-        \args -> do
-          checkArgsAmount args 2
-          case head args of
-            (Object ARRAY_OBJ (ArrayV arr)) -> return $ Object ARRAY_OBJ (ArrayV $ (arr ++ [args !! 1]))
-            _ -> makeEvalError "'push' supports only array argument"
-      )
-    ]
+  [ ( "length",
+      \args -> do
+        checkArgsAmount args 1
+        case head args of
+          (Object ARRAY_OBJ (ArrayV arr)) -> return . Object INTEGER_OBJ . IntV $ length arr
+          (Object STRING_OBJ (StringV str)) -> return . Object INTEGER_OBJ . IntV $ length str
+          _ -> makeEvalError "'length' supports only array and string arguments"
+    ),
+    ( "first",
+      \args -> do
+        checkArgsAmount args 1
+        case head args of
+          (Object ARRAY_OBJ (ArrayV arr)) -> return $ if arr == [] then nullConst else head arr
+          _ -> makeEvalError "'first' supports only array argument"
+    ),
+    ( "last",
+      \args -> do
+        checkArgsAmount args 1
+        case head args of
+          (Object ARRAY_OBJ (ArrayV arr)) -> return $ if arr == [] then nullConst else last arr
+          _ -> makeEvalError "'last' supports only array argument"
+    ),
+    ( "rest",
+      \args -> do
+        checkArgsAmount args 1
+        case head args of
+          (Object ARRAY_OBJ (ArrayV arr)) -> return $ if arr == [] then nullConst else Object ARRAY_OBJ (ArrayV $ tail arr)
+          _ -> makeEvalError "'rest' supports only array argument"
+    ),
+    ( "push",
+      \args -> do
+        checkArgsAmount args 2
+        case head args of
+          (Object ARRAY_OBJ (ArrayV arr)) -> return $ Object ARRAY_OBJ (ArrayV $ (arr ++ [args !! 1]))
+          _ -> makeEvalError "'push' supports only array argument"
+    )
+  ]
+
+builtinToHeap :: (String, [Object] -> Stream Object Object) -> (String, Object)
+builtinToHeap (s, f) = (s, Object BUILTIN_OBJ (BuiltinV $ Builtin s f))
 
 -- check amount of arguments passed to builtin function
-checkArgsAmount :: [Object] -> Int -> Stream Object
+checkArgsAmount :: [Object] -> Int -> Eval Object
 checkArgsAmount obs i = case i /= length obs of
   True -> makeEvalError $ "wrong amoutn of argument, need " <> show i <> ", got " <> (show $ length obs)
   False -> return nullConst
 
 -- check if ID name is a restricted (one of builtin names)
-checkRestricted :: String -> Stream Object
+checkRestricted :: String -> Eval Object
 checkRestricted var = case elem var restricted of
   True -> makeEvalError $ "'" <> var <> "' is prohibited to use as identifier, it's a name of builtin function"
   False -> return nullConst

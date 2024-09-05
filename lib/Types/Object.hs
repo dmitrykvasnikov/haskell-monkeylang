@@ -6,6 +6,7 @@ import qualified Data.HashMap.Internal            as H
 import           Data.List                        (intercalate)
 import           Data.Map.Strict                  (Map)
 import qualified Data.Map.Strict                  as M
+import           Input
 import           Types.Ast
 import           Types.Error
 
@@ -36,7 +37,18 @@ data Value = IntV Int
            | ArrayV [Object]
            | HashV (M.Map H.Hash (Object, Object))
            | NullV
+           | BuiltinV Builtin
   deriving (Eq, Ord)
+
+data Builtin = Builtin { name :: String
+                       , func :: [Object] -> Stream Object Object
+                       }
+
+instance Eq Builtin where
+  (Builtin b1 _) == (Builtin b2 _) = b1 == b2
+
+instance Ord Builtin where
+  (Builtin b1 _) <= (Builtin b2 _) = b1 <= b2
 
 instance Show Value where
   show (IntV i) = show i
@@ -46,6 +58,7 @@ instance Show Value where
   show (FnV args body _) = "function(" <> intercalate (", ") args <> ")" <> show body
   show (ArrayV arr) = "[" <> intercalate (", ") (map show arr) <> "]"
   show (HashV hs) = "{" <> intercalate ", " (map (\(_, (k, v)) -> show k <> " : " <> show v) . M.toList $ hs) <> "}"
+  show (BuiltinV b) = "builtin function '" <> (name b) <> "'"
 
 data Object = Object { oType :: ObjectType
                      , value :: Value

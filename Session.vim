@@ -16,15 +16,15 @@ else
 endif
 badd +7 app/Main.hs
 badd +111 lib/Types/Token.hs
-badd +33 lib/Input.hs
+badd +16 lib/Input.hs
 badd +22 lib/Types/Error.hs
-badd +48 lib/Repl.hs
-badd +123 lib/Parser.hs
+badd +16 lib/Repl.hs
+badd +14 lib/Parser.hs
 badd +6 lib/Types/Ast.hs
-badd +39 lib/Types/Object.hs
-badd +104 lib/Eval.hs
-badd +3 lib/Lexer.hs
-badd +19 file
+badd +60 lib/Types/Object.hs
+badd +114 lib/Eval.hs
+badd +19 lib/Lexer.hs
+badd +16 file
 argglobal
 %argdel
 edit lib/Eval.hs
@@ -38,12 +38,13 @@ setlocal fdl=0
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-let s:l = 104 - ((16 * winheight(0) + 16) / 33)
+let s:l = 125 - ((16 * winheight(0) + 16) / 33)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 104
-normal! 081|
+keepjumps 125
+normal! 018|
+lcd ~/code/haskell/interpreter
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0
   silent exe 'bwipe ' . s:wipebuf
@@ -56,6 +57,7 @@ if filereadable(s:sx)
   exe "source " . fnameescape(s:sx)
 endif
 let &g:so = s:so_save | let &g:siso = s:siso_save
+nohlsearch
 let g:this_session = v:this_session
 let g:this_obsession = v:this_session
 doautoall SessionLoadPost

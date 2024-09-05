@@ -38,7 +38,7 @@ replParser = do
     Right _ -> (putStrLn $ color Green "Done!") >> mapM_ (\expr -> putStrLn $ "EXPRESSION: " <> show expr) (program i) >> putStrLn "" >> replParser
     Left err -> printError err >> putStrLn "" <> replParser
 
-replEval :: Input -> IO ()
+replEval :: Input Object -> IO ()
 replEval i = do
   s <- getInput
   parse <- (runStateT . runExceptT) parseProgram $ updateInput s i

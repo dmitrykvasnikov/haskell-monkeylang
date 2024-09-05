@@ -7,33 +7,32 @@ import           Data.Text                        (Text)
 import qualified Data.Text                        as T
 import           Types.Ast
 import           Types.Error
-import           Types.Object
 import           Types.Token
 
 type Line = Int
 
 type Col = Int
 
-data Input = Input { input               :: Text
-                   , curPos, peekPos     :: Col
-                   , curChar             :: Char
-                   , pos                 :: (Line, Col)
-                   , curLinePos          :: Col
-                   , curToken, peekToken :: (Token, Col)
-                   , program             :: [Statement]
-                   , heap                :: M.Map String Object
-                     -- statementPos keeps position of first and last lines of stratemen
-                   , statementPos        :: (Col, Col)
-                   , isReturn            :: Bool
-                   }
+data Input a = Input { input               :: Text
+                     , curPos, peekPos     :: Col
+                     , curChar             :: Char
+                     , pos                 :: (Line, Col)
+                     , curLinePos          :: Col
+                     , curToken, peekToken :: (Token, Col)
+                     , program             :: [Statement]
+                     , heap                :: M.Map String a
+                       -- statementPos keeps position of first and last lines of stratemen
+                     , statementPos        :: (Col, Col)
+                     , isReturn            :: Bool
+                     }
   deriving (Show)
 
-type Stream a = ExceptT Error (StateT Input IO) a
+type Stream a b = ExceptT Error (StateT (Input a) IO) b
 
 todo :: a
 todo = undefined
 
-makeInput :: String -> Input
+makeInput :: String -> Input a
 makeInput str =
   Input
     { input = T.pack str,
@@ -50,7 +49,7 @@ makeInput str =
       isReturn = False
     }
 
-updateInput :: String -> Input -> Input
+updateInput :: String -> Input a -> Input a
 updateInput str inp =
   inp
     { input = T.pack str,
@@ -66,7 +65,7 @@ updateInput str inp =
       isReturn = False
     }
 
-moveInput :: Input -> Input
+moveInput :: Input a -> Input a
 moveInput i =
   case (peekPos i) < (T.length $ input i) of
     True -> case curChar i of
@@ -77,7 +76,7 @@ moveInput i =
     move (x, y) = (x, y + 1)
     newline (x, _) = (x + 1, 1)
 
-currentLine :: Input -> String
+currentLine :: Input a -> String
 currentLine i =
   let src = input i
       start = T.drop (curLinePos i) src

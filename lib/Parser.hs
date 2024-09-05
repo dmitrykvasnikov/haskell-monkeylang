@@ -8,9 +8,10 @@ import           Input
 import           Lexer                            (nextToken)
 import           Types.Ast
 import           Types.Error
+import           Types.Object
 import           Types.Token
 
-type Parser a = Stream a
+type Parser a = Stream Object a
 
 -- Lowest / Equals / LessOrGreat / Sum / Mult / Prefix / Call / Index
 data Precedence = L | E | O | LG | S | M | P | C | I deriving (Eq, Ord, Show)
@@ -33,9 +34,6 @@ precedences =
     (LPAREN, C),
     (LBRACKET, I)
   ]
-
-runParser :: Parser a -> String -> IO ((Either Error a), Input)
-runParser l i = (runStateT . runExceptT) l $ makeInput i
 
 parseProgram :: Parser ()
 parseProgram = do

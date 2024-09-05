@@ -10,12 +10,15 @@ import qualified Data.Text                        as T
 import           Debug.Trace
 import           Input
 import           Types.Error
+import           Types.Object
 import           Types.Token
 
--- runLexer :: Stream a -> String -> IO ((Either Error a), Input)
+-- runLexer :: Lexer a -> String -> IO ((Either Error a), Input)
 -- runLexer l i = (runStateT . runExceptT) l $ makeInput i
 
-getTokens :: Stream [Token]
+type Lexer a = Stream Object a
+
+getTokens :: Lexer [Token]
 getTokens = do
   token <- fst <$> (lift . gets $ curToken)
   case token of
@@ -23,11 +26,11 @@ getTokens = do
     NOTOKEN -> nextToken >> getTokens
     _       -> nextToken >> getTokens >>= \tokens -> return (token : tokens)
 
-nextToken :: Stream ()
+nextToken :: Lexer ()
 nextToken = skipWhiteSpaces >> asum [doubleCharToken, singleCharToken, intToken, identOrKeywordToken, stringToken] >>= pushToken >> (lift . modify $ moveInput)
 
 -- return token
-singleCharToken :: Stream Token
+singleCharToken :: Lexer Token
 singleCharToken = do
   c <- lift . gets $ curChar
   case c of
@@ -52,7 +55,7 @@ singleCharToken = do
     '>'    -> return GRT
     _      -> makeLexerError Nothing Nothing
 
-doubleCharToken :: Stream Token
+doubleCharToken :: Lexer Token
 doubleCharToken = do
   l <- lift . gets $ input
   pp <- lift . gets $ peekPos
@@ -73,14 +76,14 @@ doubleCharToken = do
       _          -> makeLexerError Nothing Nothing
     False -> makeLexerError Nothing Nothing
 
-intToken :: Stream Token
+intToken :: Lexer Token
 intToken = do
   c <- lift . gets $ curChar
   case isDigit c of
     True  -> peekWhile isDigit >>= \rest -> return . INT . read @Int $ c : rest
     False -> makeLexerError Nothing Nothing
 
-stringToken :: Stream Token
+stringToken :: Lexer Token
 stringToken = do
   (l, p) <- lift . gets $ pos
   c <- lift . gets $ curChar
@@ -94,7 +97,7 @@ stringToken = do
         else makeLexerError (Just (l, p + 1)) (Just "string literal doesn't have closing quote")
     False -> makeLexerError Nothing Nothing
 
-identOrKeywordToken :: Stream Token
+identOrKeywordToken :: Lexer Token
 identOrKeywordToken = do
   c <- lift . gets $ curChar
   case isAlpha c of
@@ -102,7 +105,7 @@ identOrKeywordToken = do
     False -> makeLexerError Nothing Nothing
 
 -- combine chars while they satisfy predicate
-peekWhile :: (Char -> Bool) -> Stream String
+peekWhile :: (Char -> Bool) -> Lexer String
 peekWhile cond = do
   pp <- lift . gets $ peekPos
   i <- lift . gets $ input
@@ -115,7 +118,7 @@ peekWhile cond = do
     False -> return []
 
 -- skips all spaces and tabs before next token
-skipWhiteSpaces :: Stream ()
+skipWhiteSpaces :: Lexer ()
 skipWhiteSpaces = do
   c <- lift . gets $ curChar
   case elem c " \t\r" of
@@ -123,12 +126,12 @@ skipWhiteSpaces = do
     False -> return ()
 
 -- consume input until condition holds
-makeLexerError :: (Maybe (Int, Int)) -> Maybe String -> Stream Token
+makeLexerError :: (Maybe (Int, Int)) -> Maybe String -> Lexer Token
 makeLexerError mpos merr = do
   c <- lift . gets $ curChar
   p <- lift . gets $ pos
   s <- lift . gets $ currentLine
   throwE . LexerError (fromJust (mpos <|> Just p)) (fromJust (merr <|> (Just $ "unexpected character: '" <> [c] <> "'"))) $ s
 
-pushToken :: Token -> Stream ()
+pushToken :: Token -> Lexer ()
 pushToken token = (lift . gets $ curLinePos) >>= \c -> lift . modify $ (\s -> s {curToken = peekToken s, peekToken = (token, c)})
