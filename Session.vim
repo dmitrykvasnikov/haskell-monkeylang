@@ -20,16 +20,16 @@ badd +3 lib/Input.hs
 badd +1 lib/Types/Error.hs
 badd +5 lib/Repl.hs
 badd +9 lib/Parser.hs
-badd +23 lib/Types/Ast.hs
+badd +3 lib/Types/Ast.hs
 badd +8 lib/Types/Object.hs
 badd +5 lib/Eval.hs
 badd +45 lib/Lexer.hs
 badd +1 file
 argglobal
 %argdel
-edit lib/Types/Ast.hs
+edit app/Main.hs
 argglobal
-balt lib/Types/Token.hs
+balt lib/Eval.hs
 setlocal fdm=marker
 setlocal fde=0
 setlocal fmr=/**,**/
@@ -38,11 +38,11 @@ setlocal fdl=0
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-let s:l = 4 - ((3 * winheight(0) + 16) / 33)
+let s:l = 3 - ((2 * winheight(0) + 16) / 33)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 4
+keepjumps 3
 normal! 0
 lcd ~/code/haskell/interpreter
 tabnext 1

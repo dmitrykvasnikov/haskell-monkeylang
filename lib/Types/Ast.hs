@@ -1,9 +1,8 @@
 module Types.Ast where
 
-import           Data.HashMap.Internal.Array (Array)
-import           Data.List                   (intercalate)
-import           Data.Map                    (Map)
-import qualified Data.Map                    as M
+import           Data.List   (intercalate)
+import           Data.Map    (Map)
+import qualified Data.Map    as M
 import           Types.Token
 
 type Pos = Int
