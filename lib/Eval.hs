@@ -29,7 +29,7 @@ evalStatement s@(BlockS _ _ sts) = sP s >> evalBlockS sts
 evalStatement s@(ExprS _ _ expr) = sP s >> evalE expr
 
 evalLetS :: Expr -> Expr -> Stream Object
-evalLetS (IdE var) e = evalE e >>= \val -> (lift . modify $ (\s -> s {heap = M.insert var val (heap s)})) >> return nullConst
+evalLetS (IdE var) e = checkRestricted var >> evalE e >>= \val -> (lift . modify $ (\s -> s {heap = M.insert var val (heap s)})) >> return nullConst
 evalLetS e _ = makeEvalError $ "in the left part of let expression should be ad identifier, but got " <> show e
 
 evalBlockS :: [Statement] -> Stream Object
@@ -198,6 +198,7 @@ getSource = do
   return $ T.unpack $ begin <> end
 
 -- Map of builtin functions
+-- if you add new builtin - don't forget to include the name of it to restricted list in Types.Token
 builtins :: M.Map String ([Object] -> Stream Object)
 builtins =
   M.fromList
@@ -239,7 +240,14 @@ builtins =
       )
     ]
 
+-- check amount of arguments passed to builtin function
 checkArgsAmount :: [Object] -> Int -> Stream Object
 checkArgsAmount obs i = case i /= length obs of
   True -> makeEvalError $ "wrong amoutn of argument, need " <> show i <> ", got " <> (show $ length obs)
+  False -> return nullConst
+
+-- check if ID name is a restricted (one of builtin names)
+checkRestricted :: String -> Stream Object
+checkRestricted var = case elem var restricted of
+  True -> makeEvalError $ "'" <> var <> "' is prohibited to use as identifier, it's a name of builtin function"
   False -> return nullConst

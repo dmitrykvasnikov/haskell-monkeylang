@@ -106,3 +106,6 @@ keywords =
     ("false", FALSE),
     ("else", ELSE)
   ]
+
+restricted :: [String]
+restricted = ["length", "first", "rest", "push", "last"]
