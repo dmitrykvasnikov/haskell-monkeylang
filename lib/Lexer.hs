@@ -2,12 +2,11 @@ module Lexer where
 
 import           Control.Applicative              (asum, (<|>))
 import           Control.Monad.Trans.Class        (lift)
-import           Control.Monad.Trans.Except       (runExceptT, throwE)
-import           Control.Monad.Trans.State.Strict (gets, modify, runStateT)
+import           Control.Monad.Trans.Except       (throwE)
+import           Control.Monad.Trans.State.Strict (gets, modify)
 import           Data.Char                        (isAlpha, isAlphaNum, isDigit)
 import           Data.Maybe                       (fromJust)
 import qualified Data.Text                        as T
-import           Debug.Trace
 import           Input
 import           Types.Error
 import           Types.Object

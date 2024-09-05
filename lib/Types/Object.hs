@@ -1,14 +1,10 @@
 module Types.Object where
 
-import           Control.Monad.Trans.Except
-import           Control.Monad.Trans.State.Strict
-import qualified Data.HashMap.Internal            as H
-import           Data.List                        (intercalate)
-import           Data.Map.Strict                  (Map)
-import qualified Data.Map.Strict                  as M
+import qualified Data.HashMap.Internal as H
+import           Data.List             (intercalate)
+import qualified Data.Map.Strict       as M
 import           Input
 import           Types.Ast
-import           Types.Error
 
 data ObjectType = INTEGER_OBJ | STRING_OBJ | BOOL_OBJ | FUNCTION_OBJ | ARRAY_OBJ | HASH_MAP | NULL_OBJ | BUILTIN_OBJ | ANY_OBJECT deriving
   ( Ord

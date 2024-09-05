@@ -2,8 +2,6 @@ module Repl where
 
 import           Control.Monad.Trans.Except
 import           Control.Monad.Trans.State.Strict
-import           Data.HashMap.Internal.Array      (update)
-import qualified Data.Text                        as T
 import           Eval
 import           Input
 import           Lexer

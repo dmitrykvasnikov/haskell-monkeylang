@@ -6,7 +6,6 @@ import           Control.Monad.Trans.State.Strict (get, gets, modify, put)
 import qualified Data.HashMap.Internal            as H
 import qualified Data.Map                         as M
 import qualified Data.Text                        as T
-import           Debug.Trace
 import           Input
 import           Types.Ast
 import           Types.Error

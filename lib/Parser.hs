@@ -1,8 +1,8 @@
 module Parser where
 
 import           Control.Monad.Trans.Class        (lift)
-import           Control.Monad.Trans.Except       (runExceptT, throwE)
-import           Control.Monad.Trans.State.Strict (gets, modify, runStateT)
+import           Control.Monad.Trans.Except       (throwE)
+import           Control.Monad.Trans.State.Strict (gets, modify)
 import qualified Data.Map                         as M
 import           Input
 import           Lexer                            (nextToken)
