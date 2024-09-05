@@ -140,6 +140,13 @@ evalInfixE op e1 e2
   | op == CONCAT =
       evalE e1 >>= checkType STRING_OBJ >>= \(Object STRING_OBJ (StringV s1)) ->
         evalE e2 >>= checkType STRING_OBJ >>= \(Object STRING_OBJ (StringV s2)) -> return $ Object STRING_OBJ (StringV $ s1 ++ s2)
+  | op == ASSIGN =
+      case e1 of
+        (IdE var) -> do
+          (M.lookup var) <$> (lift . gets $ heap) >>= \case
+            Just v -> evalE e2 >>= \val -> (lift . modify $ (\s -> s {heap = M.insert var val (heap s)})) >> return nullConst
+            Nothing -> makeEvalError $ "undeclared identifier '" <> var <> "'"
+        _ -> makeEvalError $ "in the left part of let expression should be ad identifier, but got " <> show e1
   | otherwise = makeEvalError $ "'" <> "' is not an infix operator"
   where
     mathop PLUS  = (+)

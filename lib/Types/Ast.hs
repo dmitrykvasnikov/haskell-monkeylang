@@ -20,6 +20,7 @@ data Expr = IntE Int
           | ArrayE [Expr]
           | HashE (Map Expr Expr)
           | IndexE Expr Expr
+          | AssignE Expr Expr
           -- internal for parsing of HashE
           | PairE Expr Expr
   deriving (Eq, Ord)
@@ -44,6 +45,8 @@ instance Show Expr where
   show (ArrayE arr) = "[" <> intercalate ", " (map show arr) <> "]"
   show (IndexE e i) = show e <> "[" <> show i <> "]"
   show (HashE hash) = "{" <> intercalate ", " (map (\(k, v) -> show k <> ":" <> show v) (M.toList hash)) <> "}"
+  show (AssignE var val) = show var <> " = " <> show val
+  show _ = "no show instance for expression"
 
 -- show (FnE args) = "function (" <> intercalate ", " (map show args) <> ")\n"
 

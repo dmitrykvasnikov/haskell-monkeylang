@@ -14,7 +14,11 @@ import           Types.Token
 type Parser a = Stream Object a
 
 -- Lowest / Equals / LessOrGreat / Sum / Mult / Prefix / Call / Index
-data Precedence = L | E | O | LG | S | M | P | C | I deriving (Eq, Ord, Show)
+data Precedence = L | A | E | O | LG | S | M | P | C | I deriving
+  ( Eq
+  , Ord
+  , Show
+  )
 
 precedences :: [(Token, Precedence)]
 precedences =
@@ -32,7 +36,8 @@ precedences =
     (GRTEQL, LG),
     (LSTEQL, LG),
     (LPAREN, C),
-    (LBRACKET, I)
+    (LBRACKET, I),
+    (ASSIGN, A)
   ]
 
 parseProgram :: Parser ()
@@ -164,6 +169,7 @@ getInfixOp = \case
   CONCAT   -> Just parseInfixE
   LPAREN   -> Just parseCallE
   LBRACKET -> Just parseIndexE
+  ASSIGN   -> Just parseInfixE
   _        -> Nothing
 
 -- helpers

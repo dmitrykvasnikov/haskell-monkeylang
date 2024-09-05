@@ -14,6 +14,9 @@ import           System.IO
 import           Types.Error
 import           Types.Object
 
+data Program = STRING String
+             | FILE String
+
 prompt :: String
 prompt = ">>>> "
 
@@ -41,7 +44,9 @@ replParser = do
 replEval :: Input Object -> IO ()
 replEval i = do
   s <- getInput
-  parse <- (runStateT . runExceptT) parseProgram $ updateInput s i
+  parse <- case s of
+    STRING s -> (runStateT . runExceptT) parseProgram $ updateInput s i
+    FILE s   -> (runStateT . runExceptT) parseProgram $ makeInput s
   case parse of
     (Left err, _) -> (printError err) >> putStrLn "" >> replEval i
     (Right _, i) -> do
@@ -62,7 +67,7 @@ printError (EvalError msg src) = do
   putStrLn (color Yellow "Error")
   putStrLn $ "Evaluation error: " <> msg <> "\nSource code:\n" <> color Red src
 
-getInput :: IO String
+getInput :: IO Program
 getInput = do
   putStrLn $ "Enter expressions separeated with ';' or :l 'filename'"
   putStr $ prompt
@@ -71,9 +76,9 @@ getInput = do
     then do
       b <- doesFileExist (drop 3 i)
       if b
-        then readFile (drop 3 i) >>= return
+        then readFile (drop 3 i) >>= return . FILE
         else (putStrLn $ color Red "file doesn't exist, try again\n") >> getInput
-    else return i
+    else return $ STRING i
 
 repl :: IO ()
 repl = do
