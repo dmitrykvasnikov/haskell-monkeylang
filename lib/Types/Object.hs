@@ -9,7 +9,7 @@ import qualified Data.Map.Strict                  as M
 import           Types.Ast
 import           Types.Error
 
-data ObjectType = INTEGER_OBJ | STRING_OBJ | BOOL_OBJ | FUNCTION_OBJ | ARRAY_OBJ | HASH_MAP | NULL_OBJ | ANY_OBJECT deriving
+data ObjectType = INTEGER_OBJ | STRING_OBJ | BOOL_OBJ | FUNCTION_OBJ | ARRAY_OBJ | HASH_MAP | NULL_OBJ | BUILTIN_OBJ | ANY_OBJECT deriving
   ( Ord
   )
 
@@ -21,6 +21,7 @@ instance Show ObjectType where
   show ARRAY_OBJ    = "ARRAY"
   show NULL_OBJ     = "NULL"
   show HASH_MAP     = "HASH_MAP"
+  show BUILTIN_OBJ  = "BUILTIN"
   show _            = "no show instance"
 
 instance Eq ObjectType where

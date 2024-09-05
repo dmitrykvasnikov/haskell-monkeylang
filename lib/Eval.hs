@@ -3,11 +3,13 @@ module Eval where
 import           Control.Monad.IO.Class           (liftIO)
 import           Control.Monad.Trans.Class        (lift)
 import           Control.Monad.Trans.Except       (runExceptT, throwE)
-import           Control.Monad.Trans.State.Strict (get, gets, modify, runStateT)
+import           Control.Monad.Trans.State.Strict (get, gets, modify, put,
+                                                   runStateT)
 import qualified Data.HashMap.Internal            as H
 import           Data.Map                         (Map)
 import qualified Data.Map                         as M
 import qualified Data.Text                        as T
+import           Debug.Trace
 import           Input
 import           Types.Ast
 import           Types.Error
@@ -98,11 +100,16 @@ evalE (CallE i args) = do
         False -> do
           env <- lift get
           argsO <- traverse evalE args
-          let newHeap = M.union (M.fromList $ zip params argsO) $ M.union closure (heap env)
-          res <- liftIO $ (runStateT . runExceptT) evalProgram (env {heap = newHeap, program = body})
-          case res of
-            (Right o, _) -> return o
-            (Left e, _)  -> throwE e
+          -- order of (heap env) and closure are important for correct work of recursion
+          let newHeap = M.union (M.fromList $ zip params argsO) $ M.union (heap env) closure
+          -- res <- liftIO $ (runStateT . runExceptT) evalProgram (env {heap = newHeap, program = body})
+          lift . modify $ (\e -> e {heap = newHeap, program = body})
+          res <- evalProgram
+          lift . put $ env
+          return res
+--           case res of
+--             (Right o, _) -> return o
+--             (Left e, _)  -> throwE e
 evalE _ = makeEvalError "This error should have never happens"
 evalNotE e = evalE e >>= checkType BOOL_OBJ >>= \b -> if b == trueConst then return falseConst else return trueConst
 evalNegateE e = evalE e >>= checkType INTEGER_OBJ >>= \(Object _ (IntV n)) -> return $ Object INTEGER_OBJ (IntV $ negate n)
